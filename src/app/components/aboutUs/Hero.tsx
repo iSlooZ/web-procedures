@@ -1,9 +1,4 @@
-import { Button } from "./header/Button"
-
-
-
-
-
+import { Button } from "../shared/Button"
 export const Hero = () => {
   return (
     <section className="w-[60%] min-w-[1200px] h-[600px] flex justify-center items-center gap-4">

@@ -1,11 +1,7 @@
+import { Home } from "./components/pages/Home";
 
-import { Hero } from "./components/Hero";
-
-
-export default function Home(){
+export default function HomePage(){
   return(
-    <main className="flex flex-col justify-center items-center">
-      <Hero/>
-    </main>
+    <Home/>
   )
 }
