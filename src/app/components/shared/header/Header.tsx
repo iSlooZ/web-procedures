@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Button } from "../Button"
 
 
@@ -14,12 +15,12 @@ export const Header = () => {
         </div>
         <ul className="w-1/3 flex justify-center items-center gap-8">
           <li>
-            <a href="#">
+            <Link href="/">
               Inicio
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#">
+            <a href="/aboutUs">
               Nosotros
             </a>
           </li>
