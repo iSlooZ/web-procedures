@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 
 
@@ -10,6 +11,6 @@ interface buttonProps {
 
 export const Button = ({buttonText, buttonLink, buttonStyles}:buttonProps) => {
   return (
-    <a className={buttonStyles} href={buttonLink}>{buttonText}</a>
+    <Link className={buttonStyles} href={buttonLink}>{buttonText}</Link>
   )
 }

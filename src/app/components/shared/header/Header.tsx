@@ -20,25 +20,25 @@ export const Header = () => {
             </Link>
           </li>
           <li>
-            <a href="/aboutUs">
+            <Link href="/aboutUs">
               Nosotros
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#">
+            <Link href="#">
               Como funciona
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#">
+            <Link href="#">
               Extra
-            </a>
+            </Link>
           </li>
         </ul>
         <div className="w-1/3 flex justify-start items-center gap-8">
           <Button 
             buttonText="Entrar"
-            buttonLink="#"
+            buttonLink="/login"
             buttonStyles="border border-black px-8 py-2 rounded-2xl"
           />
           <Button 
