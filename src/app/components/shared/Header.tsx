@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Button } from "../Button"
+import { Button } from "./Button"
 
 
 export const Header = () => {
@@ -38,12 +38,12 @@ export const Header = () => {
         <div className="w-1/3 flex justify-start items-center gap-8">
           <Button 
             buttonText="Entrar"
-            buttonLink="/knowHow/login"
+            buttonLink="/knowhow/login"
             buttonStyles="border border-black px-8 py-2 rounded-2xl"
           />
           <Button 
             buttonText="Empieza ahora"
-            buttonLink="/knowHow/register"
+            buttonLink="/knowhow/register"
             buttonStyles="bg-blue-500 text-white px-8 py-2 rounded-2xl"        
           />
         </div>

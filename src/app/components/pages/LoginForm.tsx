@@ -1,5 +1,7 @@
 'use client'
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation'
 
 interface FormData {
   username: string;
@@ -8,7 +10,8 @@ interface FormData {
 
 export const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
-  
+  const [messageError, setMessageError] = useState(false);
+  const router = useRouter();
   const onSubmit = async (data: FormData) => {
     try {
       const requestBody = new URLSearchParams();
@@ -26,11 +29,14 @@ export const LoginForm = () => {
       if (response.ok) {
         const responseData = await response.json();
         console.log('Login Success:', responseData);
+        router.push('/');
       } else {
         throw new Error('Credenciales incorrectas. Inténtalo de nuevo.');
+        
       }
     } catch (error) {
       console.error('Login Failed:', error);
+      setMessageError(true)
     }
   };
 
@@ -87,6 +93,9 @@ export const LoginForm = () => {
             {errors.password && <span>{errors.password.message}</span>}
           </fieldset>
         </section>
+        {messageError && (
+          <p className="text-red-500 mt-4">Credenciales incorrectas. Inténtalo de nuevo.</p>
+        )}
         <button
           className="w-[70%] bg-blue-500 px-4 py-3 text-white rounded-3xl my-12"
           type="submit"
