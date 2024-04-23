@@ -5,7 +5,7 @@ import { FormCompany } from '../register/FormCompany';
 import { FormHolding } from '../register/formHolding';
 
 export const RegisterForm = () => {
-    const [mostrarFormUsuario, setMostrarFormUsuario] = useState(false);
+    const [mostrarFormUsuario, setMostrarFormUsuario] = useState(true);
 
     const handleBotonUsuarioClick = () => {
         setMostrarFormUsuario(true);
