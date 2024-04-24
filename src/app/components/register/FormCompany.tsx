@@ -15,6 +15,7 @@ export const FormCompany = ({ nameCompany, email, phoneNumber, password }: FormD
   const router = useRouter();
   const [step, setStep] = useState(1); // Estado para controlar el paso del formulario
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
 
   // Función para manejar el cambio de la imagen seleccionada
   const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,9 +42,9 @@ export const FormCompany = ({ nameCompany, email, phoneNumber, password }: FormD
     }
   };
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmitUser = async (data: FormData) => {
     try {
-      const response = await fetch('http://localhost:8000/knowhow/users/add', {
+      const userResponse = await fetch('http://localhost:8000/knowhow/users/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -51,23 +52,49 @@ export const FormCompany = ({ nameCompany, email, phoneNumber, password }: FormD
         body: JSON.stringify({
           email_user: data.email,
           phone_user: data.phoneNumber,
-          id_sub_holding: 1,
-          id_holding: 1,
-          name_user: data.nameCompany,
-          id_user: 1,
           password_user: data.password,
-          id_position_user: 1
+          id_position_user: 1 // ID de posición de usuario predeterminado
         })
       });
 
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log('Response:', responseData);
-        // Cambiar al siguiente paso después de enviar el formulario
-        setStep(2);
-      } else {
-        throw new Error('Error al enviar el formulario');
+      if (!userResponse.ok) {
+        throw new Error('Error al crear el usuario');
       }
+
+      const userData = await userResponse.json();
+      console.log('Usuario creado:', userData);
+
+      setUserId(userData.id_user); // Almacenar el ID del usuario creado
+
+      setStep(2); // Cambiar al siguiente paso después de enviar el formulario
+    } catch (error) {
+      console.error('Error:', error);
+      // Manejar el error, mostrar un mensaje al usuario, etc.
+    }
+  };
+
+  const onSubmitCompany = async (data: FormData) => {
+    try {
+      // Crear la empresa con el ID del usuario almacenado
+      const companyResponse = await fetch('http://localhost:8000/knowhow/company/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          company_name: data.nameCompany,
+          id_user: userId // Asociar la empresa con el usuario creado
+        })
+      });
+
+      if (!companyResponse.ok) {
+        throw new Error('Error al crear la empresa');
+      }
+
+      // Aquí puedes realizar cualquier otra acción después de crear la empresa
+
+      // Redirigir a alguna otra página, por ejemplo, la página de inicio
+      router.push('/');
     } catch (error) {
       console.error('Error:', error);
       // Manejar el error, mostrar un mensaje al usuario, etc.
@@ -76,7 +103,7 @@ export const FormCompany = ({ nameCompany, email, phoneNumber, password }: FormD
 
   return (
     <section className="w-full flex justify-center items-center">
-      <form className="w-[400px] flex flex-col justify-center items-center" onSubmit={handleSubmit(onSubmit)}>
+      <form className="w-[400px] flex flex-col justify-center items-center" onSubmit={step === 1 ? handleSubmit(onSubmitUser) : handleSubmit(onSubmitCompany)}>
         <legend className="text-xl font-bold mt-4">Abre tu cuenta en simples pasos</legend>
         <h2 className="text-lg text-stone-500 font-light">Agiliza tu tiempo y el de tus colaboradores</h2>
 
@@ -153,14 +180,13 @@ export const FormCompany = ({ nameCompany, email, phoneNumber, password }: FormD
   </fieldset>
 )}
 
-        <div className="w-full flex flex-col justify-center items-center gap-2">
+        <div className="w-full flex flex-col justify-center items-center">
         {step === 1 && ( // Mostrar el botón "Siguiente" solo en el primer paso
           <button 
             className="w-[80%] rounded-xl py-3 bg-black text-white font-bold"
-            type="button" // Usa type="button" para evitar que el botón haga submit
-            onClick={() => setStep(2)} // Cambia el estado de 'step' al hacer clic en el botón
+            type="submit" // Usa type="button" para evitar que el botón haga submit// Cambia el estado de 'step' al hacer clic en el botón
           >
-            Siguiente
+            Crear cuenta
           </button>
         )}
           <Link 
@@ -173,3 +199,5 @@ export const FormCompany = ({ nameCompany, email, phoneNumber, password }: FormD
     </section>
   );
 };
+
+
