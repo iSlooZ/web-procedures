@@ -33,6 +33,7 @@ export const RegisterForm = () => {
             email="Correo"
             phoneNumber="Número telefónico"
             password="Contraseña"
+            nameCompany='Razón social'
         /> : ''}
         {!mostrarFormUsuario ? <FormHolding
             nameHolding="Nombre completo"

@@ -17,6 +17,7 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
   const router = useRouter();
   const [step, setStep] = useState(1); // Estado para controlar el paso del formulario
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoFileName, setLogoFileName] = useState<string>('');
   const [userId, setUserId] = useState<number>(0);
 
   // Función para manejar el cambio de la imagen seleccionada
@@ -25,24 +26,11 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
   
     // Verificar si hay un archivo seleccionado
     if (file) {
-      setLogoFile(file); // Almacenar el archivo en el estado
+      setLogoFile(file);
+      setLogoFileName(file.name); // Almacenar el archivo en el estado
     }
   };
   
-  // Función para renderizar la vista previa de la imagen seleccionada
-  const renderImagePreview = () => {
-    if (logoFile) {
-      return (
-        <img
-          className="w-[100px] h-[100px] rounded-full"
-          src={URL.createObjectURL(logoFile)} // Crear una URL para mostrar la vista previa de la imagen
-          alt="Logo de la empresa"
-        />
-      );
-    } else {
-      return null;
-    }
-  };
 
   const onSubmitUser = async (data: FormData) => {
     try {
@@ -178,14 +166,21 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
               type="text"
               placeholder={nameCompany}
               {...register('nameCompany', { required: true })}
-            />
-          <input
-            className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
-            type="file"
-            accept=".png, .jpeg, .jpg, .webp"
-            name="logoEmpresa"
-            onChange={handleLogoChange}
           />
+          <label className="w-[80%] bg-zinc-500 px-6 py-2 rounded-xl cursor-pointer text-center hover:bg-zinc-300">
+            Seleccionar Logo
+            <input
+              className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
+              type="file"
+              accept=".png, .jpeg, .jpg, .webp"
+              style={{ display: 'none' }} // Oculta el input file pero sigue siendo funcional
+              
+              {...register('logoCompany',{
+                onChange: (handleLogoChange)
+              })}
+            />
+          </label>
+          {logoFileName && <span>Nombre del archivo: {logoFileName}</span>}
 
           <div className="w-[80%] my-2 flex gap-2 justify-between items-center">
             <button 
