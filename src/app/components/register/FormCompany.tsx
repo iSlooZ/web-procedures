@@ -4,18 +4,20 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 interface FormData {
-  nameCompany: string;
+  nameUser: string;
   email: string;
   phoneNumber: string;
   password: string;
+  nameCompany?: string;
+  logoCompany?: string;
 }
 
-export const FormCompany = ({ nameCompany, email, phoneNumber, password }: FormData) => {
+export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompany }: FormData) => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const router = useRouter();
   const [step, setStep] = useState(1); // Estado para controlar el paso del formulario
   const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [userId, setUserId] = useState<number | null>(null);
+  const [userId, setUserId] = useState<number>(0);
 
   // Función para manejar el cambio de la imagen seleccionada
   const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +52,7 @@ export const FormCompany = ({ nameCompany, email, phoneNumber, password }: FormD
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          name_user: data.nameUser,
           email_user: data.email,
           phone_user: data.phoneNumber,
           password_user: data.password,
@@ -64,13 +67,33 @@ export const FormCompany = ({ nameCompany, email, phoneNumber, password }: FormD
       const userData = await userResponse.json();
       console.log('Usuario creado:', userData);
 
-      setUserId(userData.id_user); // Almacenar el ID del usuario creado
+ // Almacenar el ID del usuario creado
 
-      setStep(2); // Cambiar al siguiente paso después de enviar el formulario
-    } catch (error) {
-      console.error('Error:', error);
-      // Manejar el error, mostrar un mensaje al usuario, etc.
-    }
+      
+      
+      const userEmail = data.email;
+      const userDetailsResponse = await fetch(`http://localhost:8000/knowhow/users/${userEmail}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!userDetailsResponse.ok) {
+        throw new Error('Error al obtener los detalles del usuario');
+      }
+
+      const userDetailsData = await userDetailsResponse.json();
+      console.log('Detalles del usuario:', userDetailsData);
+
+      setUserId(userDetailsData.id_user);
+      setStep(2);
+      // Guardar el ID del usuario en el estado si es necesario
+  // Cambiar al siguiente paso después de enviar el formulario
+      } catch (error) {
+        console.error('Error:', error);
+        // Manejar el error, mostrar un mensaje al usuario, etc.
+      }
   };
 
   const onSubmitCompany = async (data: FormData) => {
@@ -83,7 +106,8 @@ export const FormCompany = ({ nameCompany, email, phoneNumber, password }: FormD
         },
         body: JSON.stringify({
           company_name: data.nameCompany,
-          id_user: userId // Asociar la empresa con el usuario creado
+          id_user: userId,
+          logo_company: 'logo empresa'// Asociar la empresa con el usuario creado
         })
       });
 
@@ -112,10 +136,10 @@ export const FormCompany = ({ nameCompany, email, phoneNumber, password }: FormD
             <input
               className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
               type="text"
-              placeholder={nameCompany}
-              {...register('nameCompany', { required: true })}
+              placeholder={nameUser}
+              {...register('nameUser', { required: true })}
             />
-            {errors.nameCompany && <span>Este campo es obligatorio</span>}
+            {errors.nameUser && <span>Este campo es obligatorio</span>}
             <input
               className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
               type="email"
@@ -140,46 +164,46 @@ export const FormCompany = ({ nameCompany, email, phoneNumber, password }: FormD
           </fieldset>
         )}
 
-{step === 2 && (
-  <fieldset className="w-full flex flex-col justify-center items-center gap-2 my-8">
-    <div className='w-full flex justify-center items-center'>
-      {logoFile ? (
-        <img className='w-[100px] h-[100px] rounded-full' src={URL.createObjectURL(logoFile)} alt="Logo de la empresa" />
-      ) : (
-        <img className='w-[100px] h-[100px] rounded-full' src="/iconCompany.png" alt="Icono de la empresa" />
+      {step === 2 && (
+        <fieldset className="w-full flex flex-col justify-center items-center gap-2 my-8">
+          <div className='w-full flex justify-center items-center'>
+            {logoFile ? (
+              <img className='w-[100px] h-[100px] rounded-full' src={URL.createObjectURL(logoFile)} alt="Logo de la empresa" />
+            ) : (
+              <img className='w-[100px] h-[100px] rounded-full' src="/iconCompany.png" alt="Icono de la empresa" />
+            )}
+          </div>
+          <input
+              className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
+              type="text"
+              placeholder={nameCompany}
+              {...register('nameCompany', { required: true })}
+            />
+          <input
+            className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
+            type="file"
+            accept=".png, .jpeg, .jpg, .webp"
+            name="logoEmpresa"
+            onChange={handleLogoChange}
+          />
+
+          <div className="w-[80%] my-2 flex gap-2 justify-between items-center">
+            <button 
+              className="w-[50%] rounded-xl py-3 bg-white text-black font-bold border border-black"
+              type="button"
+              onClick={() => setStep(1)}
+            >
+              Atrás
+            </button>
+            <button 
+              className="w-[50%] rounded-xl py-3 bg-black text-white font-bold"
+              type="submit"
+            >
+              Crear Cuenta
+            </button>
+          </div>
+        </fieldset>
       )}
-    </div>
-    <input
-      className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
-      type="text"
-      placeholder="Nombre de la empresa"
-    />
-    <input
-      className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
-      type="file"
-      accept=".png, .jpeg, .jpg, .webp"
-      name="logoEmpresa"
-      onChange={handleLogoChange}
-    />
-
-    <div className="w-[80%] my-2 flex gap-2 justify-between items-center">
-      <button 
-        className="w-[50%] rounded-xl py-3 bg-white text-black font-bold border border-black"
-        type="button"
-        onClick={() => setStep(1)}
-      >
-        Atrás
-      </button>
-      <button 
-        className="w-[50%] rounded-xl py-3 bg-black text-white font-bold"
-        type="submit"
-      >
-        Crear Cuenta
-      </button>
-    </div>
-  </fieldset>
-)}
-
         <div className="w-full flex flex-col justify-center items-center">
         {step === 1 && ( // Mostrar el botón "Siguiente" solo en el primer paso
           <button 
