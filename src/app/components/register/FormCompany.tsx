@@ -126,7 +126,7 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
       }
   
       // Redirigir a alguna otra página, por ejemplo, la página de inicio
-      router.push('/');
+      router.push('/knowhow/login');
     } catch (error) {
       console.error('Error con la company:', error);
       // Manejar el error, mostrar un mensaje al usuario, etc.

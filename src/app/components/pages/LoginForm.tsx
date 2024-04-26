@@ -43,7 +43,7 @@ export const LoginForm = () => {
   return (
     <section className="w-full py-20 flex flex-col justify-center items-center">
       <form
-        className="w-[500px] flex flex-col justify-center items-center border border-slate-200 rounded-xl"
+        className="w-[500px] flex flex-col justify-center items-center border border-slate-300 rounded-xl"
         onSubmit={handleSubmit(onSubmit)}
       >
         <img className="w-56 py-8" src="/logotest.png" alt="Logo" />
@@ -51,7 +51,7 @@ export const LoginForm = () => {
         <section className="w-full flex flex-col justify-center items-center gap-8">
           <fieldset className="w-full relative flex flex-col justify-center items-center">
             <input
-              className={`inputLoginForm border border-slate-200 h-12 rounded-xl w-[70%] px-4 ${errors.username ? 'has-error' : ''}`}
+              className={`inputLoginForm border border-slate-300 h-12 rounded-xl w-[70%] px-4 ${errors.username ? 'has-error' : ''}`}
               type="text"
               placeholder="Correo"
               {...register("username", {
@@ -75,7 +75,7 @@ export const LoginForm = () => {
 
           <fieldset className="w-full relative flex flex-col justify-center items-center">
             <input
-              className={`inputLoginForm border border-slate-200 h-12 rounded-xl w-[70%] px-4 ${errors.password ? 'has-error' : ''}`}
+              className={`inputLoginForm border border-slate-300 h-12 rounded-xl w-[70%] px-4 ${errors.password ? 'has-error' : ''}`}
               type="password"
               placeholder="Password"
               {...register("password", {

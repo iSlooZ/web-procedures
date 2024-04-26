@@ -1,5 +1,6 @@
 
-import "../../(home)/globals.css";
+import './knowhow.css'
+
 
 export const metadata = {
   title: 'Marketing page',
