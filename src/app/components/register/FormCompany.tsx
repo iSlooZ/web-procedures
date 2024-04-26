@@ -84,9 +84,31 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
       }
   };
 
+  
+
   const onSubmitCompany = async (data: FormData) => {
     try {
-      // Crear la empresa con el ID del usuario almacenado
+      // Crear FormData y agregar el archivo
+      const formData = new FormData();
+      if (logoFile !== null) {
+        formData.append('file', logoFile);
+      }
+  
+      // Enviar la solicitud POST a la URL de carga de archivos
+      const uploadResponse = await fetch('http://localhost:8000/knowhow/upload/', {
+        method: 'POST',
+        body: formData
+      });
+  
+      if (!uploadResponse.ok) {
+        throw new Error('Error al cargar el archivo');
+      }
+  
+      // Obtener el nombre del archivo cargado desde la respuesta
+      const fileNameData = await uploadResponse.json();
+      const fileName = fileNameData.file_name;
+  
+      // Crear la empresa con el ID del usuario almacenado y el nombre del archivo cargado
       const companyResponse = await fetch('http://localhost:8000/knowhow/company/add', {
         method: 'POST',
         headers: {
@@ -95,23 +117,23 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
         body: JSON.stringify({
           company_name: data.nameCompany,
           id_user: userId,
-          logo_company: 'logo empresa'// Asociar la empresa con el usuario creado
+          logo_company: `http://localhost:8000/uploads/${fileName}` // Utiliza el nombre del archivo cargado desde la respuesta
         })
       });
-
+  
       if (!companyResponse.ok) {
         throw new Error('Error al crear la empresa');
       }
-
-      // Aquí puedes realizar cualquier otra acción después de crear la empresa
-
+  
       // Redirigir a alguna otra página, por ejemplo, la página de inicio
       router.push('/');
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error con la company:', error);
       // Manejar el error, mostrar un mensaje al usuario, etc.
     }
   };
+
+  
 
   return (
     <section className="w-full flex justify-center items-center">
@@ -167,6 +189,7 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
               placeholder={nameCompany}
               {...register('nameCompany', { required: true })}
           />
+
           <label className="w-[80%] bg-zinc-500 px-6 py-2 rounded-xl cursor-pointer text-center hover:bg-zinc-300">
             Seleccionar Logo
             <input
@@ -181,7 +204,6 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
             />
           </label>
           {logoFileName && <span>Nombre del archivo: {logoFileName}</span>}
-
           <div className="w-[80%] my-2 flex gap-2 justify-between items-center">
             <button 
               className="w-[50%] rounded-xl py-3 bg-white text-black font-bold border border-black"
