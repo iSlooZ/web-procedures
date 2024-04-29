@@ -60,7 +60,7 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
       
       
       const userEmail = data.email;
-      const userDetailsResponse = await fetch(`http://localhost:8000/knowhow/users/${userEmail}`, {
+      const userDetailsResponse = await fetch(`http://localhost:8000/knowhow/users/user-by-email/${userEmail}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
