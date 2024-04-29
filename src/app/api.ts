@@ -29,7 +29,7 @@ export const useSession = (): boolean => {
           setIsAuthenticated(true);
         } else if (response.status === 401) {
           // Redirigir a la página de inicio de sesión
-          window.location.href = '/login'; // Cambia '/login' por la ruta correcta a tu página de inicio de sesión
+          window.location.href = '/knowhow/login'; // Cambia '/login' por la ruta correcta a tu página de inicio de sesión
         } else {
           throw new Error('Error en el servidor.');
         }
