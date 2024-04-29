@@ -1,13 +1,19 @@
+import { getUserData, type User } from "./authHandler";
 
-export interface User {
+export interface Company{
+  logo_company: string;
+  company_name: string;
   id_user: number;
-  name_user: string;
-  email_user: string;
-  phone_user: string;
 }
 
-export const getUserData = async (): Promise<User | null> => {
-  const apiUrl = 'http://localhost:8000/knowhow/users/me';
+export const getCompanyData = async (): Promise<Company | null> => {
+  const userData = await getUserData();
+  if (!userData || !userData.id_user) {
+    // Si no se puede obtener el ID del usuario, devuelve null
+    return null;
+  }
+  const userId = userData.id_user
+  const apiUrl = `http://localhost:8000/knowhow/company/by-user-id/${userId}`;
   const token = localStorage.getItem('token');
 
   if (!token) {
@@ -39,4 +45,3 @@ export const getUserData = async (): Promise<User | null> => {
     return null;
   }
 };
-
