@@ -1,4 +1,6 @@
 
+
+import { KnowHowNavbar } from '@/app/components/knowhow/welcome/KnowHowNavbar';
 import './knowhow.css'
 
 
@@ -7,7 +9,7 @@ export const metadata = {
   description: 'This is marketing page',
 }
 
-export default function RootLayout({
+export default function KnowHowLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -15,6 +17,7 @@ export default function RootLayout({
   return (
     <html>
       <body>
+      <KnowHowNavbar/>
         <main>
           {children}
         </main>

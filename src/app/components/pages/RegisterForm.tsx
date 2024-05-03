@@ -29,7 +29,7 @@ export const RegisterForm = () => {
                     onClick={handleBotonEmpresaClick}>Holding</button>
             </div>
         {mostrarFormUsuario ? <FormCompany
-            nameUser="Nombre completo"
+            nameOwner="Nombre completo"
             email="Correo"
             phoneNumber="Número telefónico"
             password="Contraseña"

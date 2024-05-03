@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 interface FormData {
-  nameUser: string;
+  nameOwner: string;
   email: string;
   phoneNumber: string;
   password: string;
@@ -12,13 +12,13 @@ interface FormData {
   logoCompany?: string;
 }
 
-export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompany }: FormData) => {
+export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompany }: FormData) => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const router = useRouter();
   const [step, setStep] = useState(1); // Estado para controlar el paso del formulario
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoFileName, setLogoFileName] = useState<string>('');
-  const [userId, setUserId] = useState<number>(0);
+  const [ownerId, setOwnerId] = useState<number>(0);
 
   // Función para manejar el cambio de la imagen seleccionada
   const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,49 +32,49 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
   };
   
 
-  const onSubmitUser = async (data: FormData) => {
+  const onSubmitOwner = async (data: FormData) => {
     try {
-      const userResponse = await fetch('http://localhost:8000/knowhow/users/add', {
+      const ownerResponse = await fetch('http://localhost:8000/knowhow/owner/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name_user: data.nameUser,
-          email_user: data.email,
-          phone_user: data.phoneNumber,
-          password_user: data.password,
-          id_position_user: 1 // ID de posición de usuario predeterminado
+          name_owner: data.nameOwner,
+          email_owner: data.email,
+          phone_owner: data.phoneNumber,
+          password_owner: data.password,
+          id_position_owner: 1 // ID de posición de usuario predeterminado
         })
       });
 
-      if (!userResponse.ok) {
-        throw new Error('Error al crear el usuario');
+      if (!ownerResponse.ok) {
+        throw new Error('Error al crear el owner');
       }
 
-      const userData = await userResponse.json();
-      console.log('Usuario creado:', userData);
+      const ownerData = await ownerResponse.json();
+      console.log('Owner creado:', ownerData);
 
  // Almacenar el ID del usuario creado
 
       
       
-      const userEmail = data.email;
-      const userDetailsResponse = await fetch(`http://localhost:8000/knowhow/users/user-by-email/${userEmail}`, {
+      const ownerEmail = data.email;
+      const ownerDetailsResponse = await fetch(`http://localhost:8000/knowhow/owner/owner-by-email/${ownerEmail}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       });
 
-      if (!userDetailsResponse.ok) {
+      if (!ownerDetailsResponse.ok) {
         throw new Error('Error al obtener los detalles del usuario');
       }
 
-      const userDetailsData = await userDetailsResponse.json();
-      console.log('Detalles del usuario:', userDetailsData);
+      const ownerDetailsData = await ownerDetailsResponse.json();
+      console.log('Detalles del usuario:', ownerDetailsData);
 
-      setUserId(userDetailsData.id_user);
+      setOwnerId(ownerDetailsData.id_owner);
       setStep(2);
       // Guardar el ID del usuario en el estado si es necesario
   // Cambiar al siguiente paso después de enviar el formulario
@@ -84,7 +84,22 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
       }
   };
 
-  
+  const onDeleteOwner = async () => {
+    try {
+      const deleteResponse = await fetch(`http://localhost:8000/knowhow/owner/delete/${ownerId}`, {
+        method: 'DELETE',
+      });
+
+      if (!deleteResponse.ok) {
+        throw new Error('Error al eliminar el owner');
+      }
+
+      console.log('Owner eliminado correctamente');
+    } catch (error) {
+      console.error('Error al eliminar el owner:', error);
+      // Manejar el error, mostrar un mensaje al usuario, etc.
+    }
+  };
 
   const onSubmitCompany = async (data: FormData) => {
     try {
@@ -107,7 +122,7 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
       // Obtener el nombre del archivo cargado desde la respuesta
       const fileNameData = await uploadResponse.json();
       const fileName = fileNameData.file_name;
-  
+      console.log('EL ID DEL OWNER',ownerId)
       // Crear la empresa con el ID del usuario almacenado y el nombre del archivo cargado
       const companyResponse = await fetch('http://localhost:8000/knowhow/company/add', {
         method: 'POST',
@@ -116,7 +131,7 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
         },
         body: JSON.stringify({
           company_name: data.nameCompany,
-          id_user: userId,
+          id_owner: ownerId,
           logo_company: `http://localhost:8000/uploads/${fileName}` // Utiliza el nombre del archivo cargado desde la respuesta
         })
       });
@@ -137,7 +152,7 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
 
   return (
     <section className="w-full flex justify-center items-center">
-      <form className="w-[400px] flex flex-col justify-center items-center" onSubmit={step === 1 ? handleSubmit(onSubmitUser) : handleSubmit(onSubmitCompany)}>
+      <form className="w-[400px] flex flex-col justify-center items-center" onSubmit={step === 1 ? handleSubmit(onSubmitOwner) : handleSubmit(onSubmitCompany)}>
         <legend className="text-xl font-bold mt-4">Abre tu cuenta en simples pasos</legend>
         <h2 className="text-lg text-stone-500 font-light">Agiliza tu tiempo y el de tus colaboradores</h2>
 
@@ -146,10 +161,10 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
             <input
               className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
               type="text"
-              placeholder={nameUser}
-              {...register('nameUser', { required: true })}
+              placeholder={nameOwner}
+              {...register('nameOwner', { required: true })}
             />
-            {errors.nameUser && <span>Este campo es obligatorio</span>}
+            {errors.nameOwner && <span>Este campo es obligatorio</span>}
             <input
               className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
               type="email"
@@ -208,7 +223,10 @@ export const FormCompany = ({ nameUser, email, phoneNumber, password, nameCompan
             <button 
               className="w-[50%] rounded-xl py-3 bg-white text-black font-bold border border-black"
               type="button"
-              onClick={() => setStep(1)}
+              onClick={async () => {
+                await onDeleteOwner();
+                setStep(1);
+              }}
             >
               Atrás
             </button>

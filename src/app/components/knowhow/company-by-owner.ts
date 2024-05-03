@@ -1,13 +1,20 @@
+import { getOwnerData } from "./authHandler";
 
-export interface User {
-  id_user: number;
-  name_user: string;
-  email_user: string;
-  phone_user: string;
+
+export interface Company{
+  logo_company: string;
+  company_name: string;
+  id_owner: number;
 }
 
-export const getUserData = async (): Promise<User | null> => {
-  const apiUrl = 'http://localhost:8000/knowhow/users/me';
+export const getCompanyData = async (): Promise<Company | null> => {
+  const ownerData = await getOwnerData();
+  if (!ownerData || !ownerData.id_owner) {
+    // Si no se puede obtener el ID del usuario, devuelve null
+    return null;
+  }
+  const ownerId = ownerData.id_owner
+  const apiUrl = `http://localhost:8000/knowhow/company/by-owner-id/${ownerId}`;
   const token = localStorage.getItem('token');
 
   if (!token) {
@@ -25,8 +32,8 @@ export const getUserData = async (): Promise<User | null> => {
     });
 
     if (response.status === 200) {
-      const userData = await response.json();
-      return userData;
+      const ownerData = await response.json();
+      return ownerData;
     } else if (response.status === 401) {
       // Si no está autorizado, devuelve null
       return null;
@@ -39,4 +46,3 @@ export const getUserData = async (): Promise<User | null> => {
     return null;
   }
 };
-

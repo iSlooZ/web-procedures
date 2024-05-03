@@ -1,7 +1,7 @@
 
 
 
-export const WelcomeNavbar = () => {
+export const KnowHowNavbar = () => {
   return (
     <header className="w-full flex justify-center items-center p-8">
       <nav className="w-full flex justify-center items-center">
@@ -10,8 +10,8 @@ export const WelcomeNavbar = () => {
         </div>
         <ul className="w-1/3 flex justify-center items-center gap-8">
           <li><a href="/knowhow/welcome">Inicio</a></li>
-          <li><a href="/procedures">Procedimientos</a></li>
-          <li><a href="/account">Mi cuenta</a></li>
+          <li><a href="/knowhow/procedures">Procedimientos</a></li>
+          <li><a href="/knowhow/account">Mi cuenta</a></li>
         </ul>
         <div className="w-1/3 flex justify-start items-center gap-2">
           <img className="w-[20px] h-[20px]" src="/Capa_1.png" alt="" />

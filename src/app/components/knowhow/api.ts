@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const apiUrl = 'http://localhost:8000/knowhow/users/me';
+const apiUrl = 'http://localhost:8000/knowhow/session/me';
 
 export const useSession = (): boolean => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
