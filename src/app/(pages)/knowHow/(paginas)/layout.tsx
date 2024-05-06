@@ -1,7 +1,5 @@
-
-
-import { KnowHowNavbar } from '@/app/components/knowhow/welcome/KnowHowNavbar';
-import './knowhow.css'
+import '../../styles.css'
+import { KnowHowNavbar } from '@/app/components/knowhow/KnowHowNavbar';
 
 
 export const metadata = {
@@ -15,6 +13,7 @@ export default function KnowHowLayout({
   children: React.ReactNode;
 }) {
   return (
+
     <html>
       <body>
       <KnowHowNavbar/>

@@ -5,6 +5,7 @@ export interface Company{
   logo_company: string;
   company_name: string;
   id_owner: number;
+  id_company: number;
 }
 
 export const getCompanyData = async (): Promise<Company | null> => {

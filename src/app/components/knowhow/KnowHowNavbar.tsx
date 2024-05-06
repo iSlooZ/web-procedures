@@ -1,7 +1,10 @@
+'use client'
+import { useSession } from "./api"
 
 
 
 export const KnowHowNavbar = () => {
+  useSession();
   return (
     <header className="w-full flex justify-center items-center p-8">
       <nav className="w-full flex justify-center items-center">

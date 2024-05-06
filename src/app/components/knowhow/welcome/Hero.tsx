@@ -9,7 +9,7 @@ export const WelcomeHero = () => {
   const [owner, setOwner] = useState<Owner | null>(null);
   const [company, setCompany] = useState<Company | null>(null);
 
-  console.log(company,'la company es:')
+  console.log(company,'la empresa es:')
   useEffect(() => {
     const fetchOwner= async () => {
       try {
@@ -46,7 +46,7 @@ export const WelcomeHero = () => {
           </div>
           <div className="w-full flex flex-wrap justify-center items-center gap-4">
             <div className="w-72 h-36 border border-black rounded-xl flex justify-end items-start">
-              <a className="hover:opacity-45" href="#"><img className="rounded-full m-2 w-10" src="/plus.png" alt="" /></a>
+              <a className="hover:opacity-45" href="/knowhow/sections/add"><img className="rounded-full m-2 w-10" src="/plus.png" alt="" /></a>
             </div>
           </div>
         </div>
