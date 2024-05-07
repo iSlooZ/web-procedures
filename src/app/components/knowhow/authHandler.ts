@@ -1,9 +1,23 @@
 
 export interface Owner {
-  id_owner: number;
-  name_owner: string;
-  email_owner: string;
-  phone_owner: string;
+  entity: {
+    name_owner: string;
+    email_owner: string;
+    phone_owner: string;
+    id_owner: number;
+  };
+  company: {
+    company_name: string;
+    logo_company:string;
+    id_company:number;
+    id_owner:number;
+  };
+  sections:{
+    name_section:string;
+    id_section:number;
+    logo_section:string;
+    id_company:number;
+  }
 }
 
 export const getOwnerData = async (): Promise<Owner | null> => {

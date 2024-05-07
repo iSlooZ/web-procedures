@@ -10,11 +10,11 @@ export interface Company{
 
 export const getCompanyData = async (): Promise<Company | null> => {
   const ownerData = await getOwnerData();
-  if (!ownerData || !ownerData.id_owner) {
+  if (!ownerData) {
     // Si no se puede obtener el ID del usuario, devuelve null
     return null;
   }
-  const ownerId = ownerData.id_owner
+  const ownerId = ownerData.entity.id_owner
   const apiUrl = `http://localhost:8000/knowhow/company/by-owner-id/${ownerId}`;
   const token = localStorage.getItem('token');
 
