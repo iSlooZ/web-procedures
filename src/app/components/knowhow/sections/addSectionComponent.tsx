@@ -50,6 +50,7 @@ export const AddSectionComponent = () => {
 
   const onSubmit = async (data: SectionData) => {
     try {
+      console.log('Datos de la sección:', data);
       data.id_company = companyId ?? 0;
 
       // Crear FormData y agregar el archivo
