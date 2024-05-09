@@ -32,9 +32,10 @@ export const WelcomeHero = () => {
           </div>
           <div className="w-full flex flex-wrap justify-center items-center gap-4">
             {Array.isArray(sections) && sections.map((section) => (
-              <div key={section.id_section} className="w-72 h-36 rounded-xl flex justify-end items-start">
+              <div key={section.id_section} className="w-72 h-36 rounded-xl flex justify-end items-start relative">
                 <a className="hover:opacity-45 w-full" href={`/knowhow/sections/${section.id_section}`}>
                   <img className="rounded-xl h-36 w-72 object-cover" src={`http://localhost:8000/uploads/${section.logo_section}`} alt="" />
+                  <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center text-white text-xl font-bold bg-black bg-opacity-50 rounded-xl">{section.name_section}</div>
                 </a>
               </div>
             ))}
@@ -42,7 +43,6 @@ export const WelcomeHero = () => {
               <a className="hover:opacity-45" href="/knowhow/sections/add"><img className="rounded-full m-2 w-10" src="/plus.png" alt="" /></a>
             </div>
           </div>
-
         </div>
       </div>
       <div className="w-full flex justify-center items-center my-8">

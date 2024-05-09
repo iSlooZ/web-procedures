@@ -1,6 +1,6 @@
 'use client'
-import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { getOwnerData } from '../authHandler';
 
 export interface SectionData {
@@ -14,14 +14,15 @@ export const AddSectionComponent = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<SectionData>();
   const [companyId, setCompanyId] = useState<number>();
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [mensaje, setMensaje] = useState<string>('');
 
   useEffect(() => {
     const fetchOwnerData = async () => {
       try {
         const ownerData = await getOwnerData();
         if (ownerData && ownerData.entity && ownerData.entity.id_owner) {
-          // Si se pudo obtener la ID del propietario, entonces obtén la ID de la compañía y actualiza el estado
-          const companyId = ownerData.company?.id_company; // Usando optional chaining
+          const companyId = ownerData.company?.id_company; 
           if (companyId !== undefined) {
             setCompanyId(companyId);
             console.log('ID de la compañía:', companyId);
@@ -40,26 +41,29 @@ export const AddSectionComponent = () => {
   }, []);
   
   const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]; // Obtener el primer archivo seleccionado
+    const file = event.target.files?.[0]; 
   
-    // Verificar si hay un archivo seleccionado
     if (file) {
       setLogoFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          setLogoPreview(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   const onSubmit = async (data: SectionData) => {
     try {
-      console.log('Datos de la sección:', data);
       data.id_company = companyId ?? 0;
 
-      // Crear FormData y agregar el archivo
       const formData = new FormData();
       if (logoFile !== null) {
         formData.append('file', logoFile);
       }
 
-      // Enviar la solicitud POST a la URL de carga de archivos
       const uploadResponse = await fetch('http://localhost:8000/knowhow/upload/', {
         method: 'POST',
         body: formData
@@ -69,14 +73,11 @@ export const AddSectionComponent = () => {
         throw new Error('Error al cargar el logo');
       }
 
-      // Obtener el nombre del archivo cargado desde la respuesta
       const fileNameData = await uploadResponse.json();
       const fileName = fileNameData.file_name;
 
-      // Agregar el nombre del archivo cargado al objeto de datos de la sección
       data.logo_section = fileName;
 
-      // Realizar la solicitud para agregar la sección con los datos y el nombre del logo
       const response = await fetch('http://localhost:8000/knowhow/section/add', {
         method: 'POST',
         headers: {
@@ -85,31 +86,48 @@ export const AddSectionComponent = () => {
         body: JSON.stringify(data)
       });
 
-      // Manejar la respuesta según sea necesario
+      if (response.ok) {
+        setMensaje(`Se ha agregado el área ${data.name_section} correctamente.`);
+      } else {
+        throw new Error('Error al agregar la sección');
+      }
     } catch (error) {
       console.error('Error al agregar la sección:', error);
     }
   };
 
   return (
-    <div>
-      <h1>Agregar Sección</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label>
-          Nombre de la Sección:
-          <input type="text" {...register('name_section', { required: true })} />
-          {errors.name_section && <span>Este campo es requerido</span>}
-        </label>
-        <label>
-          Seleccione el Logo:
+    <section className='w-full flex justify-center items-center'>
+      <form 
+        className='mt-16 w-[50%] h-64 flex flex-col justify-center items-center gap-4'
+        onSubmit={handleSubmit(onSubmit)}>
+        <fieldset className='w-full h-full py-32 flex flex-col justify-center items-center'>
+          {logoPreview && <img src={logoPreview} alt="Vista previa del logo" className="w-40 h-40 mt-4" />}
+          {logoFile && <p>Nombre del archivo: {logoFile.name}</p>}
+        </fieldset>
+        <fieldset className='w-full flex justify-center items-center'>
           <input
-            type="file"
-            accept=".png, .jpeg, .jpg, .webp"
-            onChange={handleLogoChange}
-          />
-        </label>
-        <button type="submit">Agregar Sección</button>
+            className='rounded-lg w-[50%] px-4 py-2 border border-black' 
+            placeholder='Nombre del área'
+            type="text" {...register('name_section', { required: true })} />
+          {errors.name_section && <span>Este campo es requerido</span>}
+        </fieldset>
+        <fieldset className='w-full flex flex-col justify-center items-center'>
+          <label className='w-[300px] text-center cursor-pointer px-10 py-2 bg-blue-500 rounded-xl text-white'>
+            Seleccionar Logo
+            <input
+              className='opacity-0 w-0'
+              type="file"
+              accept=".png, .jpeg, .jpg, .webp"
+              onChange={handleLogoChange}
+            />
+          </label>
+        </fieldset>
+        <button
+          className='px-20 py-2 rounded-xl text-white font-bold bg-stone-400 shadow-lg shadow-gray-400 hover:bg-stone-200' 
+          type="submit">Agregar Sección</button>
+        {mensaje && <p>{mensaje}</p>}
       </form>
-    </div>
+    </section>
   );
 };
