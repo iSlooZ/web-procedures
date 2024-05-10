@@ -1,8 +1,10 @@
+import { AddProcedure } from "@/app/components/knowhow/procedures/AddProcedure";
+
 
 
 
 export default function AddProcedurePage(){
   return(
-    <h1>Add procedure</h1>
+    <AddProcedure/>
   )
 }

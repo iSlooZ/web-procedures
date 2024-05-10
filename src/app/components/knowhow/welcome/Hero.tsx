@@ -46,7 +46,7 @@ export const WelcomeHero = () => {
         </div>
       </div>
       <div className="w-full flex justify-center items-center my-8">
-        <a className="px-20 py-2 rounded-xl text-white font-bold bg-stone-400 shadow-lg shadow-gray-400 hover:bg-stone-200" href="#">Subir un procedimiento</a>
+        <a className="px-20 py-2 rounded-xl text-white font-bold bg-stone-400 shadow-lg shadow-gray-400 hover:bg-stone-200" href="/knowhow/procedures/add">Subir un procedimiento</a>
       </div>
     </section>
   );

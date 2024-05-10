@@ -54,10 +54,6 @@ export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompa
 
       const ownerData = await ownerResponse.json();
       console.log('Owner creado:', ownerData);
-
- // Almacenar el ID del usuario creado
-
-      
       
       const ownerEmail = data.email;
       const ownerDetailsResponse = await fetch(`http://localhost:8000/knowhow/owner/owner-by-email/${ownerEmail}`, {
