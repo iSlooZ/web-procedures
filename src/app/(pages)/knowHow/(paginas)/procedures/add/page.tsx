@@ -1,10 +1,14 @@
-import { AddProcedure } from "@/app/components/knowhow/procedures/AddProcedure";
+
+import { ProcedureForm } from "@/app/components/knowhow/procedures/ProcedureForm";
 
 
 
 
 export default function AddProcedurePage(){
   return(
-    <AddProcedure/>
+    <section>
+      <ProcedureForm/>
+    </section>
+    
   )
 }
