@@ -97,18 +97,19 @@ export const GetProceduresList = () => {
           ))}
         </select>
       </div>
-      <ul className='w-[70%] flex flex-wrap justify-center items-center gap-4'>
+      <div className='w-[70%] flex flex-wrap justify-center items-center gap-4'>
         {filteredProcedures.map((procedure: Procedure) => (
-          <li
+          <a
+            href={`http://localhost:3000/knowhow/procedures/${procedure.id_procedure}`}
             key={procedure.id_procedure}
             className='w-[400px] bg-stone-400 rounded-xl p-4 overflow-hidden cursor-pointer hover:bg-stone-300' 
           >
             <h2 className='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis font-semibold'>{procedure.procedure_name}</h2>
             <p className='overflow-hidden whitespace-nowrap overflow-ellipsis'>{procedure.procedure_description}</p>
             <h3 className='text-sm w-full text-right font-bold m-2'>{procedure.id_procedure}</h3>
-          </li>
+          </a>
         ))}
-      </ul>
+      </div>
     </section>
   );
 };
