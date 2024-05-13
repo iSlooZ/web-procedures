@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { getOwnerData } from '../authHandler';
 
-interface Procedure {
+export interface Procedure {
   id_procedure: string;
   procedure_name: string;
   procedure_description: string;
