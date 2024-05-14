@@ -72,48 +72,36 @@ export const ProcedureForm = () => {
 
 
   return (
-    <div>
-      <h2>Crear nuevo procedimiento</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="id_procedure">ID del procedimiento:</label>
-          <input type="text" id="id_procedure" {...register('id_procedure', { required: true })} />
+    <div className='w-full flex flex-col justify-center items-center mt-4'>
+      <h2 className='text-2xl'>Crear nuevo procedimiento</h2>
+      <form 
+        className='w-[70%] flex flex-col justify-center items-center mt-8'
+        onSubmit={handleSubmit(onSubmit)}>
+        <fieldset className='w-full flex justify-center items-center flex-col gap-4'>
+          <input className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg' placeholder='Id del Procedimiento' type="text" id="id_procedure" {...register('id_procedure', { required: true })} />
           {errors.id_procedure && <p>Este campo es obligatorio</p>}
-        </div>
-        <div>
-          <label htmlFor="procedure_name">Nombre del procedimiento:</label>
-          <input type="text" id="procedure_name" {...register('procedure_name', { required: true })} />
+
+          <input className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg' type="text" id="procedure_name" placeholder='Nombre del procedimiento' {...register('procedure_name', { required: true })} />
           {errors.procedure_name && <p>Este campo es obligatorio</p>}
-        </div>
-        <div>
-          <label htmlFor="procedure_description">Descripción del procedimiento:</label>
-          <textarea id="procedure_description" {...register('procedure_description', { required: true })} />
+
+          <textarea className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg' id="procedure_description" placeholder='Descripción del procedimiento' {...register('procedure_description', { required: true })} />
           {errors.procedure_description && <p>Este campo es obligatorio</p>}
-        </div>
-        <div>
-          <label htmlFor="procedure_sample_pdf">PDF de muestra:</label>
-          <input type="file" id="procedure_sample_pdf" accept=".pdf" ref={samplePdfRef} />
-        </div>
-        <div>
-          <label htmlFor="procedure_pdf">PDF del procedimiento:</label>
-          <input type="file" id="procedure_pdf" accept=".pdf" ref={mainPdfRef} />
-        </div>
-        <div>
-          <label htmlFor="id_business_line">ID de la línea de negocio:</label>
-          <input type="number" id="id_business_line" {...register('id_business_line', { required: true })} />
+
+          <input className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg' type="number" id="id_business_line" placeholder='Linea de negocio' {...register('id_business_line', { required: true })} />
           {errors.id_business_line && <p>Este campo es obligatorio</p>}
-        </div>
-        <div>
-          <label htmlFor="id_company">ID de la compañía:</label>
-          <input type="number" id="id_company" {...register('id_company', { required: true })} />
+
+          <input className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg' type="number" id="id_company" placeholder='Id de la compañia' {...register('id_company', { required: true })} />
           {errors.id_company && <p>Este campo es obligatorio</p>}
-        </div>
-        <div>
-          <label htmlFor="id_section">ID de la sección:</label>
-          <input type="number" id="id_section" {...register('id_section', { required: true })} />
+
+          <input className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg' type="number" id="id_section" placeholder='Id del área' {...register('id_section', { required: true })} />
           {errors.id_section && <p>Este campo es obligatorio</p>}
-        </div>
-        <button type="submit">Crear Procedimiento</button>
+
+          <fieldset className='w-[500px] flex justify-center items-center gap-3'>
+            <input className='w-1/2' type="file" id="procedure_sample_pdf" accept=".pdf" ref={samplePdfRef} />
+            <input className='w-1/2' type="file" id="procedure_pdf" accept=".pdf" ref={mainPdfRef} />
+          </fieldset>
+        </fieldset>
+        <button className='border border-black rounded-xl px-3 py-2 bg-stone-400 hover:bg-stone-200' type="submit">Crear Procedimiento</button>
       </form>
       {message && <p>{message}</p>}
     </div>

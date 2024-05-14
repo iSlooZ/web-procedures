@@ -1,26 +1,39 @@
 'use client'
 import { useEffect, useState } from "react";
 import { Owner, getOwnerData } from "../authHandler";
+import Link from 'next/link';
 
 export const WelcomeHero = () => {
   const [owner, setOwner] = useState<Owner | null>(null);
   const [sections, setSections] = useState<Owner["sections"] | null>(null);
+  const [cachedImages, setCachedImages] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const ownerData = await getOwnerData(); // Obtener los datos del propietario
-        setOwner(ownerData); // Establecer los datos del propietario en el estado
+        const ownerData = await getOwnerData();
+        setOwner(ownerData);
         if (ownerData && ownerData.sections) {
-          setSections(ownerData.sections); // Establecer las secciones en el estado si están disponibles
+          setSections(ownerData.sections);
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
 
-    fetchData(); // Llamar a la función para obtener los datos del propietario al cargar el componente
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    // Almacenar las imágenes en caché una vez que se carguen las secciones
+    if (Array.isArray(sections)) {
+      const images: { [key: string]: string } = {};
+      sections.forEach((section) => {
+        images[section.id_section.toString()] = `http://localhost:8000/uploads/${section.logo_section}`;
+      });
+      setCachedImages(images);
+    }
+  }, [sections]);
 
   return (
     <section className="w-full flex flex-col justify-center items-center">
@@ -33,20 +46,20 @@ export const WelcomeHero = () => {
           <div className="w-full flex flex-wrap justify-center items-center gap-4">
             {Array.isArray(sections) && sections.map((section) => (
               <div key={section.id_section} className="w-72 h-36 rounded-xl flex justify-end items-start relative">
-                <a className="hover:opacity-45 w-full" href={`/knowhow/sections/${section.id_section}`}>
-                  <img className="rounded-xl h-36 w-72 object-cover" src={`http://localhost:8000/uploads/${section.logo_section}`} alt="" />
+                <Link className="hover:opacity-45 w-full" href={`/knowhow/sections/${section.id_section}`}>
+                  <img className="rounded-xl h-36 w-72 object-cover" src={cachedImages[section.id_section.toString()]} alt="" />
                   <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center text-white text-xl font-bold bg-black bg-opacity-50 rounded-xl">{section.name_section}</div>
-                </a>
+                </Link>
               </div>
             ))}
             <div className="w-72 h-36 border border-black rounded-xl flex justify-end items-start">
-              <a className="hover:opacity-45" href="/knowhow/sections/add"><img className="rounded-full m-2 w-10" src="/plus.png" alt="" /></a>
+              <Link className="hover:opacity-45" href="/knowhow/sections/add"><img className="rounded-full m-2 w-10" src="/plus.png" alt="" /></Link>
             </div>
           </div>
         </div>
       </div>
       <div className="w-full flex justify-center items-center my-8">
-        <a className="px-20 py-2 rounded-xl text-white font-bold bg-stone-400 shadow-lg shadow-gray-400 hover:bg-stone-200" href="/knowhow/procedures/add">Subir un procedimiento</a>
+        <Link className="px-20 py-2 rounded-xl text-white font-bold bg-stone-400 shadow-lg shadow-gray-400 hover:bg-stone-200" href="/knowhow/procedures/add">Subir un procedimiento</Link>
       </div>
     </section>
   );

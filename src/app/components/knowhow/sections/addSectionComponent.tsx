@@ -1,30 +1,29 @@
 'use client'
-import { useEffect, useState } from 'react';
+
+// Importa useState y useEffect desde 'react'
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { getOwnerData } from '../authHandler';
 
-export interface ProcedureFormData {
-  id_procedure: string;
-  procedure_name: string;
-  procedure_description: string;
-  id_business_line: number;
+export interface SectionData {
   id_company: number;
+  name_section: string;
   id_section: number;
-  procedure_sample_pdf: File | null;
-  procedure_pdf: File | null;
+  logo_section: File | null; 
 }
 
-export const AddProcedure = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<ProcedureFormData>();
+export const AddSectionComponent = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm<SectionData>();
   const [companyId, setCompanyId] = useState<number>();
-  const [pdfFile, setPdfFile] = useState<File | null>(null);
-  const [pdfFileName, setPdfFileName] = useState<string>('');
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoUrl, setLogoUrl] = useState<string>(''); // URL del logo seleccionado
+  const [mensaje, setMensaje] = useState<string>('');
 
   useEffect(() => {
     const fetchOwnerData = async () => {
       try {
         const ownerData = await getOwnerData();
-        if (ownerData && ownerData.company && ownerData.company.id_company) {
+        if (ownerData && ownerData.entity && ownerData.entity.id_owner) {
           const companyId = ownerData.company?.id_company; 
           if (companyId !== undefined) {
             setCompanyId(companyId);
@@ -37,47 +36,46 @@ export const AddProcedure = () => {
         }
       } catch (error) {
         console.error('Error al obtener la ID de la compañía:', error);
-      }
+      } 
     };
   
     fetchOwnerData();
   }, []);
-
-  const handlePdfChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  
+  const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; 
   
     if (file) {
-      setPdfFile(file);
-      setPdfFileName(file.name); // Mostrar el nombre del archivo PDF en la consola
+      setLogoFile(file);
+      // Crear la URL local para mostrar la imagen
+      setLogoUrl(URL.createObjectURL(file));
     }
   };
 
-  const onSubmit = async (data: ProcedureFormData) => {
+  const onSubmit = async (data: SectionData) => {
     try {
-      console.log('Datos del procedimiento a enviar:', data);
-
       data.id_company = companyId ?? 0;
 
       const formData = new FormData();
-      if (pdfFile !== null) {
-        formData.append('file', pdfFile);
+      if (logoFile !== null) {
+        formData.append('file', logoFile);
       }
 
-      const uploadResponse = await fetch('http://localhost:8000/knowhow/file-uploads/', {
+      const uploadResponse = await fetch('http://localhost:8000/knowhow/upload/', {
         method: 'POST',
         body: formData
       });
 
       if (!uploadResponse.ok) {
-        throw new Error('Error al cargar el PDF');
+        throw new Error('Error al cargar el logo');
       }
 
       const fileNameData = await uploadResponse.json();
       const fileName = fileNameData.file_name;
 
-      data.procedure_pdf = fileName;
+      data.logo_section = fileName;
 
-      const response = await fetch('http://localhost:8000/knowhow/procedure/add', {
+      const response = await fetch('http://localhost:8000/knowhow/section/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -86,7 +84,7 @@ export const AddProcedure = () => {
       });
 
       if (response.ok) {
-        console.log(`Se ha agregado el área ${data.procedure_name} correctamente.`);
+        setMensaje(`Se ha agregado el área ${data.name_section} correctamente.`);
       } else {
         throw new Error('Error al agregar la sección');
       }
@@ -98,32 +96,37 @@ export const AddProcedure = () => {
   return (
     <section className='w-full flex justify-center items-center'>
       <form 
-        className='mt-16 w-[50%] h-64 flex flex-col justify-center items-center gap-4'
+        className='w-[50%] h-64 flex flex-col justify-center items-center gap-4 mt-16 '
         onSubmit={handleSubmit(onSubmit)}>
-        <fieldset className='w-full h-full py-32 flex flex-col justify-center items-center'>
-          {pdfFileName && <p>Nombre del archivo PDF: {pdfFileName}</p>}
-        </fieldset>
-        <fieldset className='w-full flex justify-center items-center'>
+        {logoUrl ? (
+          <img src={logoUrl} alt="Logo seleccionado" className='w-[150px] h-[150px] object-cover aspect-square' />
+        ) : (
+          <div className="w-[500px] py-[75px]"></div>
+        )}
+        <fieldset className='w-full flex flex-col justify-center items-center'>
           <input
             className='rounded-lg w-[50%] px-4 py-2 border border-black' 
-            placeholder='Nombre del procedimiento'
-            type="text" {...register('procedure_name', { required: true })} />
-          {errors.procedure_name && <span>Este campo es requerido</span>}
+            placeholder='Nombre del área'
+            type="text" {...register('name_section', { required: true })} />
+          {errors.name_section && <span>Este campo es requerido</span>}
         </fieldset>
-        <fieldset className='w-full flex flex-col justify-center items-center'>
+        <fieldset className='w-full flex justify-center items-center'>
           <label className='w-[300px] text-center cursor-pointer px-10 py-2 bg-blue-500 rounded-xl text-white'>
-            Seleccionar PDF
+            Seleccionar Logo
             <input
               className='opacity-0 w-0'
               type="file"
-              accept=".pdf"
-              onChange={handlePdfChange}
+              accept=".png, .jpeg, .jpg, .webp"
+              onChange={handleLogoChange}
             />
           </label>
         </fieldset>
+        {/* Muestra la imagen del logo con un tamaño fijo */}
+        
         <button
           className='px-20 py-2 rounded-xl text-white font-bold bg-stone-400 shadow-lg shadow-gray-400 hover:bg-stone-200' 
-          type="submit">Agregar Procedimiento</button>
+          type="submit">Agregar Sección</button>
+        {mensaje && <p>{mensaje}</p>}
       </form>
     </section>
   );

@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation'
-import { useSession } from '@/app/api';
 
 interface FormData {
   username: string;
@@ -31,20 +30,19 @@ export const LoginForm = () => {
       if (response.ok) {
         const responseData = await response.json();
         console.log('Login Success:', responseData);
-        let token = responseData.access_token
+        const token = responseData.access_token;
         localStorage.setItem('token', token);
+        
         router.push('/knowhow/welcome');
 
       } else {
         throw new Error('Credenciales incorrectas. Inténtalo de nuevo.');
-        
       }
     } catch (error) {
       console.error('Login Failed:', error);
-      setMessageError(true)
+      setMessageError(true);
     }
   };
-
   return (
     <section className="w-full py-20 flex flex-col justify-center items-center">
       <form

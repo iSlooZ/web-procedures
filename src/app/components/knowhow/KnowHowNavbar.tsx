@@ -1,10 +1,11 @@
 'use client'
-import { useSession } from "./api"
+
+import { getOwnerData } from "./authHandler";
 
 
 
 export const KnowHowNavbar = () => {
-  useSession();
+  getOwnerData();
   return (
     <header className="w-full flex justify-center items-center p-8">
       <nav className="w-full flex justify-center items-center">

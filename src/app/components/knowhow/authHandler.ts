@@ -1,3 +1,4 @@
+'use client'
 
 export interface Owner {
   entity: {
@@ -21,6 +22,11 @@ export interface Owner {
 }
 
 export const getOwnerData = async (): Promise<Owner | null> => {
+  if (typeof window === 'undefined') {
+    // Si no estamos en el navegador, devuelve null
+    return null;
+  }
+
   const apiUrl = 'http://localhost:8000/knowhow/session/me';
   const token = localStorage.getItem('token');
 
@@ -41,16 +47,12 @@ export const getOwnerData = async (): Promise<Owner | null> => {
     if (response.status === 200) {
       const ownerData = await response.json();
       return ownerData;
-    } else if (response.status === 401) {
-      // Si no está autorizado, devuelve null
-      return null;
-    } else {
+    } else{
+      window.location.href = '/knowhow/login';
       throw new Error('Error en el servidor.');
     }
   } catch (error) {
     console.error('Error: ', error);
-    // Maneja el error aquí si es necesario
     return null;
   }
 };
-
