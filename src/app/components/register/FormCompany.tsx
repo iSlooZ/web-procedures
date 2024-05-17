@@ -1,7 +1,9 @@
+'use client'
 import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { SHA256 } from 'crypto-js';
 
 interface FormData {
   nameOwner: string;
@@ -20,6 +22,17 @@ export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompa
   const [logoFileName, setLogoFileName] = useState<string>('');
   const [ownerId, setOwnerId] = useState<number>(0);
 
+  const getFileExtension = (fileName: string): string => {
+    return fileName.slice(((fileName.lastIndexOf('.') - 1) >>> 0) + 2);
+  };
+
+
+  const generateUniqueName = (file: File): string => {
+    const timestamp = Date.now().toString(); // Marca de tiempo actual
+    const fileExtension = getFileExtension(file.name); // Obtener la extensión del archivo original
+    const hash = SHA256(file.name + timestamp).toString(); // Convertir el hash a cadena
+    return hash + '.' + fileExtension; // Devuelve el nombre único con la extensión original del archivo
+  };
   // Función para manejar el cambio de la imagen seleccionada
   const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; // Obtener el primer archivo seleccionado
@@ -27,7 +40,11 @@ export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompa
     // Verificar si hay un archivo seleccionado
     if (file) {
       setLogoFile(file);
-      setLogoFileName(file.name); // Almacenar el archivo en el estado
+      
+      const uniqueFileName = generateUniqueName(file);
+      console.log('Nombre del archivo encriptado:', uniqueFileName);
+      setLogoFileName(uniqueFileName);
+      console.log("file name", file.name)
     }
   };
   
@@ -102,9 +119,11 @@ export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompa
       // Crear FormData y agregar el archivo
       const formData = new FormData();
       if (logoFile !== null) {
-        formData.append('file', logoFile);
+        // Usar el nombre encriptado en lugar del nombre original del archivo
+        const uniqueFileName = generateUniqueName(logoFile);
+        formData.append('file', logoFile, uniqueFileName);
       }
-  
+    
       // Enviar la solicitud POST a la URL de carga de archivos
       const uploadResponse = await fetch('http://localhost:8000/knowhow/upload/', {
         method: 'POST',

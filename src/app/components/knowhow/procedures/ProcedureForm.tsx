@@ -1,6 +1,12 @@
 'use client'
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Owner, getOwnerData } from '../authHandler';
+
+interface Section {
+  id_section: number;
+  name_section: string;
+}
 
 interface FormData {
   id_procedure: string;
@@ -11,6 +17,7 @@ interface FormData {
   id_business_line: number;
   id_company: number;
   id_section: number;
+  procedure_uploaded_by: string; // Agregar este campo
 }
 
 export const ProcedureForm = () => {
@@ -18,6 +25,32 @@ export const ProcedureForm = () => {
   const [message, setMessage] = useState<string>('');
   const mainPdfRef = useRef<HTMLInputElement>(null);
   const samplePdfRef = useRef<HTMLInputElement>(null);
+  const [companyId, setCompanyId] = useState<number | null>(null);
+  const [sections, setSections] = useState<Section[]>([]);
+  const [selectedSections, setSelectedSections] = useState<number[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [uploadedBy, setUploadedBy] = useState<string>('');
+
+  useEffect(() => {
+  const fetchCompanyData = async () => {
+    const ownerData: Owner | null = await getOwnerData();
+    if (ownerData && ownerData.company) {
+      setCompanyId(ownerData.company.id_company);
+      setUploadedBy(ownerData.entity.name_owner); // Establecer el nombre del propietario
+      const sectionsResponse = await fetch(`http://localhost:8000/knowhow/sections/by-company-id/${ownerData.company.id_company}`);
+      if (sectionsResponse.ok) {
+        const sectionsData = await sectionsResponse.json();
+        setSections(sectionsData);
+      } else {
+        // Si no hay secciones, redirige automáticamente a la página de agregar secciones
+        window.location.href = 'http://localhost:3000/knowhow/sections/add';
+      }
+      setLoading(false);
+    }
+  };
+
+  fetchCompanyData();
+}, []);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
@@ -43,13 +76,15 @@ export const ProcedureForm = () => {
         throw new Error(`Error al subir los PDFs: ${pdfResponseData.message}`);
       }
 
-      const { main_pdf_encrypted_name, sample_pdf_encrypted_name } = await pdfResponse.json();
-
       const procedureData = {
         ...data,
+        id_company: companyId,
         procedure_pdf: mainPdfName,
         procedure_sample_pdf: samplePdfName,
+        procedure_uploaded_by: uploadedBy, // Establecer el nombre del propietario
       };
+
+      console.log('Datos del procedimiento a enviar:', procedureData);
 
       const procedureResponse = await fetch('http://localhost:8000/knowhow/procedure/add', {
         method: 'POST',
@@ -59,52 +94,119 @@ export const ProcedureForm = () => {
         body: JSON.stringify(procedureData),
       });
 
-      if (procedureResponse.ok) {
-        setMessage('Procedimiento creado correctamente');
-      } else {
+      if (!procedureResponse.ok) {
         const procedureResponseData = await procedureResponse.json();
         throw new Error(`Error al agregar el procedimiento: ${procedureResponseData.message}`);
       }
+
+      const procedureId = data.id_procedure;
+      const addProcedureForSectionsPromises = selectedSections.map(async (sectionId) => {
+        const procedureForSectionsData = {
+          id_procedure: procedureId,
+          id_section: sectionId,
+        };
+
+        const procedureForSectionsResponse = await fetch(
+          'http://localhost:8000/knowhow/procedure-for-sections/add',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(procedureForSectionsData),
+          }
+        );
+
+        if (!procedureForSectionsResponse.ok) {
+          const procedureForSectionsResponseData = await procedureForSectionsResponse.json();
+          throw new Error(
+            `Error al agregar el procedimiento a la sección: ${procedureForSectionsResponseData.message}`
+          );
+        }
+      });
+
+      await Promise.all(addProcedureForSectionsPromises);
+
+      setMessage('Procedimiento creado y secciones asociadas correctamente');
     } catch (error) {
-      return;
+      console.error(error);
+      setMessage('Error al procesar la solicitud');
     }
   };
-
 
   return (
     <div className='w-full flex flex-col justify-center items-center mt-4'>
       <h2 className='text-2xl'>Crear nuevo procedimiento</h2>
-      <form 
+      <form
         className='w-[70%] flex flex-col justify-center items-center mt-8'
         onSubmit={handleSubmit(onSubmit)}>
         <fieldset className='w-full flex justify-center items-center flex-col gap-4'>
-          <input className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg' placeholder='Id del Procedimiento' type="text" id="id_procedure" {...register('id_procedure', { required: true })} />
+          <input
+            className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg'
+            placeholder='Id del Procedimiento'
+            type="text"
+            id="id_procedure"
+            {...register('id_procedure', { required: true })}
+          />
           {errors.id_procedure && <p>Este campo es obligatorio</p>}
 
-          <input className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg' type="text" id="procedure_name" placeholder='Nombre del procedimiento' {...register('procedure_name', { required: true })} />
+          <input
+            className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg'
+            type="text"
+            id="procedure_name"
+            placeholder='Nombre del procedimiento'
+            {...register('procedure_name', { required: true })}
+          />
           {errors.procedure_name && <p>Este campo es obligatorio</p>}
 
-          <textarea className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg' id="procedure_description" placeholder='Descripción del procedimiento' {...register('procedure_description', { required: true })} />
+          <textarea
+            className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg'
+            id="procedure_description"
+            placeholder='Descripción del procedimiento'
+            {...register('procedure_description', { required: true })}
+          />
           {errors.procedure_description && <p>Este campo es obligatorio</p>}
 
-          <input className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg' type="number" id="id_business_line" placeholder='Linea de negocio' {...register('id_business_line', { required: true })} />
-          {errors.id_business_line && <p>Este campo es obligatorio</p>}
-
-          <input className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg' type="number" id="id_company" placeholder='Id de la compañia' {...register('id_company', { required: true })} />
-          {errors.id_company && <p>Este campo es obligatorio</p>}
-
-          <input className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg' type="number" id="id_section" placeholder='Id del área' {...register('id_section', { required: true })} />
-          {errors.id_section && <p>Este campo es obligatorio</p>}
+          {loading ? (
+            <p>Cargando secciones...</p>
+          ) : (
+            <>
+              <label htmlFor="id_section" className="text-lg">Selecciona una o más secciones:</label>
+              <select
+                multiple
+                className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg'
+                id="id_section"
+                {...register('id_section', { required: true })}
+                onChange={(e) => {
+                  const options = e.target.options;
+                  const selectedSections = [];
+                  for (let i = 0; i < options.length; i++) {
+                    if (options[i].selected) {
+                      selectedSections.push(parseInt(options[i].value));
+                    }
+                  }
+                  setSelectedSections(selectedSections);
+                }}
+              >
+                {sections.map((section) => (
+                  <option key={section.id_section} value={section.id_section}>
+                    {section.name_section}
+                  </option>
+                ))}
+              </select>
+              {errors.id_section && <p>Debes seleccionar al menos una sección</p>}
+            </>
+          )}
 
           <fieldset className='w-[500px] flex justify-center items-center gap-3'>
             <input className='w-1/2' type="file" id="procedure_sample_pdf" accept=".pdf" ref={samplePdfRef} />
             <input className='w-1/2' type="file" id="procedure_pdf" accept=".pdf" ref={mainPdfRef} />
           </fieldset>
         </fieldset>
-        <button className='border border-black rounded-xl px-3 py-2 bg-stone-400 hover:bg-stone-200' type="submit">Crear Procedimiento</button>
+        <button className='px-20 py-2 rounded-xl text-white font-bold bg-stone-400 shadow-lg shadow-gray-400 hover:bg-stone-200 mt-8' type="submit">Crear Procedimiento</button>
       </form>
       {message && <p>{message}</p>}
     </div>
   );
-
 };
+

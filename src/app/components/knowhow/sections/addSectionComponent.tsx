@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { getOwnerData } from '../authHandler';
+import { SHA256 } from 'crypto-js'; // Importa SHA256 desde 'crypto-js'
 
 export interface SectionData {
   id_company: number;
@@ -52,13 +53,25 @@ export const AddSectionComponent = () => {
     }
   };
 
+  const generateUniqueName = (file: File): string => {
+    const timestamp = Date.now().toString(); // Marca de tiempo actual
+    const hash = SHA256(file.name + timestamp).toString(); // Convertir el hash a cadena
+    const fileExtension = getFileExtension(file.name); // Obtener la extensión del archivo original
+    return hash + '.' + fileExtension; // Devuelve el nombre único con la extensión original del archivo
+  };
+
+  const getFileExtension = (fileName: string): string => {
+    return fileName.slice(((fileName.lastIndexOf('.') - 1) >>> 0) + 2);
+  };
+
   const onSubmit = async (data: SectionData) => {
     try {
       data.id_company = companyId ?? 0;
 
       const formData = new FormData();
       if (logoFile !== null) {
-        formData.append('file', logoFile);
+        const uniqueFileName = generateUniqueName(logoFile); // Obtener el nombre encriptado único
+        formData.append('file', logoFile, uniqueFileName);
       }
 
       const uploadResponse = await fetch('http://localhost:8000/knowhow/upload/', {

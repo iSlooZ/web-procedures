@@ -7,7 +7,7 @@ export interface ProcedureData {
   id_business_line:number;
   id_company:number;
   id_section:number;
-
+  procedure_uploaded_by: string;
 }
 
 export const getProcedureById = async (slug: string): Promise<ProcedureData | null> => {
