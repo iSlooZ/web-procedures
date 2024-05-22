@@ -1,7 +1,8 @@
 
+import { HeroEmployees } from "@/app/components/knowhow/employees/HeroEmployees";
 
 export default function EmployeesPage(){
-  return(
-    <h1>hola</h1>
-  )
+  return (
+    <HeroEmployees />
+  );
 }

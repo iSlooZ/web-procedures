@@ -15,6 +15,7 @@ export const KnowHowNavbar = () => {
         <ul className="w-1/3 flex justify-center items-center gap-8">
           <li><a href="/knowhow/welcome">Inicio</a></li>
           <li><a href="/knowhow/procedures">Procedimientos</a></li>
+          <li><a href="/knowhow/employees">Trabajadores</a></li>
           <li><a href="/knowhow/account">Mi cuenta</a></li>
         </ul>
         <div className="w-1/3 flex justify-start items-center gap-2">

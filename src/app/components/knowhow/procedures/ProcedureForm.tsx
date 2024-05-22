@@ -167,36 +167,30 @@ export const ProcedureForm = () => {
           />
           {errors.procedure_description && <p>Este campo es obligatorio</p>}
 
-          {loading ? (
-            <p>Cargando secciones...</p>
-          ) : (
-            <>
-              <label htmlFor="id_section" className="text-lg">Selecciona una o más secciones:</label>
-              <select
-                multiple
-                className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg'
-                id="id_section"
-                {...register('id_section', { required: true })}
-                onChange={(e) => {
-                  const options = e.target.options;
-                  const selectedSections = [];
-                  for (let i = 0; i < options.length; i++) {
-                    if (options[i].selected) {
-                      selectedSections.push(parseInt(options[i].value));
-                    }
-                  }
-                  setSelectedSections(selectedSections);
-                }}
-              >
-                {sections.map((section) => (
-                  <option key={section.id_section} value={section.id_section}>
-                    {section.name_section}
-                  </option>
-                ))}
-              </select>
-              {errors.id_section && <p>Debes seleccionar al menos una sección</p>}
-            </>
-          )}
+          <fieldset className='w-full flex justify-center items-center flex-col gap-4'>
+            <label className="text-lg">Selecciona una o más secciones:</label>
+            <div className='flex flex-col gap-2'>
+              {sections.map((section) => (
+                <label key={section.id_section} className='flex items-center'>
+                  <input
+                    type="checkbox"
+                    value={section.id_section}
+                    {...register('id_section', { required: true })}
+                    onChange={(e) => {
+                      const sectionId = parseInt(e.target.value);
+                      if (e.target.checked) {
+                        setSelectedSections((prevSelectedSections) => [...prevSelectedSections, sectionId]);
+                      } else {
+                        setSelectedSections((prevSelectedSections) => prevSelectedSections.filter((id) => id !== sectionId));
+                      }
+                    }}
+                  />
+                  <span className='ml-2'>{section.name_section}</span>
+                </label>
+              ))}
+            </div>
+            {errors.id_section && <p>Debes seleccionar al menos una sección</p>}
+          </fieldset>
 
           <fieldset className='w-[500px] flex justify-center items-center gap-3'>
             <input className='w-1/2' type="file" id="procedure_sample_pdf" accept=".pdf" ref={samplePdfRef} />

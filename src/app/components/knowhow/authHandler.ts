@@ -18,6 +18,11 @@ export interface Owner {
     id_section:number;
     logo_section:string;
     id_company:number;
+  };
+  positions:{
+    id_position:number;
+    position:string;
+    id_company:number;
   }
 }
 

@@ -41,7 +41,7 @@ export const WelcomeHero = () => {
         <h1 className="text-6xl my-4 text-center font-bold">Bienvenido {owner?.entity.name_owner} a tus áreas</h1>
         <div className="w-full">
           <div className="flex my-4 justify-center items-center">
-            <img className="w-44 aspect-square" src={owner?.company.logo_company} alt="" />
+            <img className="w-[250px] aspect-video object-cover" src={owner?.company.logo_company} alt="" />
           </div>
           <div className="w-full flex flex-wrap justify-center items-center gap-4">
             {Array.isArray(sections) && sections.map((section) => (

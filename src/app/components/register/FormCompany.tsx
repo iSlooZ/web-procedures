@@ -233,7 +233,7 @@ export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompa
               })}
             />
           </label>
-          {logoFileName && <span>Nombre del archivo: {logoFileName}</span>}
+          
           <div className="w-[80%] my-2 flex gap-2 justify-between items-center">
             <button 
               className="w-[50%] rounded-xl py-3 bg-white text-black font-bold border border-black"
