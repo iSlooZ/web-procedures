@@ -28,3 +28,18 @@
   opacity: 1;
   transform: translateY(0%);
 }
+
+.primary-color {
+  background-color: #012CFD;
+}
+
+.border-primary-color{
+  border-color: #012CFD;
+}
+
+.primary-color-text{
+  color:#012CFD;
+}
+.secondary-color-text{
+  color:white;
+}

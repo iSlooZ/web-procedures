@@ -2,6 +2,70 @@
   background-color: #012CFD;
 }
 
+.container{
+  color:red
+}
 .primary-color-text{
   color:#012CFD;
+}
+
+
+.icon-hide{
+  display: none;
+}
+
+.list-item{
+  padding: 15px 25px 15px 25px;
+}
+
+.list-item:hover {
+  background-color: blue;
+  border-radius: 30px;
+}
+
+.list-item:hover .text-color {
+  color: white;
+}
+/* Estilos para los iconos dentro del li con la clase unique-list-item */
+.list-item:hover .icon {
+  display: none; /* Oculta el icono negro */
+}
+
+.list-item:hover .icon-hide {
+  display: block; /* Muestra el icono blanco */
+}
+
+.dropdown {
+  position: relative;
+}
+
+@keyframes dropdown-animation{
+  from{
+    height:0;
+  }
+
+  to{
+    height:140px;
+  }
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 40px;
+  left: -10px;
+  background-color: blue;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  width: 170px;
+  height: 0;
+}
+
+/* Mostrar el contenido del dropdown cuando se hace hover sobre el li */
+.list-item:hover .dropdown-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: dropdown-animation 0.3s forwards; 
 }

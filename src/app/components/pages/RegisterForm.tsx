@@ -16,16 +16,16 @@ export const RegisterForm = () => {
     };
 
     return (
-        <section className='w-full flex flex-col justify-center items-center'>
+        <section className='w-full flex flex-col justify-center items-center mt-16'>
             <div className='w-full flex justify-center items-center'>
-                <img className='w-[150px]' src="/logoknowhow3.webp" alt="" />
+                <img className='w-[150px] h-[150px] my-8' src="/logoknowhow.svg" alt="" />
             </div>
-            <div className='w-fit bg-gray-200 px-2 py-2 rounded-full flex gap-4 justify-center items-center'>
+            <div className='w-fit bg-white shadow-gray-400 shadow-lg rounded-full flex gap-4 justify-center items-center'>
                 <button 
-                    className={`text-xl font-medium px-10 rounded-full ${mostrarFormUsuario ? 'bg-white' : ''}`}
+                    className={`text-xl font-medium px-10 py-1 rounded-full primary-color-text ${mostrarFormUsuario ? 'primary-color secondary-color-text' : ''}`}
                     onClick={handleBotonUsuarioClick}>Empresa</button>
                 <button
-                    className={`text-xl font-medium px-10 rounded-full ${!mostrarFormUsuario ? 'bg-white' : ''}`}
+                    className={`text-xl font-medium px-10 py-1 rounded-full primary-color-text ${!mostrarFormUsuario ? 'primary-color secondary-color-text' : ''}`}
                     onClick={handleBotonEmpresaClick}>Holding</button>
             </div>
         {mostrarFormUsuario ? <FormCompany

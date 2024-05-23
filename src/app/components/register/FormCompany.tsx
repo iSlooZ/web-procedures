@@ -174,28 +174,28 @@ export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompa
         {step === 1 && (
           <fieldset className="w-full flex flex-col justify-center items-center gap-2 my-8">
             <input
-              className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
+              className="w-[80%] border border-primary-color px-6 py-2 rounded-xl"
               type="text"
               placeholder={nameOwner}
               {...register('nameOwner', { required: true })}
             />
             {errors.nameOwner && <span>Este campo es obligatorio</span>}
             <input
-              className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
+              className="w-[80%] border border-primary-color px-6 py-2 rounded-xl"
               type="email"
               placeholder={email}
               {...register('email', { required: true })}
             />
             {errors.email && <span>Este campo es obligatorio</span>}
             <input
-              className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
+              className="w-[80%] border border-primary-color px-6 py-2 rounded-xl"
               type="text"
               placeholder={phoneNumber}
               {...register('phoneNumber', { required: true })}
             />
             {errors.phoneNumber && <span>Este campo es obligatorio</span>}
             <input
-              className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
+              className="w-[80%] border border-primary-color px-6 py-2 rounded-xl"
               type="password"
               placeholder={password}
               {...register('password', { required: true })}
@@ -257,14 +257,14 @@ export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompa
         <div className="w-full flex flex-col justify-center items-center">
         {step === 1 && ( // Mostrar el botón "Siguiente" solo en el primer paso
           <button 
-            className="w-[80%] rounded-xl py-3 bg-black text-white font-bold"
+            className="w-[80%] rounded-full my-2 py-3 primary-color text-white font-bold"
             type="submit" // Usa type="button" para evitar que el botón haga submit// Cambia el estado de 'step' al hacer clic en el botón
           >
             Crear cuenta
           </button>
         )}
           <Link 
-            className="w-[80%] rounded-xl py-3 bg-white border border-black flex justify-center items-center font-bold" 
+            className="w-[80%] rounded-full py-3 bg-white border border-primary-color primary-color-text flex justify-center items-center font-bold" 
             href={"/knowhow/login"}>
             Ya tengo cuenta
           </Link>

@@ -23,10 +23,20 @@ export const Header = () => {
               KH para empresas
             </Link>
           </li>
-          <li>
-            <Link href="#">
-              Más información
-            </Link>
+          <li className="list-item">
+            <div className="dropdown">
+              <Link className="flex justify-center items-center text-color" href="#">
+                Más información
+                <img className="icon" src="/arrow_down_black.svg"/>
+                <img className="icon-hide" src="/arrow_down_white.svg"/>
+              </Link>
+              <div className="dropdown-content">
+                <Link href="#">Quiénes somos</Link>
+                <Link href="#">Lo que ofrecemos</Link>
+                <Link href="/etesetch">Cómo funciona KH</Link>
+                <Link href="/elpepe">Ayuda</Link>
+              </div>
+            </div>
           </li>
         </ul>
         </div>
