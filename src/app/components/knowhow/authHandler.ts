@@ -13,12 +13,12 @@ export interface Owner {
     id_company:number;
     id_owner:number;
   };
-  sections:{
+  sections: Array<{
     name_section:string;
     id_section:number;
     logo_section:string;
     id_company:number;
-  };
+  }>;
   positions:{
     id_position:number;
     position:string;
