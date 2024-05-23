@@ -168,8 +168,8 @@ export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompa
   return (
     <section className="w-full flex justify-center items-center">
       <form className="w-[400px] flex flex-col justify-center items-center" onSubmit={step === 1 ? handleSubmit(onSubmitOwner) : handleSubmit(onSubmitCompany)}>
-        <legend className="text-xl font-bold mt-4">Abre tu cuenta en simples pasos</legend>
-        <h2 className="text-lg text-stone-500 font-light">Agiliza tu tiempo y el de tus colaboradores</h2>
+        <legend className="text-xl font-bold mt-8">Crea tu empresa</legend>
+        <h2 className="text-lg text-center text-stone-500 font-light">Personaliza tu empresa, puedes cambiar los datos cuando quieras.</h2>
 
         {step === 1 && (
           <fieldset className="w-full flex flex-col justify-center items-center gap-2 my-8">
@@ -208,19 +208,19 @@ export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompa
         <fieldset className="w-full flex flex-col justify-center items-center gap-2 my-8">
           <div className='w-full flex justify-center items-center'>
             {logoFile ? (
-              <img className='w-[100px] h-[100px] rounded-full' src={URL.createObjectURL(logoFile)} alt="Logo de la empresa" />
+              <img className='w-[150px] h-[150px] rounded-full mb-8' src={URL.createObjectURL(logoFile)} alt="Logo de la empresa" />
             ) : (
-              <img className='w-[100px] h-[100px] rounded-full' src="/iconCompany.png" alt="Icono de la empresa" />
+              <img className='w-[150px] h-[150px] rounded-full mb-8' src="/icon_logo_company.svg" alt="Icono de la empresa" />
             )}
           </div>
           <input
-              className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
+              className="w-[80%] border border-primary-color px-6 py-2 rounded-xl"
               type="text"
               placeholder={nameCompany}
               {...register('nameCompany', { required: true })}
           />
 
-          <label className="w-[80%] bg-zinc-500 px-6 py-2 rounded-xl cursor-pointer text-center hover:bg-zinc-300">
+          <label className="w-[80%] primary-color text-white px-6 py-2 rounded-xl cursor-pointer text-center hover:opacity-75">
             Seleccionar Logo
             <input
               className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
@@ -236,7 +236,7 @@ export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompa
           
           <div className="w-[80%] my-2 flex gap-2 justify-between items-center">
             <button 
-              className="w-[50%] rounded-xl py-3 bg-white text-black font-bold border border-black"
+              className="w-[50%] rounded-xl py-3 bg-white primary-color-text font-bold border border-primary-color"
               type="button"
               onClick={async () => {
                 await onDeleteOwner();
@@ -246,7 +246,7 @@ export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompa
               Atrás
             </button>
             <button 
-              className="w-[50%] rounded-xl py-3 bg-black text-white font-bold"
+              className="w-[50%] rounded-xl py-3 primary-color text-white font-bold"
               type="submit"
             >
               Crear Cuenta

@@ -38,11 +38,17 @@ export const WelcomeHero = () => {
   return (
     <section className="w-full flex flex-col justify-center items-center">
       <div className="w-[50%] mt-12">
-        <h1 className="text-6xl my-4 text-center font-bold">Bienvenido {owner?.entity.name_owner} a tus áreas</h1>
+        <h1 className="text-6xl my-4 text-center font-bold">{owner?.company.company_name}</h1>
+        <div className="w-full flex justify-center items-center relative mb-16">
+          <img src="/lupa_icon.svg" alt="" className="absolute left-[460px] w-[25px]"/>
+          <select name="" id="" className="w-[400px] rounded-lg py-2 primary-color-text text-center border border-primary-color appearance-none">
+            <option value="" disabled selected> Buscar Área</option>
+            <option value="">el pepe</option>
+          </select>
+          <img src="/arrow_down_blue.svg" alt="" className="absolute right-[460px] w-[25px]"/>
+          
+        </div>
         <div className="w-full">
-          <div className="flex my-4 justify-center items-center">
-            <img className="w-[250px] aspect-video object-cover" src={owner?.company.logo_company} alt="" />
-          </div>
           <div className="w-full flex flex-wrap justify-center items-center gap-4">
             {Array.isArray(sections) && sections.map((section) => (
               <div key={section.id_section} className="w-72 h-36 rounded-xl flex justify-end items-start relative">
@@ -52,14 +58,14 @@ export const WelcomeHero = () => {
                 </Link>
               </div>
             ))}
-            <div className="w-72 h-36 border border-black rounded-xl flex justify-end items-start">
-              <Link className="hover:opacity-45" href="/knowhow/sections/add"><img className="rounded-full m-2 w-10" src="/plus.png" alt="" /></Link>
+            <div className="w-72 h-36 border border-primary-color rounded-xl flex justify-end items-start">
+              <Link className="hover:opacity-45" href="/knowhow/sections/add"><img className="rounded-full m-2 w-10" src="/more_section.svg" alt="" /></Link>
             </div>
           </div>
         </div>
       </div>
       <div className="w-full flex justify-center items-center my-8">
-        <Link className="px-20 py-2 rounded-xl text-white font-bold bg-stone-400 shadow-lg shadow-gray-400 hover:bg-stone-200" href="/knowhow/procedures/add">Subir un procedimiento</Link>
+        <Link className="px-20 py-2 rounded-xl text-white font-bold primary-color shadow-lg shadow-gray-400 hover:opacity-75" href="/knowhow/procedures/add">Subir un procedimiento</Link>
       </div>
     </section>
   );
