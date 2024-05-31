@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { FormCompany } from '../register/FormCompany';
-import { FormHolding } from '../register/formHolding';
+import { FormHolding } from '../register/FormHolding';
 
 export const RegisterForm = () => {
     const [mostrarFormUsuario, setMostrarFormUsuario] = useState(true);
@@ -16,9 +16,9 @@ export const RegisterForm = () => {
     };
 
     return (
-        <section className='w-full flex flex-col justify-center items-center mt-16'>
+        <section className='w-full flex flex-col justify-center items-center'>
             <div className='w-full flex justify-center items-center'>
-                <img className='w-[150px] h-[150px] my-8' src="/logoknowhow.svg" alt="" />
+                <img className='w-[150px] h-[150px] my-8' src="/Logo_knowhow.svg" alt="" />
             </div>
             <div className='w-fit bg-white shadow-gray-400 shadow-lg rounded-full flex gap-4 justify-center items-center'>
                 <button 
@@ -36,10 +36,11 @@ export const RegisterForm = () => {
             nameCompany='Nombre de la empresa'
         /> : ''}
         {!mostrarFormUsuario ? <FormHolding
-            nameHolding="Nombre completo"
-            email="Correo"
-            phoneNumber="Número telefónico"
-            password="Contraseña"
+            name_owner="Nombre completo"
+            email_owner="Correo"
+            phone_owner="Número telefónico"
+            password_owner="Contraseña"
+            nameHolding="Nombre de su Holding"
         /> : ''}
         </section>
     );

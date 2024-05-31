@@ -22,15 +22,9 @@ export const KnowHowNavbar = () => {
     <header className="w-full flex justify-center items-center p-8">
       <nav className="w-full flex justify-center items-center">
         <ul className="w-1/3 flex justify-start items-center gap-16">
-          <li>
-            <a href="#">
-              <img
-                className="w-[100px] aspect-square"
-                src="/Logoknowhow.svg"
-                alt="KnowHow Logo"
-              />
-            </a>
-          </li>
+          <a href="">
+          <img className="w-[80px] aspect-radio" src="/Logo_knowhow.svg" alt="" />
+          </a>
           <li>
             <a href="/knowhow/welcome">Inicio</a>
           </li>
@@ -47,8 +41,8 @@ export const KnowHowNavbar = () => {
         <div className="w-1/3 flex justify-end items-center gap-2">
           {owner && (
             <img
-              className="w-[100px] m-4 aspect-video object-cover"
-              src={owner.company.logo_company}
+              className="w-[100px] m-4 aspect-square object-cover"
+              src={owner.holding && owner.holding.logo_holding ? owner.holding.logo_holding : owner.company.logo_company}
               alt="Company Logo"
             />
           )}

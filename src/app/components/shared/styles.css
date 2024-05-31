@@ -69,3 +69,28 @@
   gap: 8px;
   animation: dropdown-animation 0.3s forwards; 
 }
+
+
+.iconsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.iconButton {
+  width: 40px; /* Ajusta el tamaño del botón según tus necesidades */
+  height: 40px; /* Ajusta el tamaño del botón según tus necesidades */
+  margin: 5px;
+  border: none;
+  background-image: url('/icons_knowhow.svg');
+  background-size: 120px; /* Ajusta el tamaño del sprite según tus necesidades */
+  background-repeat: no-repeat;
+}
+
+/* Define la posición del icono en el sprite */
+.iconButton:nth-child(1) {
+  background-position: 0px 0px; /* Posición del primer icono */
+}
+
+.iconButton:nth-child(2) {
+  background-position: -40px 0px; /* Posición del segundo icono */
+}

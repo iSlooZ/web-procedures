@@ -168,8 +168,8 @@ export const FormCompany = ({ nameOwner, email, phoneNumber, password, nameCompa
   return (
     <section className="w-full flex justify-center items-center">
       <form className="w-[400px] flex flex-col justify-center items-center" onSubmit={step === 1 ? handleSubmit(onSubmitOwner) : handleSubmit(onSubmitCompany)}>
-        <legend className="text-xl font-bold mt-8">Crea tu empresa</legend>
-        <h2 className="text-lg text-center text-stone-500 font-light">Personaliza tu empresa, puedes cambiar los datos cuando quieras.</h2>
+        <legend className="text-xl font-bold mt-8">Abre tu cuenta en simples pasos</legend>
+        <h2 className="text-lg text-center text-stone-500 font-light">Agiliza tu tiempo y el de tus colaboradores.</h2>
 
         {step === 1 && (
           <fieldset className="w-full flex flex-col justify-center items-center gap-2 my-8">

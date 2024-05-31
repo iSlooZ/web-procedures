@@ -7,6 +7,18 @@ export interface Owner {
     phone_owner: string;
     id_owner: number;
   };
+  holding:{
+    holding_name: string;
+    logo_holding:string;
+    id_holding:number;
+    id_owner:number;
+  };
+  companies_in_holding:Array<{
+    company_name:string;
+    logo_company:string;
+    id_company:string;
+    id_owner:string;
+  }>;
   company: {
     company_name: string;
     logo_company:string;

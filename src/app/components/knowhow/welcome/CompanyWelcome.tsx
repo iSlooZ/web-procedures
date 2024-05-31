@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Owner, getOwnerData } from "../authHandler";
 import Link from 'next/link';
 
-export const WelcomeHero = () => {
+export const CompanyWelcome = () => {
   const [owner, setOwner] = useState<Owner | null>(null);
   const [sections, setSections] = useState<Owner["sections"] | null>(null);
   const [cachedImages, setCachedImages] = useState<{ [key: string]: string }>({});

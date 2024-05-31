@@ -1,7 +1,7 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation'
 
 interface FormData {
   username: string;
@@ -43,18 +43,19 @@ export const LoginForm = () => {
       setMessageError(true);
     }
   };
+
   return (
-    <section className="w-full py-20 flex flex-col justify-center items-center">
+    <section className="w-full -mt-[50px] flex flex-col justify-center items-center">
       <form
-        className="w-[500px] flex flex-col justify-center items-center border border-slate-300 rounded-xl"
+        className="w-[450px] flex flex-col justify-center items-center rounded-xl"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <img className="w-56 py-8" src="/logotest.png" alt="Logo" />
-        <legend className="text-2xl font-medium tracking-wider pb-8">Hola nuevamente</legend>
-        <section className="w-full flex flex-col justify-center items-center gap-8">
+        <img className="w-[500px] aspect-square py-8" src="/welcome_image.svg" alt="Logo" />
+        <legend className="text-2xl font-medium tracking-wider pb-8">¡Bienvenido!</legend>
+        <section className="w-full flex flex-col justify-center items-center gap-4">
           <fieldset className="w-full relative flex flex-col justify-center items-center">
             <input
-              className={`inputLoginForm border border-slate-300 h-12 rounded-xl w-[70%] px-4 ${errors.username ? 'has-error' : ''}`}
+              className={`inputLoginForm border border-primary-color h-12 rounded-xl w-[70%] px-4 ${errors.username ? 'has-error' : ''}`}
               type="text"
               placeholder="Correo"
               {...register("username", {
@@ -78,9 +79,9 @@ export const LoginForm = () => {
 
           <fieldset className="w-full relative flex flex-col justify-center items-center">
             <input
-              className={`inputLoginForm border border-slate-300 h-12 rounded-xl w-[70%] px-4 ${errors.password ? 'has-error' : ''}`}
+              className={`inputLoginForm border border-primary-color h-12 rounded-xl w-[70%] px-4 ${errors.password ? 'has-error' : ''}`}
               type="password"
-              placeholder="Password"
+              placeholder="Contraseña"
               {...register("password", {
                 required: {
                   value:true,
@@ -99,12 +100,20 @@ export const LoginForm = () => {
         {messageError && (
           <p className="text-red-500 mt-4">Credenciales incorrectas. Inténtalo de nuevo.</p>
         )}
-        <button
-          className="w-[70%] bg-blue-500 px-4 py-3 text-white rounded-3xl my-12"
-          type="submit"
-        >
-          Entrar
-        </button>
+        <div className='w-full flex flex-col justify-center items-center gap-4 my-8'>
+          <button
+            className="w-[70%] primary-color px-4 py-3 text-white rounded-3xl hover:opacity-80"
+            type="submit"
+          >
+            Entrar
+          </button>
+          <button
+            className="w-[70%] border border-primary-color px-4 py-3 primary-color-text rounded-3xl hover:bg-[#012CFD] hover:text-white"
+            onClick={() => router.push('/knowhow/register')}
+          >
+            Registrate
+          </button>
+        </div>
       </form>
     </section>
   );

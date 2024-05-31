@@ -1,7 +1,7 @@
+import { AccountPage } from "@/app/components/knowhow/account/Hero";
 
 
-export default function AccountPage(){
-  return (
-    <h1>My Account</h1>
-  )
+
+export default function MyAccountPage(){
+  return(<AccountPage/>)
 }
