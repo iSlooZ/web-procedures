@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { getOwnerData } from '../authHandler';
 import { SHA256 } from 'crypto-js'; // Importa SHA256 desde 'crypto-js'
+import { useSearchParams } from "next/navigation";
 
 export interface SectionData {
   id_company: number;
@@ -19,7 +20,9 @@ export const AddSectionComponent = () => {
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoUrl, setLogoUrl] = useState<string>(''); // URL del logo seleccionado
   const [mensaje, setMensaje] = useState<string>('');
-
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
+  
   useEffect(() => {
     const fetchOwnerData = async () => {
       try {
