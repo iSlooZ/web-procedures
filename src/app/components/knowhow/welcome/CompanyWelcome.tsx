@@ -7,7 +7,7 @@ export const CompanyWelcome = () => {
   const [owner, setOwner] = useState<Owner | null>(null);
   const [sections, setSections] = useState<Owner["sections"] | null>(null);
   const [cachedImages, setCachedImages] = useState<{ [key: string]: string }>({});
-  const [selectedSection, setSelectedSection] = useState<string>(""); // Estado para almacenar la sección seleccionada
+  const [selectedSection, setSelectedSection] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,10 +41,10 @@ export const CompanyWelcome = () => {
 
   return (
     <section className="w-full flex flex-col justify-center items-center">
-      <div className="w-[50%] mt-12">
+      <div className="w-[50%] flex flex-col justify-center items-center mt-12">
         <h1 className="text-6xl my-4 text-center font-bold">{owner?.company.company_name}</h1>
-        <div className="w-full flex justify-center items-center relative mb-16">
-          <img src="/lupa_icon.svg" alt="" className="absolute left-[460px] w-[25px]"/>
+        <div className="w-[400px] relative flex justify-center items-center mb-16">
+          <img src="/lupa_icon.svg" alt="" className="absolute left-[350px] w-[25px]"/>
           <select
             name=""
             id=""
@@ -60,7 +60,7 @@ export const CompanyWelcome = () => {
                 </option>
               ))}
           </select>
-          <img src="/arrow_down_blue.svg" alt="" className="absolute right-[460px] w-[25px]"/>
+          <img src="/arrow_down_blue.svg" alt="" className="absolute right-[320px] w-[25px]"/>
         </div>
         <div className="w-full">
           <div className="w-full flex flex-wrap justify-center items-center gap-4">
@@ -96,8 +96,6 @@ export const CompanyWelcome = () => {
             </Link>
           </div>
         )}
-
-
             <div className="w-72 h-36 border border-primary-color rounded-xl flex justify-end items-start">
               <Link className="hover:opacity-45" href="/knowhow/sections/add">
                 <img className="rounded-full m-2 w-10" src="/more_section.svg" alt="" />

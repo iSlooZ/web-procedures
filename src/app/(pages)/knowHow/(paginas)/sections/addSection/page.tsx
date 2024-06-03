@@ -8,7 +8,7 @@ import { AddSectionComponent } from '@/app/components/knowhow/sections/addSectio
 
 
 
-export default function SectionPage(){
+export default function addSectionPage(){
   return(
     <>
     <AddSectionComponent />

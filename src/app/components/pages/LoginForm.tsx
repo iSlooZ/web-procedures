@@ -18,7 +18,7 @@ export const LoginForm = () => {
       const requestBody = new URLSearchParams();
       requestBody.append("username", data.username);
       requestBody.append("password", data.password);
-
+  
       const response = await fetch('http://localhost:8000/knowhow/owner/login', {
         method: 'POST',
         headers: {
@@ -26,15 +26,14 @@ export const LoginForm = () => {
         },
         body: requestBody.toString()
       });
-
+  
       if (response.ok) {
         const responseData = await response.json();
         console.log('Login Success:', responseData);
         const token = responseData.access_token;
         localStorage.setItem('token', token);
-        
+  
         router.push('/knowhow/welcome');
-
       } else {
         throw new Error('Credenciales incorrectas. Inténtalo de nuevo.');
       }

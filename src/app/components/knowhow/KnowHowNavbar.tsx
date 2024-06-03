@@ -1,6 +1,8 @@
 'use client'
 import { useEffect, useState } from "react";
 import { getOwnerData, Owner } from "./authHandler";
+import Link from "next/link";
+import Image from "next/image";
 
 export const KnowHowNavbar = () => {
   const [owner, setOwner] = useState<Owner | null>(null);
@@ -20,33 +22,35 @@ export const KnowHowNavbar = () => {
 
   return (
     <header className="w-full flex justify-center items-center p-8">
+      
       <nav className="w-full flex justify-center items-center">
         <ul className="w-1/3 flex justify-start items-center gap-16">
-          <a href="">
-          <img className="w-[80px] aspect-radio" src="/Logo_knowhow.svg" alt="" />
-          </a>
+          <Link className="" href="/knowhow/welcome">
+            <Image className="min-w-[80px] aspect-radio" src="/Logo_knowhow.svg" alt="KnowHow Logo" width={80} height={80} />
+          </Link>
           <li>
-            <a href="/knowhow/welcome">Inicio</a>
+            <Link href="/knowhow/welcome">Inicio</Link>
           </li>
           <li>
-            <a href="/knowhow/procedures">Procedimientos</a>
+            <Link href="/knowhow/procedures">Procedimientos</Link>
           </li>
           <li>
             <a href="/knowhow/employees">Trabajadores</a>
           </li>
           <li>
-            <a href="/knowhow/account">Mi cuenta</a>
+            <Link href="/knowhow/account">Mi cuenta</Link>
           </li>
         </ul>
         <div className="w-1/3 flex justify-end items-center gap-2">
           {owner && (
-            <img
-              className="w-[100px] m-4 aspect-square object-cover"
+            <Image
+              width={100} height={100}
+              className="m-4 aspect-square object-cover"
               src={owner.holding && owner.holding.logo_holding ? owner.holding.logo_holding : owner.company.logo_company}
               alt="Company Logo"
             />
           )}
-          <img className="w-[20px] h-[20px]" src="/Capa_1.png" alt="" />
+          <Image width={20} height={20} src="/Capa_1.png" alt="" />
           <span>ES</span>
         </div>
       </nav>

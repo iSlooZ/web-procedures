@@ -38,6 +38,8 @@ export interface Owner {
   }
 }
 
+
+
 export const getOwnerData = async (): Promise<Owner | null> => {
   if (typeof window === 'undefined') {
     // Si no estamos en el navegador, devuelve null
