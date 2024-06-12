@@ -42,4 +42,20 @@
 }
 .secondary-color-text{
   color:white;
+} 
+
+.radioButton{
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #D9D9D9;
+  color: #fff;
+  border-radius: 20px;
+  width: 10px;
+  height: 10px;
+  appearance: none;
+}
+
+.radioButton:checked{
+  background-color: blue;
 }

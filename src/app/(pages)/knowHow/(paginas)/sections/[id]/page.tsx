@@ -33,7 +33,7 @@ export default function SectionDetailPage({ params }:{params:Params}) {
     <section className='w-full flex flex-col justify-center items-center '>
       <div className='w-[50%] bg-stone-300 flex flex-col justify-center items-center rounded-xl p-4'>
         <h2 className='text-xl py-2 font-bold'>Identificador del área: {section.id_section}</h2>
-        <img className="w-[150px] aspect-video object-cover" src={`http://localhost:8000/uploads/${section.logo_section}`} alt="" />
+        <img className="w-[150px] aspect-video object-contain" src={`${section.logo_section}`} alt="" />
         <h3 className='text-2xl font-normal tracking-wide'>Nombre del área: {section.name_section}</h3>
       </div>
     </section>

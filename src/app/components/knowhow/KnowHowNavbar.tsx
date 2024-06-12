@@ -35,20 +35,19 @@ export const KnowHowNavbar = () => {
             <Link href="/knowhow/procedures">Procedimientos</Link>
           </li>
           <li>
-            <a href="/knowhow/employees">Trabajadores</a>
-          </li>
-          <li>
             <Link href="/knowhow/account">Mi cuenta</Link>
           </li>
         </ul>
         <div className="w-1/3 flex justify-end items-center gap-2">
           {owner && (
-            <Image
-              width={100} height={100}
-              className="m-4 aspect-square object-cover"
-              src={owner.holding && owner.holding.logo_holding ? owner.holding.logo_holding : owner.company.logo_company}
-              alt="Company Logo"
-            />
+            <div className="">
+              <Image
+                width={50} height={50}
+                className="mr-8 aspect-square object-contain"
+                src={owner.holding && owner.holding.logo_holding ? owner.holding.logo_holding : owner.company.logo_company}
+                alt="Company Logo"
+              />
+            </div>
           )}
           <Image width={20} height={20} src="/Capa_1.png" alt="" />
           <span>ES</span>

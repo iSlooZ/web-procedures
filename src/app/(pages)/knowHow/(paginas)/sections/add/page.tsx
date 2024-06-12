@@ -1,6 +1,6 @@
 
 
-
+import { LogoSelector } from '@/app/components/knowhow/sections/SectionIcons';
 import { AddSectionComponent } from '@/app/components/knowhow/sections/addSectionComponent';
 
 
@@ -11,7 +11,7 @@ import { AddSectionComponent } from '@/app/components/knowhow/sections/addSectio
 export default function SectionPage(){
   return(
     <>
-    <AddSectionComponent />
+    <LogoSelector/>
     </>
   )
 }

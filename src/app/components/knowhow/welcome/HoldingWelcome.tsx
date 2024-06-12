@@ -98,7 +98,7 @@ export const HoldingWelcome = () => {
       <div className="w-full flex justify-center items-center my-8">
         <Link
           className="px-20 py-2 rounded-xl text-white font-bold primary-color shadow-lg shadow-gray-400 hover:opacity-75"
-          href="/knowhow/procedures/add"
+          href="/knowhow/procedures/addProcedure"
         >
           Subir un procedimiento
         </Link>

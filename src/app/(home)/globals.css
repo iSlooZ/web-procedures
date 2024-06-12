@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.titleWelcome{
+  font-size: 50px;
+  font-weight: 600;
+  line-height: 60px;
+}
+
+.subtitleWelcome{
+  font-size: 18px;
+  font-weight: 200;
+}

@@ -21,6 +21,7 @@ export const AddSectionComponent = () => {
   const [logoUrl, setLogoUrl] = useState<string>(''); // URL del logo seleccionado
   const [mensaje, setMensaje] = useState<string>('');
   const searchParams = useSearchParams()
+  const [selectedIcon, setSelectedIcon] = useState(null);
   const id = searchParams.get('id')
   
   useEffect(() => {

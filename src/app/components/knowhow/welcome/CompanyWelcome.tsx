@@ -30,13 +30,12 @@ export const CompanyWelcome = () => {
     if (Array.isArray(sections)) {
       const images: { [key: string]: string } = {};
       sections.forEach((section) => {
-        images[section.id_section.toString()] = `http://localhost:8000/uploads/${section.logo_section}`;
+        images[section.id_section.toString()] = `${section.logo_section}`;
       });
       setCachedImages(images);
     }
   }, [sections]);
 
-  // Obtener la sección seleccionada o todas las secciones si "Mostrar Todas" está seleccionado
   const selectedSectionData = selectedSection === "" ? sections : sections?.find(section => section.id_section === parseInt(selectedSection));
 
   return (
@@ -65,21 +64,21 @@ export const CompanyWelcome = () => {
         <div className="w-full">
           <div className="w-full flex flex-wrap justify-center items-center gap-4">
           {Array.isArray(selectedSectionData) ? selectedSectionData.map((section: Owner["sections"][0] | null) => (
-          <div
-            key={section?.id_section}
-            className="w-72 h-36 rounded-xl flex justify-end items-start relative"
-          >
-            <Link className="hover:opacity-45 w-full" href={`/knowhow/sections/${section?.id_section}`}>
-              <img
-                className="rounded-xl h-36 w-72 object-cover"
-                src={section ? cachedImages[section.id_section.toString()] : ""}
-                alt=""
-              />
-              <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center text-white text-xl font-bold bg-black bg-opacity-50 rounded-xl">
-                {section?.name_section}
-              </div>
+            <Link href={`/knowhow/sections/${section?.id_section}`} style={{ backgroundColor: section?.color_section }} key={section?.id_section} className="h-[150px] w-[300px] rounded-xl flex justify-center items-center relative">
+                <div className="w-1/3 m-2">
+                  <img
+                    className="w-[100px] h-[100px] object-contain"
+                    src={section ? cachedImages[section.id_section.toString()] : ""}
+                    alt=""
+                  />
+                </div>
+                <div className="w-1/3 h-full flex justify-center items-center text-white text-xl font-bold">
+                  <h4>{section?.name_section}</h4>
+                </div>
+                <div className="w-1/3 flex justify-center items-center">
+                  <img className="w-[50px]" src="/right-arrow-svgrepo-com.svg" alt="" />
+                </div>
             </Link>
-          </div>
         )) : (
           <div
             className="w-72 h-36 rounded-xl flex justify-end items-start relative"

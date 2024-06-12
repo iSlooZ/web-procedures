@@ -18,6 +18,12 @@ export interface Owner {
     logo_company:string;
     id_company:string;
     id_owner:string;
+    sections:Array<{
+      name_section:string;
+      id_section:number;
+      logo_section:string;
+      id_company:number;
+    }>;
   }>;
   company: {
     company_name: string;
@@ -30,6 +36,7 @@ export interface Owner {
     id_section:number;
     logo_section:string;
     id_company:number;
+    color_section:string;
   }>;
   positions:{
     id_position:number;

@@ -8,11 +8,13 @@ export const KnowhowNavbarForms = () => {
     <header className="w-full flex justify-center items-center h-48 ">
       <nav className="w-full flex justify-center items-center" >
         <div className="w-2/3 flex justify-center items-center">
+          <Link href="/">
           <img
             className="w-[80px] aspect-square"
             src="/Logo_knowhow.svg" 
             alt="Logo de KnowHow" 
           />
+          </Link>
           <ul className="w-1/3 flex justify-center items-center gap-8">
           <li>
             <Link href="/">

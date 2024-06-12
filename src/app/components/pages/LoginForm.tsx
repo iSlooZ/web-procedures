@@ -18,7 +18,6 @@ export const LoginForm = () => {
       const requestBody = new URLSearchParams();
       requestBody.append("username", data.username);
       requestBody.append("password", data.password);
-  
       const response = await fetch('http://localhost:8000/knowhow/owner/login', {
         method: 'POST',
         headers: {

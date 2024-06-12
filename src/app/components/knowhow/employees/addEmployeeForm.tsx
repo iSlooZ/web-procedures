@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { getOwnerData } from '../authHandler';
+import { AddEmployeeSuccess } from './AddEmployeeSuccess';
 
 
 interface EmployeeFormData {
@@ -20,6 +21,7 @@ export const AddEmployeeForm = () => {
   const [positions, setPositions] = useState<{ id_position: number; position: string; id_company: number }[]>([]);
   const [companyId, setCompanyId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +36,7 @@ export const AddEmployeeForm = () => {
           if (response.ok) {
             const positionsData = await response.json();
             setPositions(positionsData);
+
           } else {
             console.error('Error al obtener las posiciones:', response.statusText);
           }
@@ -69,6 +72,7 @@ export const AddEmployeeForm = () => {
       console.log(data)
       if (response.ok) {
         console.log('Empleado agregado correctamente');
+        setSuccess(true);
       } else {
         console.error('Error al agregar empleado:', response.statusText);
       }
@@ -79,6 +83,7 @@ export const AddEmployeeForm = () => {
 
   return (
     <section className='w-full flex flex-col justify-center items-center'>
+      {!success ? (
       <form 
         className='w-[450px] bg-stone-200 rounded-xl p-4 flex flex-col justify-center items-center gap-4'
         onSubmit={handleSubmit(onSubmit)}>
@@ -123,6 +128,9 @@ export const AddEmployeeForm = () => {
         Agregar Empleado
       </button>
     </form>
+     ) : (
+      <AddEmployeeSuccess />
+     )}
     </section>
     
   );
