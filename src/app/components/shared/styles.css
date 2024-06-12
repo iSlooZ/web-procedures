@@ -2,6 +2,10 @@
   background-color: #012CFD;
 }
 
+.primary-color-border {
+  border: #012CFD 1px solid;
+}
+
 .container{
   color:red
 }

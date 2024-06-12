@@ -28,18 +28,16 @@ export const AccountPage = () => {
       <div className="w-full flex justify-center items-center mb-28">
         <h1 className="text-4xl text-center font-semibold">{companyName}</h1>
       </div>
-      <div className="w-[50%] flex justify-center items-center gap-[16  %]">
-        <Link href="/knowhow/employees/all" className="primary-color-text text-xl w-[200px] font-bold"><h2>Colaboradores</h2></Link>
-        <Link href="/knowhow/employees/position" className="primary-color text-white flex justify-center items-center px-4 py-2 rounded-2xl gap-2 min-w-fit">Agregar Cargo <img src="/iconoxd.svg" alt="" /></Link>
-        <Link href="/knowhow/employees/add" className="primary-color text-white flex justify-center items-center px-4 py-2 rounded-2xl gap-2 min-w-fit">Agregar Colaborador <img src="/add-colaborator.svg" alt="" /></Link>
+      <div className="w-[50%] flex justify-center items-center gap-[16%]">
+        <h2 className="primary-color-text text-xl w-[85%] text-start font-bold">Mi cuenta</h2>
       </div>
       <div className="w-[50%] flex justify-center items-center flex-wrap gap-16 mt-32">
-        <LinkComponent nameLink="Mis empresas"/>
-        <LinkComponent nameLink="Colaboradores"/>
-        <LinkComponent nameLink="Procedimientos"/>
-        <LinkComponent nameLink="Formularios"/>
-        <LinkComponent nameLink="Información de la cuenta"/>
-        <LinkComponent nameLink="Actividad"/>
+        <LinkComponent link="#" nameLink="Mis empresas"/>
+        <LinkComponent link="/employees" nameLink="Colaboradores"/>
+        <LinkComponent link="#" nameLink="Procedimientos"/>
+        <LinkComponent link="#" nameLink="Formularios"/>
+        <LinkComponent link="#" nameLink="Información de la cuenta"/>
+        <LinkComponent link="#" nameLink="Actividad"/>
       </div>
     </section>
   );
