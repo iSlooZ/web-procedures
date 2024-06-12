@@ -78,20 +78,18 @@ export const LogoSelector: React.FC = () => {
 
   const logos = Array.from({ length: 231 }, (_, i) => `http://localhost:8000/uploads/icons/icon-${i + 1}.png`);
   return (
-    <div>
-      <button onClick={() => setMenuOpen(!menuOpen)}>Seleccionar Logo</button>
+    <section className='w-full flex flex-col justify-center items-center'>
+
       {menuOpen && (
-        <div>
-          <ul>
-            {logos.map((logoPath, index) => (
-              <li key={index}>
-                <button onClick={() => handleLogoSelect(logoPath)}>
-                  <img src={logoPath} alt={`Logo ${index}`} style={{ maxWidth: '100px', maxHeight: '100px' }} />
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className='w-[600px] h-[300px] overflow-y-auto bg-gray-100 p-6 flex flex-wrap justify-center items-center gap-10'>
+          {logos.map((logoPath, index) => (
+            <li className='' key={index}>
+              <button onClick={() => handleLogoSelect(logoPath)}>
+                <img src={logoPath} alt={`Logo ${index}`} style={{ maxWidth: '100px', maxHeight: '100px' }} />
+              </button>
+            </li>
+          ))}
+        </ul>
       )}
       {selectedLogoPath && (
         <img
@@ -100,6 +98,7 @@ export const LogoSelector: React.FC = () => {
           style={{ maxWidth: '100px', maxHeight: '100px', marginTop: '10px' }}
         />
       )}
+      <button onClick={() => setMenuOpen(!menuOpen)}>Seleccionar Logo</button>
       <input
         type="text"
         value={inputValue}
@@ -113,7 +112,7 @@ export const LogoSelector: React.FC = () => {
         onChange={handleColorChange}
       />
       <button onClick={enviarFormulario}>Enviar Formulario</button>
-    </div>
+    </section>
   );
 };
 
