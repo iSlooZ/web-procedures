@@ -8,7 +8,7 @@ export const KnowhowNavbarForms = () => {
   return (
     <header className="w-full flex justify-center items-center h-48 ">
       <nav className="w-full flex justify-center items-center" >
-        <div className="w-2/3 flex justify-center items-center">
+        <div className="w-2/3 flex justify-center items-center gap-4">
           <Link href="/">
           <img
             className="w-[80px] aspect-square"
@@ -17,17 +17,17 @@ export const KnowhowNavbarForms = () => {
           />
           </Link>
           <ul className="w-1/3 flex justify-center items-center gap-8">
-          <li>
+          <li className="min-w-fit">
             <Link href="/">
               KH para holdings
             </Link>
           </li>
-          <li>
+          <li className="min-w-fit">
             <Link href="/aboutUs">
               KH para empresas
             </Link>
           </li>
-          <li className="list-item">
+          <li className="list-item min-w-fit">
             <div className="dropdown">
               <Link className="flex justify-center items-center text-color" href="#">
                 Más información

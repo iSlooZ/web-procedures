@@ -1,8 +1,8 @@
 'use client'
 import { getOwnerData } from "@/app/components/knowhow/authHandler";
 import React, { useEffect, useState } from "react";
-import { LinkComponent } from "./LinkComponent";
-import Link from "next/link";
+import { LinkComponent } from "../../shared/LinkComponent";
+
 
 
 export const AccountPage = () => {
@@ -33,7 +33,7 @@ export const AccountPage = () => {
       </div>
       <div className="w-[50%] flex justify-center items-center flex-wrap gap-16 mt-32">
         <LinkComponent link="#" nameLink="Mis empresas"/>
-        <LinkComponent link="/employees" nameLink="Colaboradores"/>
+        <LinkComponent link="/knowhow/employees" nameLink="Colaboradores"/>
         <LinkComponent link="#" nameLink="Procedimientos"/>
         <LinkComponent link="#" nameLink="Formularios"/>
         <LinkComponent link="#" nameLink="Información de la cuenta"/>
