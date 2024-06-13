@@ -4,6 +4,7 @@
   import { useForm } from 'react-hook-form';
   import { useRouter } from 'next/navigation';
   import { SHA256 } from 'crypto-js';
+import Image from 'next/image';
 
   interface FormData {
     nameOwner: string;
@@ -42,9 +43,7 @@
         setLogoFile(file);
         
         const uniqueFileName = generateUniqueName(file);
-        console.log('Nombre del archivo encriptado:', uniqueFileName);
         setLogoFileName(uniqueFileName);
-        console.log("file name", file.name)
       }
     };
     
@@ -70,7 +69,6 @@
         }
 
         const ownerData = await ownerResponse.json();
-        console.log('Owner creado:', ownerData);
         
         const ownerEmail = data.email;
         const ownerDetailsResponse = await fetch(`http://localhost:8000/knowhow/owner/owner-by-email/${ownerEmail}`, {
@@ -85,7 +83,6 @@
         }
 
         const ownerDetailsData = await ownerDetailsResponse.json();
-        console.log('Detalles del usuario:', ownerDetailsData);
 
         setOwnerId(ownerDetailsData.id_owner);
         setStep(2);
@@ -107,7 +104,6 @@
           throw new Error('Error al eliminar el owner');
         }
 
-        console.log('Owner eliminado correctamente');
       } catch (error) {
         console.error('Error al eliminar el owner:', error);
         // Manejar el error, mostrar un mensaje al usuario, etc.
@@ -137,7 +133,6 @@
         // Obtener el nombre del archivo cargado desde la respuesta
         const fileNameData = await uploadResponse.json();
         const fileName = fileNameData.file_name;
-        console.log('EL ID DEL OWNER',ownerId)
         // Crear la empresa con el ID del usuario almacenado y el nombre del archivo cargado
         const companyResponse = await fetch('http://localhost:8000/knowhow/company/add', {
           method: 'POST',
@@ -166,7 +161,6 @@
     
         if (loginResponse.ok) {
           const responseData = await loginResponse.json();
-          console.log('Login Success:', responseData);
           const token = responseData.access_token;
           localStorage.setItem('token', token);
     
@@ -234,10 +228,10 @@
           <fieldset className="w-full flex flex-col justify-center items-center gap-2 my-8">
             <div className='w-full flex justify-center items-center'>
               {logoFile ? (
-                <img className='w-[150px] h-[150px] mb-8 object-contain' src={URL.createObjectURL(logoFile)} alt="Logo de la empresa" />
+                <Image className='mb-8 object-contain' width={150} height={150} src={URL.createObjectURL(logoFile)} alt="Logo de la empresa" />
               ) : (
                 <label className="w-full flex justify-center items-center">
-                  <img className='w-[150px] h-[150px] mb-8 cursor-pointer' src="/icon_logo_company.svg" alt="Icono de la empresa" />
+                  <Image className='mb-8 cursor-pointer' width={150} height={150} src="/icon_logo_company.svg" alt="Icono de la empresa" />
                   <input
                     className="w-[80%] bg-zinc-300 px-6 py-2 rounded-xl"
                     type="file"

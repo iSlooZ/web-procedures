@@ -35,7 +35,6 @@ export const AddPositionForm = () => {
       data.id_company = companyId;
       
       const response = await axios.post('http://localhost:8000/knowhow/position/add', data);
-      console.log("Respuesta de la API:", response.data);
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
     }

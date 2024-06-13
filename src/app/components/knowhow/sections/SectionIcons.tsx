@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { getOwnerData } from '../authHandler';
 import { useRouter } from 'next/navigation'
 import { Poppins } from 'next/font/google'
+import Image from 'next/image';
 
 const poppins = Poppins({
   weight: ['200', '300','400','500','600'],
@@ -29,7 +30,6 @@ export const LogoSelector: React.FC = () => {
                     const companyId = ownerData.company?.id_company;
                     if (companyId !== undefined) {
                         setCompanyId(companyId);
-                        console.log('ID de la compañía:', companyId);
                     } else {
                         console.error('No se pudo obtener la ID de la compañía');
                     }
@@ -59,7 +59,6 @@ export const LogoSelector: React.FC = () => {
       // Si es un logo azul, reemplazarlo por su equivalente blanco
       const whiteLogoPath = isBlueLogo ? logoPath.replace('/icons/', '/icons_white/') : logoPath;
   
-      console.log('Logo seleccionado:', whiteLogoPath);
       setSelectedLogoPath(whiteLogoPath);
       setMenuOpen(false); // Cerrar el menú después de seleccionar el logo
   };
@@ -70,7 +69,6 @@ export const LogoSelector: React.FC = () => {
 
     const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedColor(event.target.value);
-        console.log('Color seleccionado:', event.target.value);
     };
 
     // Función para cambiar entre los conjuntos de logos
@@ -87,7 +85,7 @@ export const LogoSelector: React.FC = () => {
   const logosBlue = Array.from({ length: 231 }, (_, i) => `http://localhost:8000/uploads/icons/icon-${i + 1}.png`);
   const logosWhite = logosBlue.map(logo => {
       const whiteLogo = logo.replace('/icons/', '/icons_white/');
-      console.log("Logo blanco:", whiteLogo); // Imprimir la ruta del logo blanco en la consola
+
       return whiteLogo;
   });
   const logos = selectedLogoSet === 'blue' ? logosBlue : logosWhite;
@@ -111,7 +109,6 @@ export const LogoSelector: React.FC = () => {
         });
 
         if (response.ok) {
-            console.log('Datos del formulario enviados correctamente.');
             handleNextStep();
         } else {
             console.error('Error al enviar los datos del formulario:', response.statusText);
@@ -131,22 +128,24 @@ export const LogoSelector: React.FC = () => {
                     <div className='w-[300px] h-[150px] flex justify-center items-center gap-4 rounded-3xl p-4 border border-primary-color relative mb-8' style={{ backgroundColor: selectedColor }}>
                       <div className='w-1/3 '>
                           {selectedLogoPath ? (
-                              <img
+                              <Image
                                   src={selectedLogoPath}
                                   alt={`Logo ${selectedLogoPath}`}
-                                  style={{ maxWidth: '100px', maxHeight: '100px'}}
+                                  width={100} height={100}
+                                  style={{ width: 'auto', height: 'auto' }}
                               />
                           ) : (
-                              <img
+                              <Image
                                   src='/more_section.svg'
                                   alt='Placeholder Logo 1'
-                                  className='w-12 absolute right-5 bottom-5'
+                                  className='absolute right-5 bottom-5'
+                                  width={50} height={50}
                               />
                           )}
                       </div>
                       <h4 className='w-1/3 text-white text-xl text-center'>{inputValue}</h4>
                       <div className='w-1/3 flex justify-end items-center'>
-                          <img className='w-[50px] h-[50px]' src="/right-arrow-svgrepo-com.svg" alt="" />
+                          <Image width={50} height={50} src="/right-arrow-svgrepo-com.svg" alt="" />
                       </div>
                   </div>
                     <input
@@ -167,22 +166,25 @@ export const LogoSelector: React.FC = () => {
                   <div className='w-[300px] h-[150px] flex justify-center items-center gap-4 rounded-3xl p-4 border border-primary-color relative mb-8' style={{ backgroundColor: selectedColor }}>
                   <div className='w-1/3 '>
                       {selectedLogoPath ? (
-                          <img
+                          <Image
                               src={selectedLogoPath}
                               alt={`Logo ${selectedLogoPath}`}
-                              style={{ maxWidth: '100px', maxHeight: '100px'}}
+                              width={100}
+                              height={100}
                           />
                       ) : (
-                          <img
+                          <Image
                               src='/more_section.svg'
                               alt='Placeholder Logo 1'
-                              className='w-12 absolute right-5 bottom-5'
+                              className='absolute right-5 bottom-5'
+                              width={50}
+                              height={50}
                           />
                       )}
                   </div>
                   <h4 className='w-1/3 text-white text-xl text-center'>{inputValue}</h4>
                   <div className='w-1/3 flex justify-end items-center'>
-                      <img className='w-[50px] h-[50px]' src="/right-arrow-svgrepo-com.svg" alt="" />
+                      <Image  width={50} height={50} src="/right-arrow-svgrepo-com.svg" alt="" />
                   </div>
               </div>
               <div className='w-[300px] flex flex-col justify-center items-center py-8'>
@@ -205,27 +207,28 @@ export const LogoSelector: React.FC = () => {
                     <h3 className={`text-xl font-extralight ${poppins.className}`}>Escoge un ícono que represente a tu área.</h3>
                     <div className='w-[300px] h-[150px] flex justify-center items-center gap-4 rounded-3xl p-4 border border-primary-color relative' style={{ backgroundColor: selectedColor }}>
                       <div className='w-1/3 '>
-                          {selectedLogoPath ? (
-                              <img
-                                  src={selectedLogoPath}
-                                  alt={`Logo ${selectedLogoPath}`}
-                                  style={{ maxWidth: '100px', maxHeight: '100px'}}
-                              />
-                          ) : (
-                              <span></span>
-                          )}
-                        </div>
-                        <h4 className='w-1/3 text-white text-xl text-center'>{inputValue}</h4>
-                        <div className='w-1/3 flex justify-end items-center'>
-                            <img className='w-[50px] h-[50px]' src="/right-arrow-svgrepo-com.svg" alt="" />
-                        </div>
+                        {selectedLogoPath ? (
+                        <Image
+                        src={selectedLogoPath}
+                        alt={`Logo ${selectedLogoPath}`}
+                        width={100}
+                        height={100}
+                        />
+                        ) : (
+                            <span></span>
+                        )}
+                    </div>
+                    <h4 className='w-1/3 text-white text-xl text-center'>{inputValue}</h4>
+                    <div className='w-1/3 flex justify-end items-center'>
+                        <Image width={50} height={50} src="/right-arrow-svgrepo-com.svg" alt="" />
+                    </div>
                     </div>  
                     <div className='w-full flex justify-center items-center'>
                       <ul className={`w-[70%] h-[300px] overflow-y-auto p-6 flex flex-wrap justify-center items-center gap-10 border border-primary-color rounded-2xl`}>
                         {logos.map((logoPath, index) => (
                           <li className='' key={index}>
                             <button onClick={() => handleLogoSelect(logoPath)}>
-                              <img src={logoPath} alt={`Logo ${index}`} style={{ maxWidth: '50px', maxHeight: '50px' }} />
+                              <Image src={logoPath} alt={`Logo ${index}`} className='h-[50px] aspect-square object-contain' width={50} height={50}/>
                             </button>
                           </li>
                         ))}
@@ -244,22 +247,25 @@ export const LogoSelector: React.FC = () => {
                     <div className='w-[300px] h-[150px] flex justify-center items-center gap-4 rounded-3xl p-4 relative mb-8' style={{ backgroundColor: selectedColor }}>
                     <div className='w-1/3 '>
                         {selectedLogoPath ? (
-                            <img
+                            <Image
                                 src={selectedLogoPath}
                                 alt={`Logo ${selectedLogoPath}`}
-                                style={{ maxWidth: '100px', maxHeight: '100px'}}
+                                width={100}
+                                height={100}
                             />
                         ) : (
-                            <img
+                            <Image
                                 src='/more_section.svg'
                                 alt='Placeholder Logo 1'
-                                className='w-12 absolute right-5 bottom-5'
+                                className='absolute right-5 bottom-5'
+                                width={50}
+                                height={50}
                             />
                         )}
                     </div>
                     <h4 className='w-1/3 text-white text-xl text-center'>{inputValue}</h4>
                     <div className='w-1/3 flex justify-end items-center'>
-                        <img className='w-[50px] h-[50px]' src="/right-arrow-svgrepo-com.svg" alt="" />
+                        <Image width={50} height={50}src="/right-arrow-svgrepo-com.svg" alt="" />
                     </div>
                 </div>
                     <button className='w-[300px] py-2 primary-color text-white border rounded-full' onClick={handleGoToHome}>Listo</button>

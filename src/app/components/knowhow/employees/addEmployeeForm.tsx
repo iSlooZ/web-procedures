@@ -68,10 +68,7 @@ export const AddEmployeeForm = () => {
         },
         body: JSON.stringify(data)
       });
-      
-      console.log(data)
       if (response.ok) {
-        console.log('Empleado agregado correctamente');
         setSuccess(true);
       } else {
         console.error('Error al agregar empleado:', response.statusText);

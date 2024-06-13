@@ -46,7 +46,7 @@ export const HoldingWelcome = () => {
       <div className="w-[50%] flex flex-col justify-center items-center mt-12">
         <h1 className="text-6xl my-4 text-center font-bold">{owner?.holding.holding_name}</h1>
         <div className="w-[400px] relative flex justify-center items-center mb-16">
-          <img src="/lupa_icon.svg" alt="" className="absolute left-[20px] w-[25px] h-[25px]"/>
+          <Image src="/lupa_icon.svg" width={30} height={30} alt="" className="absolute left-[20px] w-[25px] h-[25px]"/>
           <select
             name=""
             id=""
@@ -62,7 +62,7 @@ export const HoldingWelcome = () => {
                 </option>
               ))}
           </select>
-          <img src="/arrow_down_blue.svg" alt="" className="absolute right-[20px] w-[30px]"/>
+          <Image src="/arrow_down_blue.svg" width={30} height={30} alt="" className="absolute right-[20px] w-[30px]"/>
         </div>
         <div className="w-full">
           <div className="w-full flex flex-wrap justify-center items-center gap-4">
@@ -89,7 +89,7 @@ export const HoldingWelcome = () => {
             )) : null}
             <div className="w-72 h-36 border border-primary-color rounded-xl flex justify-end items-start">
               <Link className="hover:opacity-45" href="/knowhow/companies/add">
-                <img className="rounded-full m-2 w-10" src="/more_section.svg" alt="" />
+                <Image className="rounded-full m-2" width={40} height={40} src="/more_section.svg" alt="" />
               </Link>
             </div>
           </div>

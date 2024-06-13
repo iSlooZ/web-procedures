@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { getOwnerData } from '../authHandler';
 import { SHA256 } from 'crypto-js'; // Importa SHA256 desde 'crypto-js'
 import { useSearchParams } from "next/navigation";
+import Image from 'next/image';
 
 export interface SectionData {
   id_company: number;
@@ -32,7 +33,6 @@ export const AddSectionComponent = () => {
           const companyId = ownerData.company?.id_company; 
           if (companyId !== undefined) {
             setCompanyId(companyId);
-            console.log('ID de la compañía:', companyId);
           } else {
             console.error('No se pudo obtener la ID de la compañía');
           }
@@ -116,7 +116,7 @@ export const AddSectionComponent = () => {
         className='w-[50%] h-64 flex flex-col justify-center items-center gap-4 mt-16 '
         onSubmit={handleSubmit(onSubmit)}>
         {logoUrl ? (
-          <img src={logoUrl} alt="Logo seleccionado" className='w-[150px] h-[150px] object-cover aspect-square' />
+          <Image src={logoUrl} alt="Logo seleccionado" className='w-[150px] h-[150px] object-cover aspect-square' />
         ) : (
           <div className="w-[500px] py-[75px]"></div>
         )}

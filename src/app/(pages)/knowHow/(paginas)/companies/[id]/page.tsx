@@ -2,6 +2,7 @@
 import { Owner, getOwnerData } from "@/app/components/knowhow/authHandler";
 import { CompanyData, getCompanyById } from "@/app/components/knowhow/companies/CompanyById";
 import { SectionDataByIdCompany, getSectionByIdCompany } from "@/app/components/knowhow/sections/getSections";
+import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -23,7 +24,6 @@ export default function DetailCompanyPage({ params }: { params: Params }) {
         // Llamar a la función para obtener las secciones
         const sectionsData = await getSectionByIdCompany(params.id);
         if (sectionsData) {
-          console.log("Sections:", sectionsData); // Mostrar las secciones en la consola
           setSections(Array.isArray(sectionsData) ? sectionsData : [sectionsData]); // Asegúrate de que sectionsData sea un array
         } else {
           setSections([]); // Si no hay secciones, establecer un array vacío
@@ -43,11 +43,10 @@ export default function DetailCompanyPage({ params }: { params: Params }) {
         {company ? (
           <div className="w-full flex flex-col justify-center items-center">
             <h1 className="text-3xl">Empresa: {company.company_name}</h1>
-            <img src={company.logo_company} alt="Company Logo" />
-            {/* Aquí puedes mostrar otros detalles de la compañía si es necesario */}
+            <Image width={150} height={150} src={company.logo_company} alt="Company Logo" />
           </div>
         ) : (
-          <p>Loading...</p>
+          <Image width={150} height={150} src="/loading.gif" alt="loading" unoptimized/>
         )}
       </div>
       <div className="w-full">
@@ -59,8 +58,8 @@ export default function DetailCompanyPage({ params }: { params: Params }) {
                   className="w-72 h-36 rounded-xl flex justify-end items-start relative"
                 >
                   <Link href={`/knowhow/sections/${section?.id_section}`}>
-                    <img
-                      className="rounded-xl h-36 w-72 object-cover"
+                    <Image width={288} height={144}
+                      className="rounded-xl object-cover"
                       src={`http://localhost:8000/uploads/${section?.logo_section}`}
                       alt=""
                     />
@@ -75,7 +74,7 @@ export default function DetailCompanyPage({ params }: { params: Params }) {
             )}
           <div className="w-72 h-36 border border-primary-color rounded-xl flex justify-end items-start">
           <Link href={`/knowhow/sections/addSection?id=${company?.id_company}`}>
-            <img className="rounded-full m-2 w-10" src="/more_section.svg" alt="" />
+            <Image width={40} height={40} className="rounded-full m-2 " src="/more_section.svg" alt="" />
           </Link>
           </div>
         </div>

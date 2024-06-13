@@ -4,6 +4,7 @@ import { ProcedureData, getProcedureById } from '@/app/components/knowhow/proced
 import { getSectionsByProcedureId } from '@/app/components/knowhow/procedures/getSectionsByProcedureId';
 
 import { SectionData } from '@/app/components/knowhow/sections/GetSectionById';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 interface Params {
@@ -40,7 +41,7 @@ export default function ProcedureDetailPage({ params }: { params: Params }) {
   }, [params.slug]);
 
   if (!procedure || sections.length === 0 || !companyName) {
-    return <div>Cargando...</div>;
+    return <div className='w-full flex justify-center items-center'><Image width={150} height={150} src="/loading.gif" alt="loading" unoptimized/></div>;
   }
 
   return (

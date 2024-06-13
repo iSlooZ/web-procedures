@@ -74,16 +74,17 @@ export const AllEmployees = () => {
           ))}
         </select>
 
-        {/* Lista de empleados */}
+
         {filteredEmployees.map((employee: any) => (
-          <div className='w-full flex justify-center items-center gap-4'>
-            <div className='p-4 bg-stone-300 w-fit rounded-xl' key={employee.id_employee}>
+          <div className='w-full flex justify-center items-center gap-4' key={employee.id_employee}>
+            <div className='p-4 bg-stone-300 w-fit rounded-xl'>
               Nombre: {employee.name_employee} | Correo: {employee.email_employee} | Cargo: {positions[employee.id_position]} | Area: {sections[employee.id_section]}
             </div>
             <a className='px-4 py-2 bg-yellow-600 rounded-xl' href="#">Editar</a>
             <a className='px-4 py-2 bg-red-500 rounded-xl' href="#">Eliminar</a>
           </div>
         ))}
+
       </div>
     </div>
   );

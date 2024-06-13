@@ -2,6 +2,7 @@
 import { Owner, getOwnerData } from "@/app/components/knowhow/authHandler";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 
 
@@ -18,7 +19,6 @@ export const EmployeesMain = () => {
         setOwner(ownerData);
         if (ownerData && ownerData.sections) {
           setSections(ownerData.sections);
-          console.log(ownerData.sections)
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -37,16 +37,18 @@ export const EmployeesMain = () => {
       </div>
       <div className="w-[50%] flex justify-center items-center gap-[16%]">
         <h2 className="primary-color-text text-xl w-[200px] font-bold">Colaboradores</h2>
-        <Link href="/knowhow/employees/position" className="primary-color text-white flex justify-center items-center px-4 py-2 rounded-2xl gap-2 min-w-fit">Agregar Cargo <img src="/iconoxd.svg" alt="" /></Link>
-        <Link href="/knowhow/employees/add" className="primary-color text-white flex justify-center items-center px-4 py-2 rounded-2xl gap-2 min-w-fit">Agregar Colaborador <img src="/add-colaborator.svg" alt="" /></Link>
+        <Link href="/knowhow/employees/position" className="primary-color text-white flex justify-center items-center px-4 py-2 rounded-2xl gap-2 min-w-fit">Agregar Cargo <Image width={20} height={20} src="/iconoxd.svg" alt="" /></Link>
+        <Link href="/knowhow/employees/add" className="primary-color text-white flex justify-center items-center px-4 py-2 rounded-2xl gap-2 min-w-fit">Agregar Colaborador <Image width={20} height={20} src="/add-colaborator.svg" alt="" /></Link>
       </div>
       <div className="w-[50%] flex justify-center items-center flex-wrap gap-8 mt-28 mb-14">
       {Array.isArray(selectedSectionData) ? selectedSectionData.map((section: Owner["sections"][0] | null) => (
             <Link href={`/knowhow/employees/section/${section?.id_section}`} style={{ backgroundColor: section?.color_section }} key={section?.id_section} className="h-[150px] w-[300px] rounded-xl flex justify-center items-center relative p-3">
                 <div className="w-1/4 m-2">
-                  <img
-                    className="w-[100px] h-[100px] object-contain"
-                    src={section?.logo_section}
+                  <Image
+                    className="object-contain"
+                    width={100}
+                    height={100}
+                    src={section?.logo_section || ""}
                     alt=""
                   />
                 </div>
@@ -54,7 +56,7 @@ export const EmployeesMain = () => {
                   <h4>{section?.name_section}</h4>
                 </div>
                 <div className="w-1/4 flex justify-center items-center">
-                  <img className="w-[50px]" src="/right-arrow-svgrepo-com.svg" alt="" />
+                  <Image width={50} height={50} src="/right-arrow-svgrepo-com.svg" alt="" />
                 </div>
             </Link>
         )) : (
@@ -62,7 +64,7 @@ export const EmployeesMain = () => {
             className="w-72 h-36 rounded-xl flex justify-end items-start relative"
           >
             <Link className="hover:opacity-45 w-full" href={`/knowhow/employees/section/${selectedSectionData?.id_section}`}>
-              <img
+              <Image
                 className="rounded-xl h-36 w-72 object-cover"
                 src={selectedSectionData ? cachedImages[selectedSectionData.id_section.toString()] : ""}
                 alt=""

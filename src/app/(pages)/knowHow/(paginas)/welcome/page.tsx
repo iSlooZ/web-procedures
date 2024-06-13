@@ -24,7 +24,7 @@ export default function WelcomePage() {
     };
   
     fetchOwnerData();
-  }, []);
+  }, [router]);
 
   // Renderizar HoldingWelcome si hasHolding es true, de lo contrario renderizar CompanyWelcome
   return (

@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Button } from "../shared/Button"
 export const Hero = () => {
   return (
@@ -15,7 +16,7 @@ export const Hero = () => {
       </div>
     </div>
     <div className="w-1/2 flex justify-center items-center">
-      <img className="w-[700px] rounded-3xl" src="/1.png" alt="" />
+      <Image className="w-[700px] rounded-3xl" src="/1.png" alt="" />
     </div>
   </section>
   )

@@ -40,7 +40,6 @@ export const AddProcedureHolding = () => {
     const fetchData = async () => {
       const ownerData: Owner | null = await getOwnerData();
       if (ownerData && ownerData.holding) {
-        console.log("Companies del holding actual:", ownerData.holding.holding_name, ownerData.companies_in_holding.map(company => company.company_name));
     
         // Obtener todas las secciones de todas las compañías del holding actual
         const allSections: { [key: string]: string[] } = {};
@@ -48,7 +47,6 @@ export const AddProcedureHolding = () => {
           const companySections = company.sections.map(section => section.name_section);
           allSections[company.company_name] = companySections;
         });
-        console.log("Todas las secciones del holding actual:", allSections);
         setHoldingCompanySections(allSections);
       }
     };

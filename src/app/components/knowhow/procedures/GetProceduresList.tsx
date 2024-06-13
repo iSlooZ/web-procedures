@@ -52,6 +52,24 @@ export const GetProceduresList = () => {
   }, []);
 
   useEffect(() => {
+    const fetchFilteredProcedures = async (selectedSection: number) => {
+      try {
+        const response = await fetch(`http://localhost:8000/knowhow/procedures-for-sections/by-section/${selectedSection}`);
+        if (!response.ok) {
+          throw new Error('Error al obtener los procedimientos para la sección seleccionada.');
+        }
+        const data = await response.json();
+        // Extract procedure ids associated with the selected section
+        const procedureIds = data.map((item: any) => item.id_procedure);
+        // Filter procedures based on the extracted ids
+        const filteredProcedures = procedures.filter(procedure => procedureIds.includes(procedure.id_procedure));
+        setFilteredProcedures(filteredProcedures);
+      } catch (error) {
+        console.error('Error fetching filtered procedures:', error);
+        // Handle error here if necessary
+      }
+    };
+
     // Filter procedures based on section filter
     let filtered = procedures;
     if (sectionFilter !== null) {
@@ -60,24 +78,6 @@ export const GetProceduresList = () => {
       setFilteredProcedures(filtered);
     }
   }, [procedures, sectionFilter]);
-
-  const fetchFilteredProcedures = async (selectedSection: number) => {
-    try {
-      const response = await fetch(`http://localhost:8000/knowhow/procedures-for-sections/by-section/${selectedSection}`);
-      if (!response.ok) {
-        throw new Error('Error al obtener los procedimientos para la sección seleccionada.');
-      }
-      const data = await response.json();
-      // Extract procedure ids associated with the selected section
-      const procedureIds = data.map((item: any) => item.id_procedure);
-      // Filter procedures based on the extracted ids
-      const filteredProcedures = procedures.filter(procedure => procedureIds.includes(procedure.id_procedure));
-      setFilteredProcedures(filteredProcedures);
-    } catch (error) {
-      console.error('Error fetching filtered procedures:', error);
-      // Handle error here if necessary
-    }
-  };
 
   return (
     <section className='2-full flex flex-col justify-center items-center'>

@@ -2,6 +2,7 @@ import Link from "next/link"
 
 import '../shared/styles.css'
 import { Button } from "../shared/Button"
+import Image from "next/image"
 
 
 export const KnowhowNavbarForms = () => {
@@ -10,10 +11,12 @@ export const KnowhowNavbarForms = () => {
       <nav className="w-full flex justify-center items-center" >
         <div className="w-2/3 flex justify-center items-center gap-4">
           <Link href="/">
-          <img
-            className="w-[80px] aspect-square"
+          <Image
+            className="aspect-square"
             src="/Logo_knowhow.svg" 
             alt="Logo de KnowHow" 
+            width={80}
+            height={80}
           />
           </Link>
           <ul className="w-1/3 flex justify-center items-center gap-8">
@@ -31,8 +34,8 @@ export const KnowhowNavbarForms = () => {
             <div className="dropdown">
               <Link className="flex justify-center items-center text-color" href="#">
                 Más información
-                <img className="icon" src="/arrow_down_black.svg"/>
-                <img className="icon-hide" src="/arrow_down_white.svg"/>
+                <Image alt="" width={30} height={30} className="icon" src="/arrow_down_black.svg"/>
+                <Image alt="" width={30} height={30} className="icon-hide" src="/arrow_down_white.svg"/>
               </Link>
               <div className="dropdown-content">
                 <Link href="#">Quiénes somos</Link>
@@ -47,7 +50,7 @@ export const KnowhowNavbarForms = () => {
         
         <div className="w-1/3 flex justify-start items-center gap-8">
           <div className="w-1/3 flex justify-start items-center gap-2">
-            <img className="w-[30px] h-[30px]" src="/Layer_2.png" alt="" />
+            <Image src="/Layer_2.png" width={30} height={30} alt="" />
             <span className="primary-color-text">ES</span>
           </div>
         </div>

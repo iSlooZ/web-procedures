@@ -28,7 +28,6 @@ export default function UploadForm() {
         }
       });
 
-      console.log('File uploaded successfully:', response.data.file_name);
     } catch (error) {
       console.error('Error uploading file:', error);
     }

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { SHA256 } from 'crypto-js';
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
 
 export interface SectionData {
@@ -92,7 +93,7 @@ export default function AddSectionHoldingComponent (){
         className='w-[50%] h-64 flex flex-col justify-center items-center gap-4 mt-16 '
         onSubmit={handleSubmit(onSubmit)}>
         {logoUrl ? (
-          <img src={logoUrl} alt="Logo seleccionado" className='w-[150px] h-[150px] object-cover aspect-square' />
+          <Image src={logoUrl} alt="Logo seleccionado" className='object-cover aspect-square' width={150} height={150} />
         ) : (
           <div className="w-[500px] py-[75px]"></div>
         )}

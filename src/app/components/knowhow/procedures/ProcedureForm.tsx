@@ -84,7 +84,6 @@ export const ProcedureForm = () => {
         procedure_uploaded_by: uploadedBy, // Establecer el nombre del propietario
       };
 
-      console.log('Datos del procedimiento a enviar:', procedureData);
 
       const procedureResponse = await fetch('http://localhost:8000/knowhow/procedure/add', {
         method: 'POST',

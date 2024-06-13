@@ -1,16 +1,19 @@
 import Link from "next/link"
 import { Button } from "./Button"
 import './styles.css'
+import Image from "next/image"
 
 export const Header = () => {
   return (
     <header className="w-full flex justify-center items-center h-48 ">
       <nav className="w-full flex justify-center items-center" >
         <div className="w-2/3 w-min-[1000px] flex justify-center items-center">
-          <img
-            className="w-[80px] min-w-[80px] aspect-square mr-8"
+          <Image
+            className="aspect-square mr-8"
             src="/Logo_knowhow.svg" 
             alt="Logo de KnowHow" 
+            width={80}
+            height={80}
           />
           <ul className="w-1/3 min-w-[500px] flex justify-center items-center gap-8">
           <li>
@@ -27,8 +30,8 @@ export const Header = () => {
             <div className="dropdown">
               <Link className="whitespace-nowrap flex justify-center items-center text-color w-[150px]" href="#">
                 Más información
-                <img className="icon" src="/arrow_down_black.svg"/>
-                <img className="icon-hide" src="/arrow_down_white.svg"/>
+                <Image alt="" width={30} height={30} className="icon" src="/arrow_down_black.svg"/>
+                <Image alt="" width={30} height={30} className="icon-hide" src="/arrow_down_white.svg"/>
               </Link>
               <div className="dropdown-content">
                 <Link href="#">Quiénes somos</Link>
@@ -53,7 +56,7 @@ export const Header = () => {
             buttonStyles="primary-color text-white px-10 py-4 rounded-full min-w-[181px]"        
           />
           <div className="w-1/3 flex justify-start items-center gap-2">
-            <img className="w-[30px] h-[30px]" src="/Layer_2.png" alt="" />
+            <Image src="/Layer_2.png" width={30} height={30} alt="" />
             <span className="primary-color-text">ES</span>
           </div>
         </div>

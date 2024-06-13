@@ -1,5 +1,13 @@
-import { poppins } from "@/app/(home)/layout"
+import { Poppins } from "next/font/google"
+
 import { Button } from "../shared/Button"
+import Image from "next/image"
+
+const poppins = Poppins({
+  weight: ['200', '300','400','500','600'],
+  subsets: ['latin'],
+})
+
 export const Hero = () => {
   return (
     <section className="w-[60%] min-w-[1200px] h-[600px] flex justify-center items-center gap-4">
@@ -20,7 +28,7 @@ export const Hero = () => {
       </div>
     </div>
     <div className="w-[50%] flex justify-end items-center">
-      <img className="w-[100%] rounded-3xl" src="/Group2.svg" alt="" />
+      <Image className="rounded-3xl" src="/Group2.svg" alt="" width={700} height={300}  />
     </div>
   </section>
   )

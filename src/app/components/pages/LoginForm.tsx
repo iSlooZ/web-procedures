@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -28,7 +29,6 @@ export const LoginForm = () => {
   
       if (response.ok) {
         const responseData = await response.json();
-        console.log('Login Success:', responseData);
         const token = responseData.access_token;
         localStorage.setItem('token', token);
   
@@ -48,7 +48,7 @@ export const LoginForm = () => {
         className="w-[450px] flex flex-col justify-center items-center rounded-xl"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <img className="w-[500px] aspect-square py-8" src="/welcome_image.svg" alt="Logo" />
+        <Image className="aspect-square py-8" width={500} height={500} src="/welcome_image.svg" alt="Logo" />
         <legend className="text-2xl font-medium tracking-wider pb-8">¡Bienvenido!</legend>
         <section className="w-full flex flex-col justify-center items-center gap-4">
           <fieldset className="w-full relative flex flex-col justify-center items-center">

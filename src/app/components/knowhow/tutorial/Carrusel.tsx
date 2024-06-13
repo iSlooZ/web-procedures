@@ -51,7 +51,7 @@ export const TutorialCarousel = () => {
       <div className="w-full flex flex-col justify-center items-center">
         <div className="w-full flex flex-col justify-center items-center">
           <div className="w-full flex justify-center items-center gap-8 primary-color-text text-3xl font-bold">
-            <img src="/Logo_knowhow.svg" alt="" />
+            <Image src="/Logo_knowhow.svg" width={80} height={80} alt="" />
             <h1>{slides[active].title}</h1>
           </div>
           <Image src={slides[active].src} alt={slides[active].alt} width={700} height={700} />
