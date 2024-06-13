@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { FormCompany } from '../register/FormCompany';
-import { FormHolding } from '../register/FormHolding';
+
 import Image from 'next/image';
+
 
 export const RegisterForm = () => {
     const [mostrarFormUsuario, setMostrarFormUsuario] = useState(true);
@@ -35,13 +36,6 @@ export const RegisterForm = () => {
             phoneNumber="Número telefónico"
             password="Contraseña"
             nameCompany='Nombre de la empresa'
-        /> : ''}
-        {!mostrarFormUsuario ? <FormHolding
-            name_owner="Nombre completo"
-            email_owner="Correo"
-            phone_owner="Número telefónico"
-            password_owner="Contraseña"
-            nameHolding="Nombre de su Holding"
         /> : ''}
         </section>
     );
