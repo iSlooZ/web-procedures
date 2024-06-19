@@ -28,7 +28,7 @@ export const Hero = () => {
       </div>
     </div>
     <div className="w-[50%] flex justify-end items-center">
-      <Image className="rounded-3xl" src="/Group2.svg" alt="" width={700} height={300}  />
+      <Image className="rounded-3xl" src="/image_welcome.webp" alt="" width={700} height={300}  />
     </div>
   </section>
   )

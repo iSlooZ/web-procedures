@@ -7,7 +7,7 @@ export interface CompanyData {
 
 export const getCompanyById = async (id: number): Promise<CompanyData | null> => {
   try {
-    const response = await fetch(`http://localhost:8000/knowhow/company/${id}`);
+    const response = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/company/${id}`);
     if (response.ok) {
       const data: CompanyData = await response.json();
       return data;

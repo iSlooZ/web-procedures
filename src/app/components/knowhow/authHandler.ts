@@ -53,7 +53,7 @@ export const getOwnerData = async (): Promise<Owner | null> => {
     return null;
   }
 
-  const apiUrl = 'http://localhost:8000/knowhow/session/me';
+  const apiUrl = 'https://backend-procedures-production.up.railway.app/knowhow/session/me';
   const token = localStorage.getItem('token');
 
   if (!token) {

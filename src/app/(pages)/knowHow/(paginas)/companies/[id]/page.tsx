@@ -60,7 +60,7 @@ export default function DetailCompanyPage({ params }: { params: Params }) {
                   <Link href={`/knowhow/sections/${section?.id_section}`}>
                     <Image width={288} height={144}
                       className="rounded-xl object-cover"
-                      src={`http://localhost:8000/uploads/${section?.logo_section}`}
+                      src={`https://backend-procedures-production.up.railway.app/uploads/${section?.logo_section}`}
                       alt=""
                     />
                     <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center text-white text-xl font-bold bg-black bg-opacity-50 rounded-xl">

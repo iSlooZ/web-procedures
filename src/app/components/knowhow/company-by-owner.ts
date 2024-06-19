@@ -15,7 +15,7 @@ export const getCompanyData = async (): Promise<Company | null> => {
     return null;
   }
   const ownerId = ownerData.entity.id_owner
-  const apiUrl = `http://localhost:8000/knowhow/company/by-owner-id/${ownerId}`;
+  const apiUrl = `https://backend-procedures-production.up.railway.app/knowhow/company/by-owner-id/${ownerId}`;
   const token = localStorage.getItem('token');
 
   if (!token) {

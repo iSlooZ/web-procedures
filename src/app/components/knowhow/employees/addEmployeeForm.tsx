@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { getOwnerData } from '../authHandler';
 import { AddEmployeeSuccess } from './AddEmployeeSuccess';
+import Image from 'next/image';
 
 
 interface EmployeeFormData {
@@ -32,7 +33,7 @@ export const AddEmployeeForm = () => {
           setCompanyId(idCompany);
           
           // Obtener las posiciones con el ID de la empresa
-          const response = await fetch(`http://localhost:8000/knowhow/positions/by-company-id/${idCompany}`);
+          const response = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/positions/by-company-id/${idCompany}`);
           if (response.ok) {
             const positionsData = await response.json();
             setPositions(positionsData);
@@ -61,7 +62,7 @@ export const AddEmployeeForm = () => {
   const onSubmit = async (data: EmployeeFormData) => {
     try {
       data.id_company = companyId;
-      const response = await fetch('http://localhost:8000/knowhow/employee/add', {
+      const response = await fetch('https://backend-procedures-production.up.railway.app/knowhow/employee/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -82,44 +83,52 @@ export const AddEmployeeForm = () => {
     <section className='w-full flex flex-col justify-center items-center'>
       {!success ? (
       <form 
-        className='w-[450px] bg-stone-200 rounded-xl p-4 flex flex-col justify-center items-center gap-4'
+        className='w-[450px] flex flex-col justify-center items-center gap-4'
         onSubmit={handleSubmit(onSubmit)}>
+            <Image src="/more_section.svg" alt="" width={125} height={125}/>
             <legend className='text-xl font-semibold'>Agregar un empleado</legend>
 
-            <input className='w-[80%] py-2 px-4 rounded-xl' placeholder='Nombre del empleado' type="text" {...register('name_employee', { required: true })} />
+            <input className='w-[80%] border border-primary-color py-2 px-4 rounded-xl' placeholder='Nombre del empleado' type="text" {...register('name_employee', { required: true })} />
             {errors.name_employee && <span>Nombre es requerido</span>}
 
-            <input className='w-[80%] py-2 px-4 rounded-xl' placeholder='Contraseña' type="password" {...register('password_employee', { required: true })} />
+            <input className='w-[80%] border border-primary-color py-2 px-4 rounded-xl' placeholder='Contraseña' type="password" {...register('password_employee', { required: true })} />
             {errors.password_employee && <span>Contraseña es requerida</span>}
 
-            <input className='w-[80%] py-2 px-4 rounded-xl' placeholder='Celular del empleado' type="tel" {...register('phone_employee', { required: true })} />
+            <input className='w-[80%] border border-primary-color py-2 px-4 rounded-xl' placeholder='Celular del empleado' type="tel" {...register('phone_employee', { required: true })} />
             {errors.phone_employee && <span>Teléfono es requerido</span>}
 
-            <input className='w-[80%] py-2 px-4 rounded-xl' placeholder='Email del empleado' type="text" {...register('email_employee', { required: true })} />
+            <input className='w-[80%] border border-primary-color py-2 px-4 rounded-xl' placeholder='Email del empleado' type="text" {...register('email_employee', { required: true })} />
             {errors.email_employee && <span>Email es requerido</span>}
-          
-            <select {...register('id_section')} className="w-[80%] py-2 px-4 rounded-xl appearance-none border border-gray-300 focus:outline-none focus:border-indigo-500">
-              <option value="">Seleccione el área del empleado</option>
-              {sections.map(section => (
-                <option key={section.id} value={section.id}>{section.name}</option>
-              ))}
-            </select>
+
+            <div className='w-[80%] relative'>
+            
+              <select {...register('id_section')} className="w-full border border-primary-color py-2 px-4 rounded-xl appearance-none focus:outline-none focus:border-indigo-500">
+                <option value="">Área</option>
+                {sections.map(section => (
+                  <option key={section.id} value={section.id}>{section.name}</option>
+                ))}
+              </select>
+              <Image src="/arrow_down_blue.svg" width={30} height={30} alt="" className="absolute right-3 bottom-2 w-[25px]"/>
+            </div>
+
 
       {positions.length > 0 ? (
-        <>
-          <select {...register('id_position')} className="w-[80%] py-2 px-4 rounded-xl appearance-none border border-gray-300 focus:outline-none focus:border-indigo-500">
-            <option value="">Seleccione el cargo del empleado</option>
+
+        <div className='w-[80%] relative'>
+          <select {...register('id_position')} className="w-full z-10 border border-primary-color py-2 px-4 rounded-xl appearance-none focus:outline-none focus:border-indigo-500">
+            <option value="">Cargo</option>
             {positions.map((position, index) => (
               <option key={index} value={position.id_position}>{position.position}</option>
             ))}
           </select>
-        </>
+          <Image src="/arrow_down_blue.svg" width={30} height={30} alt="" className="absolute right-3 bottom-2 w-[25px]"/>
+        </div>
       ) : (
         <p className='w-full text-center text-2xl text-red-600 my-8'>Recuerda crear cargos antes de crear empleados</p>
       )}
 
       <button 
-        className='bg-stone-400 rounded-xl px-4 py-2 hover:bg-stone-300 shadow-black shadow-md cursor-pointer' 
+        className='primary-color text-white mt-10 rounded-full px-20 py-2 hover:bg-stone-300 shadow-black shadow-md cursor-pointer' 
         type="submit" 
         disabled={loading || positions.length === 0}>
         Agregar Empleado

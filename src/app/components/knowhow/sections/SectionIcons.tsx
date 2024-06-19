@@ -16,7 +16,7 @@ export const LogoSelector: React.FC = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [inputValue, setInputValue] = useState<string>('');
     const [companyId, setCompanyId] = useState<number>();
-    const [selectedColor, setSelectedColor] = useState<string>('#FFFFFFF'); // Color por defecto negro
+    const [selectedColor, setSelectedColor] = useState<string>('#000'); // Color por defecto negro
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const [selectedLogoSet, setSelectedLogoSet] = useState<string>('blue');
     const [step, setStep] = useState<number>(1);
@@ -54,10 +54,10 @@ export const LogoSelector: React.FC = () => {
 
     const handleLogoSelect = (logoPath: string) => {
       // Verificar si el logo seleccionado es azul o blanco
-      const isBlueLogo = logoPath.includes('icons/');
+      const isBlueLogo = logoPath.includes('icons-blue/');
       
       // Si es un logo azul, reemplazarlo por su equivalente blanco
-      const whiteLogoPath = isBlueLogo ? logoPath.replace('/icons/', '/icons_white/') : logoPath;
+      const whiteLogoPath = isBlueLogo ? logoPath.replace('/icons-blue/', '/icons/') : logoPath;
   
       setSelectedLogoPath(whiteLogoPath);
       setMenuOpen(false); // Cerrar el menú después de seleccionar el logo
@@ -80,11 +80,9 @@ export const LogoSelector: React.FC = () => {
       router.push('/knowhow/welcome')
   };
 
-    // Obtener el conjunto de logos seleccionado
-// Obtener el conjunto de logos seleccionado
-  const logosBlue = Array.from({ length: 231 }, (_, i) => `http://localhost:8000/uploads/icons/icon-${i + 1}.png`);
+  const logosBlue = Array.from({ length: 231 }, (_, i) => `https://knowhow-files-uploads.s3.amazonaws.com/icons-blue/icon-${i + 1}.png`);
   const logosWhite = logosBlue.map(logo => {
-      const whiteLogo = logo.replace('/icons/', '/icons_white/');
+      const whiteLogo = logo.replace('/icons-blue/', '/icons/');
 
       return whiteLogo;
   });
@@ -100,7 +98,7 @@ export const LogoSelector: React.FC = () => {
             color_section: selectedColor
         };
 
-        const response = await fetch('http://localhost:8000/knowhow/section/add', {
+        const response = await fetch('https://backend-procedures-production.up.railway.app/knowhow/section/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

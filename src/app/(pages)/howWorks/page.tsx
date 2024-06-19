@@ -22,7 +22,7 @@ export default function UploadForm() {
       const formData = new FormData();
       formData.append('file', selectedFile);
 
-      const response = await axios.post<{ file_name: string }>('http://localhost:8000/knowhow/upload/', formData, {
+      const response = await axios.post<{ file_name: string }>('https://backend-procedures-production.up.railway.app/knowhow/upload/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

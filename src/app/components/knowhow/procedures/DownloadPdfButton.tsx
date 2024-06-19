@@ -2,7 +2,7 @@
 
 export const DownloadPdfButton = ({ fileName }: { fileName: string }) => {
   const handleDownload = () => {
-    window.open(`http://localhost:8000/knowhow/download-pdf/${fileName}`);
+    window.open(`https://backend-procedures-production.up.railway.app/knowhow/download-pdf/${fileName}`);
   };
 
   return (

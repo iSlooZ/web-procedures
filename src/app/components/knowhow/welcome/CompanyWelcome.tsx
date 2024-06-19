@@ -30,7 +30,6 @@ export const CompanyWelcome = () => {
   }, []);
 
   useEffect(() => {
-    // Almacenar las imágenes en caché una vez que se carguen las secciones
     if (Array.isArray(sections)) {
       const images: { [key: string]: string } = {};
       sections.forEach((section) => {

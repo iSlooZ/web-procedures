@@ -32,9 +32,6 @@ export const KnowHowNavbar = () => {
             <Link href="/knowhow/welcome">Inicio</Link>
           </li>
           <li>
-            <Link href="/knowhow/procedures">Procedimientos</Link>
-          </li>
-          <li>
             <Link href="/knowhow/account">Mi cuenta</Link>
           </li>
         </ul>

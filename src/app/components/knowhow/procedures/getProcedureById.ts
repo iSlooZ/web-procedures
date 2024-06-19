@@ -12,7 +12,7 @@ export interface ProcedureData {
 
 export const getProcedureById = async (slug: string): Promise<ProcedureData | null> => {
   try {
-    const response = await fetch(`http://localhost:8000/knowhow/procedure/${slug}`);
+    const response = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/procedure/${slug}`);
     if (response.ok) {
       const data: ProcedureData = await response.json();
       return data;

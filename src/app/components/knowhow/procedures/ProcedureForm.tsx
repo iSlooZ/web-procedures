@@ -17,7 +17,7 @@ interface FormData {
   id_business_line: number;
   id_company: number;
   id_section: number;
-  procedure_uploaded_by: string; // Agregar este campo
+  procedure_uploaded_by: string;
 }
 
 export const ProcedureForm = () => {
@@ -37,13 +37,13 @@ export const ProcedureForm = () => {
     if (ownerData && ownerData.company) {
       setCompanyId(ownerData.company.id_company);
       setUploadedBy(ownerData.entity.name_owner); // Establecer el nombre del propietario
-      const sectionsResponse = await fetch(`http://localhost:8000/knowhow/sections/by-company-id/${ownerData.company.id_company}`);
+      const sectionsResponse = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/sections/by-company-id/${ownerData.company.id_company}`);
       if (sectionsResponse.ok) {
         const sectionsData = await sectionsResponse.json();
         setSections(sectionsData);
       } else {
         // Si no hay secciones, redirige automáticamente a la página de agregar secciones
-        window.location.href = 'http://localhost:3000/knowhow/sections/add';
+        window.location.href = 'https://backend-procedures-production.up.railway.app/knowhow/sections/add';
       }
       setLoading(false);
     }
@@ -66,7 +66,7 @@ export const ProcedureForm = () => {
       formData.append('main_pdf', mainPdfRef.current?.files?.[0] as File, mainPdfName);
       formData.append('sample_pdf', samplePdfRef.current?.files?.[0] as File, samplePdfName);
 
-      const pdfResponse = await fetch('http://localhost:8000/knowhow/upload-pdf/', {
+      const pdfResponse = await fetch('https://backend-procedures-production.up.railway.app/knowhow/aws/upload-pdf/', {
         method: 'POST',
         body: formData,
       });
@@ -85,7 +85,7 @@ export const ProcedureForm = () => {
       };
 
 
-      const procedureResponse = await fetch('http://localhost:8000/knowhow/procedure/add', {
+      const procedureResponse = await fetch('https://backend-procedures-production.up.railway.app/knowhow/procedure/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export const ProcedureForm = () => {
         };
 
         const procedureForSectionsResponse = await fetch(
-          'http://localhost:8000/knowhow/procedure-for-sections/add',
+          'https://backend-procedures-production.up.railway.app/procedure-for-sections/add',
           {
             method: 'POST',
             headers: {

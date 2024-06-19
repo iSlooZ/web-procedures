@@ -78,7 +78,7 @@ export const AddSectionComponent = () => {
         formData.append('file', logoFile, uniqueFileName);
       }
 
-      const uploadResponse = await fetch('http://localhost:8000/knowhow/upload/', {
+      const uploadResponse = await fetch('https://backend-procedures-production.up.railway.app/knowhow/upload/', {
         method: 'POST',
         body: formData
       });
@@ -92,7 +92,7 @@ export const AddSectionComponent = () => {
 
       data.logo_section = fileName;
 
-      const response = await fetch('http://localhost:8000/knowhow/section/add', {
+      const response = await fetch('https://backend-procedures-production.up.railway.app/knowhow/section/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

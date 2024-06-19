@@ -1,6 +1,6 @@
 export const getCompanyNameById = async (companyId: number): Promise<string | null> => {
   try {
-    const response = await fetch(`http://localhost:8000/knowhow/company/${companyId}`, {
+    const response = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/company/${companyId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

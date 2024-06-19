@@ -8,7 +8,7 @@ export interface SectionData {
 
 export const getSectionById = async (id: number): Promise<SectionData | null> => {
   try {
-    const response = await fetch(`http://localhost:8000/knowhow/section/${id}`);
+    const response = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/section/${id}`);
     if (response.ok) {
       const data: SectionData = await response.json();
       return data;

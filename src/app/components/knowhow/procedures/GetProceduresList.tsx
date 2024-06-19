@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { getOwnerData } from '../authHandler';
+import Link from 'next/link';
 
 interface Section {
   id_section: number;
@@ -27,7 +28,7 @@ export const GetProceduresList = () => {
 
         try {
           // Fetch procedures
-          const proceduresResponse = await fetch(`http://localhost:8000/knowhow/procedures/by-company-id/${companyId}`);
+          const proceduresResponse = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/procedures/by-company-id/${companyId}`);
           if (!proceduresResponse.ok) {
             throw new Error('Error al obtener los procedimientos.');
           }
@@ -35,7 +36,7 @@ export const GetProceduresList = () => {
           setProcedures(proceduresData);
 
           // Fetch sections
-          const sectionsResponse = await fetch(`http://localhost:8000/knowhow/sections/by-company-id/${companyId}`);
+          const sectionsResponse = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/sections/by-company-id/${companyId}`);
           if (!sectionsResponse.ok) {
             throw new Error('Error al obtener las secciones.');
           }
@@ -54,7 +55,7 @@ export const GetProceduresList = () => {
   useEffect(() => {
     const fetchFilteredProcedures = async (selectedSection: number) => {
       try {
-        const response = await fetch(`http://localhost:8000/knowhow/procedures-for-sections/by-section/${selectedSection}`);
+        const response = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/procedures-for-sections/by-section/${selectedSection}`);
         if (!response.ok) {
           throw new Error('Error al obtener los procedimientos para la sección seleccionada.');
         }
@@ -100,7 +101,7 @@ export const GetProceduresList = () => {
       ) : (
         <div className='w-[70%] flex flex-wrap justify-center items-center gap-4'>
           {filteredProcedures.map((procedure: Procedure) => (
-            <a
+            <Link
               href={`http://localhost:3000/knowhow/procedures/${procedure.id_procedure}`}
               key={procedure.id_procedure}
               className='w-[400px] bg-stone-400 rounded-xl p-4 overflow-hidden cursor-pointer hover:bg-stone-300' 
@@ -108,7 +109,7 @@ export const GetProceduresList = () => {
               <h2 className='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis font-semibold'>{procedure.procedure_name}</h2>
               <p className='overflow-hidden whitespace-nowrap overflow-ellipsis'>{procedure.procedure_description}</p>
               <h3 className='text-sm w-full text-right font-bold m-2'>{procedure.id_procedure}</h3>
-            </a>
+            </Link>
           ))}
         </div>
       )}

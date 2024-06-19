@@ -34,7 +34,7 @@ export const AddPositionForm = () => {
       // Add id_company to the form data
       data.id_company = companyId;
       
-      const response = await axios.post('http://localhost:8000/knowhow/position/add', data);
+      const response = await axios.post('https://backend-procedures-production.up.railway.app/knowhow/position/add', data);
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
     }

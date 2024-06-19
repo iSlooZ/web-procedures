@@ -15,7 +15,7 @@ export const AllEmployees = () => {
         const ownerData: Owner | null = await getOwnerData();
         if (ownerData) {
           const companyId = ownerData.company.id_company;
-          const response = await fetch(`http://localhost:8000/knowhow/employees/by-company-id/${companyId}`);
+          const response = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/employees/by-company-id/${companyId}`);
           if (!response.ok) {
             throw new Error('Error al cargar los datos');
           }

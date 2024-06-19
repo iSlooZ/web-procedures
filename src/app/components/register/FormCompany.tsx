@@ -50,7 +50,7 @@ import Image from 'next/image';
 
     const onSubmitOwner = async (data: FormData) => {
       try {
-        const ownerResponse = await fetch('http://localhost:8000/knowhow/owner/add', {
+        const ownerResponse = await fetch('https://backend-procedures-production.up.railway.app/knowhow/owner/add', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -71,7 +71,7 @@ import Image from 'next/image';
         const ownerData = await ownerResponse.json();
         
         const ownerEmail = data.email;
-        const ownerDetailsResponse = await fetch(`http://localhost:8000/knowhow/owner/owner-by-email/${ownerEmail}`, {
+        const ownerDetailsResponse = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/owner/owner-by-email/${ownerEmail}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -96,7 +96,7 @@ import Image from 'next/image';
 
     const onDeleteOwner = async () => {
       try {
-        const deleteResponse = await fetch(`http://localhost:8000/knowhow/owner/delete/${ownerId}`, {
+        const deleteResponse = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/owner/delete/${ownerId}`, {
           method: 'DELETE',
         });
 
@@ -121,7 +121,7 @@ import Image from 'next/image';
         }
       
         // Enviar la solicitud POST a la URL de carga de archivos
-        const uploadResponse = await fetch('http://localhost:8000/knowhow/upload/', {
+        const uploadResponse = await fetch('https://backend-procedures-production.up.railway.app/knowhow/upload/', {
           method: 'POST',
           body: formData
         });
@@ -134,7 +134,7 @@ import Image from 'next/image';
         const fileNameData = await uploadResponse.json();
         const fileName = fileNameData.file_name;
         // Crear la empresa con el ID del usuario almacenado y el nombre del archivo cargado
-        const companyResponse = await fetch('http://localhost:8000/knowhow/company/add', {
+        const companyResponse = await fetch('https://backend-procedures-production.up.railway.app/knowhow/company/add', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -142,7 +142,7 @@ import Image from 'next/image';
           body: JSON.stringify({
             company_name: data.nameCompany,
             id_owner: ownerId,
-            logo_company: `http://localhost:8000/uploads/${fileName}` // Utiliza el nombre del archivo cargado desde la respuesta
+            logo_company: `https://backend-procedures-production.up.railway.app/uploads/${fileName}` // Utiliza el nombre del archivo cargado desde la respuesta
           })
         });
     
@@ -151,7 +151,7 @@ import Image from 'next/image';
         }
     
         // Redirigir a la página de bienvenida después de crear la cuenta
-        const loginResponse = await fetch('http://localhost:8000/knowhow/owner/login', {
+        const loginResponse = await fetch('https://backend-procedures-production.up.railway.app/knowhow/owner/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'

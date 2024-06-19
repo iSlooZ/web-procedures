@@ -6,13 +6,13 @@ import Image from "next/image";
 
 const loadingImageSrc = "/loading.gif"; // Ruta de la imagen de carga
 
-export const EmployeesMain = () => {
+export const ProceduresMain = () => {
   const [companyName, setCompanyName] = useState<string | null>(null);
   const [owner, setOwner] = useState<Owner | null>(null);
   const [sections, setSections] = useState<Owner["sections"] | null>(null);
   const [cachedImages, setCachedImages] = useState<{ [key: string]: string }>({});
   const [selectedSection, setSelectedSection] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga de datos
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,10 +48,8 @@ export const EmployeesMain = () => {
       <div className="w-full flex justify-center items-center mb-28">
         <h1 className="text-4xl text-center font-semibold">{companyName}</h1>
       </div>
-      <div className="w-[50%] flex justify-center items-center gap-[16%]">
-        <h2 className="primary-color-text text-xl w-[200px] font-bold">Colaboradores</h2>
-        <Link href="/knowhow/employees/position" className="primary-color text-white flex justify-center items-center px-4 py-2 rounded-2xl gap-2 min-w-fit">Agregar Cargo <Image width={20} height={20} src="/iconoxd.svg" alt="" /></Link>
-        <Link href="/knowhow/employees/add" className="primary-color text-white flex justify-center items-center px-4 py-2 rounded-2xl gap-2 min-w-fit">Agregar Colaborador <Image width={20} height={20} src="/add-colaborator.svg" alt="" /></Link>
+      <div className="w-[40%] flex justify-start items-center gap-[16%]">
+        <h2 className="primary-color-text text-xl w-[200px] font-bold">Procedimientos</h2>
       </div>
       <div className="w-[50%] flex justify-center items-center flex-wrap gap-8 mt-28 mb-14">
         {Array.isArray(selectedSectionData) ? selectedSectionData.map((section: Owner["sections"][0] | null) => (
