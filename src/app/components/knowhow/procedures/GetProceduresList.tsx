@@ -102,7 +102,7 @@ export const GetProceduresList = () => {
         <div className='w-[70%] flex flex-wrap justify-center items-center gap-4'>
           {filteredProcedures.map((procedure: Procedure) => (
             <Link
-              href={`http://localhost:3000/knowhow/procedures/${procedure.id_procedure}`}
+              href={`http://localhost:3000/procedures/${procedure.id_procedure}`}
               key={procedure.id_procedure}
               className='w-[400px] bg-stone-400 rounded-xl p-4 overflow-hidden cursor-pointer hover:bg-stone-300' 
             >

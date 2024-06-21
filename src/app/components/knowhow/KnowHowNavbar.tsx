@@ -25,14 +25,14 @@ export const KnowHowNavbar = () => {
       
       <nav className="w-full flex justify-center items-center">
         <ul className="w-1/3 flex justify-start items-center gap-16">
-          <Link className="" href="/knowhow/welcome">
+          <Link className="" href="/welcome">
             <Image className="min-w-[80px] aspect-radio" src="/Logo_knowhow.svg" alt="KnowHow Logo" width={80} height={80} />
           </Link>
           <li>
-            <Link href="/knowhow/welcome">Inicio</Link>
+            <Link href="/welcome">Inicio</Link>
           </li>
           <li>
-            <Link href="/knowhow/account">Mi cuenta</Link>
+            <Link href="/account">Mi cuenta</Link>
           </li>
         </ul>
         <div className="w-1/3 flex justify-end items-center gap-2">

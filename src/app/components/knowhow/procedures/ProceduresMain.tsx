@@ -53,7 +53,7 @@ export const ProceduresMain = () => {
       </div>
       <div className="w-[50%] flex justify-center items-center flex-wrap gap-8 mt-28 mb-14">
         {Array.isArray(selectedSectionData) ? selectedSectionData.map((section: Owner["sections"][0] | null) => (
-          <Link href={`/knowhow/procedures/section/${section?.id_section}`} style={{ backgroundColor: section?.color_section }} key={section?.id_section} className="h-[150px] w-[300px] rounded-xl flex justify-center items-center relative p-3">
+          <Link href={`/procedures/section/${section?.id_section}`} style={{ backgroundColor: section?.color_section }} key={section?.id_section} className="h-[150px] w-[300px] rounded-xl flex justify-center items-center relative p-3">
             <div className="w-1/4 m-2">
               <Image
                 className="object-contain"

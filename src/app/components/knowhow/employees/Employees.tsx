@@ -49,12 +49,12 @@ export const EmployeesMain = () => {
       </div>
       <div className="w-[50%] flex justify-center items-center gap-[16%]">
         <h2 className="primary-color-text text-xl w-[200px] font-bold">Colaboradores</h2>
-        <Link href="/knowhow/employees/position" className="primary-color text-white flex justify-center items-center px-4 py-2 rounded-2xl gap-2 min-w-fit">Agregar Cargo <Image width={20} height={20} src="/iconoxd.svg" alt="" /></Link>
-        <Link href="/knowhow/employees/add" className="primary-color text-white flex justify-center items-center px-4 py-2 rounded-2xl gap-2 min-w-fit">Agregar Colaborador <Image width={20} height={20} src="/add-colaborator.svg" alt="" /></Link>
+        <Link href="/employees/position" className="primary-color text-white flex justify-center items-center px-4 py-2 rounded-2xl gap-2 min-w-fit">Agregar Cargo <Image width={20} height={20} src="/iconoxd.svg" alt="" /></Link>
+        <Link href="/employees/add" className="primary-color text-white flex justify-center items-center px-4 py-2 rounded-2xl gap-2 min-w-fit">Agregar Colaborador <Image width={20} height={20} src="/add-colaborator.svg" alt="" /></Link>
       </div>
       <div className="w-[50%] flex justify-center items-center flex-wrap gap-8 mt-28 mb-14">
         {Array.isArray(selectedSectionData) ? selectedSectionData.map((section: Owner["sections"][0] | null) => (
-          <Link href={`/knowhow/employees/section/${section?.id_section}`} style={{ backgroundColor: section?.color_section }} key={section?.id_section} className="h-[150px] w-[300px] rounded-xl flex justify-center items-center relative p-3">
+          <Link href={`/employees/section/${section?.id_section}`} style={{ backgroundColor: section?.color_section }} key={section?.id_section} className="h-[150px] w-[300px] rounded-xl flex justify-center items-center relative p-3">
             <div className="w-1/4 m-2">
               <Image
                 className="object-contain"
@@ -75,7 +75,7 @@ export const EmployeesMain = () => {
           <div
             className="w-72 h-36 rounded-xl flex justify-end items-start relative"
           >
-            <Link className="hover:opacity-45 w-full" href={`/knowhow/employees/section/${selectedSectionData?.id_section}`}>
+            <Link className="hover:opacity-45 w-full" href={`/employees/section/${selectedSectionData?.id_section}`}>
               <Image
                 className="rounded-xl h-36 w-72 object-cover"
                 src={selectedSectionData ? cachedImages[selectedSectionData.id_section.toString()] : ""}

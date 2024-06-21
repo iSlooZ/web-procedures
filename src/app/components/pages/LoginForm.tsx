@@ -32,7 +32,7 @@ export const LoginForm = () => {
         const token = responseData.access_token;
         localStorage.setItem('token', token);
   
-        router.push('/knowhow/welcome');
+        router.push('/welcome');
       } else {
         throw new Error('Credenciales incorrectas. Inténtalo de nuevo.');
       }
@@ -107,7 +107,7 @@ export const LoginForm = () => {
           </button>
           <button
             className="w-[70%] border border-primary-color px-4 py-3 primary-color-text rounded-3xl hover:bg-[#012CFD] hover:text-white"
-            onClick={() => router.push('/knowhow/register')}
+            onClick={() => router.push('/register')}
           >
             Registrate
           </button>

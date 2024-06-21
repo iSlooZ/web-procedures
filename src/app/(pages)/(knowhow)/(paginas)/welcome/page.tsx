@@ -19,7 +19,7 @@ export default function WelcomePage() {
         setOwnerData(data);
         setHasHolding(data?.holding.id_holding ? true : false);
       } else {
-        router.push('/knowhow/login'); // Redirigir al inicio de sesión si no hay token
+        router.push('/login'); // Redirigir al inicio de sesión si no hay token
       }
     };
   

@@ -74,7 +74,7 @@ export const getOwnerData = async (): Promise<Owner | null> => {
       const ownerData = await response.json();
       return ownerData;
     } else{
-      window.location.href = '/knowhow/login';
+      window.location.href = '/login';
       throw new Error('Error en el servidor.');
     }
   } catch (error) {

@@ -164,7 +164,7 @@ import Image from 'next/image';
           const token = responseData.access_token;
           localStorage.setItem('token', token);
     
-          router.push('/knowhow/tutorial'); // Redirigir a la página de bienvenida
+          router.push('/tutorial'); // Redirigir a la página de bienvenida
         } else {
           throw new Error('Error al iniciar sesión automáticamente');
         }
@@ -285,7 +285,7 @@ import Image from 'next/image';
           )}
             <Link 
               className="w-[80%] rounded-full py-3 bg-white border border-primary-color primary-color-text flex justify-center items-center font-bold" 
-              href={"/knowhow/login"}>
+              href={"/login"}>
               Ya tengo cuenta
             </Link>
           </div>

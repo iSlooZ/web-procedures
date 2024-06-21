@@ -82,7 +82,7 @@ export const TutorialCarousel = () => {
         
       </div>
       {active === slides.length - 1 && (
-        <Link className="bg-[#012CFD] text-white rounded-xl px-4 py-2" href="/knowhow/welcome">Ir a mi empresa</Link>
+        <Link className="bg-[#012CFD] text-white rounded-xl px-4 py-2" href="/welcome">Ir a mi empresa</Link>
       )}
     </section>
   );

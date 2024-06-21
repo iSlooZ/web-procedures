@@ -75,7 +75,7 @@ export const CompanyWelcome = () => {
         <div className="w-full">
           <div className="w-full flex flex-wrap justify-center items-center gap-4">
           {Array.isArray(selectedSectionData) ? selectedSectionData.map((section: Owner["sections"][0] | null) => (
-            <Link href={`/knowhow/sections/${section?.id_section}`} style={{ backgroundColor: section?.color_section }} key={section?.id_section} className="h-[150px] w-[300px] rounded-xl flex justify-center items-center relative p-3">
+            <Link href={`/sections/${section?.id_section}`} style={{ backgroundColor: section?.color_section }} key={section?.id_section} className="h-[150px] w-[300px] rounded-xl flex justify-center items-center relative p-3">
                 <div className="w-1/4 m-2">
                   <Image
                     className="h-[100px] object-contain"
@@ -95,7 +95,7 @@ export const CompanyWelcome = () => {
           <div
             className="w-72 h-36 rounded-xl flex justify-end items-start relative"
           >
-            <Link className="hover:opacity-45 w-full" href={`/knowhow/sections/${selectedSectionData?.id_section}`}>
+            <Link className="hover:opacity-45 w-full" href={`/sections/${selectedSectionData?.id_section}`}>
               <Image
                 className="h-[144px] object-contain"
                 width={288}
@@ -110,7 +110,7 @@ export const CompanyWelcome = () => {
           </div>
         )}
             <div className="w-72 h-36 border border-primary-color rounded-xl flex justify-end items-start">
-              <Link className="hover:opacity-45" href="/knowhow/sections/add">
+              <Link className="hover:opacity-45" href="/sections/add">
                 <Image className="rounded-full m-2" width={50} height={50} src="/more_section.svg" alt="" />
               </Link>
             </div>
@@ -120,7 +120,7 @@ export const CompanyWelcome = () => {
       <div className="w-full flex justify-center items-center my-8">
         <Link
           className="px-20 py-2 rounded-xl text-white font-bold primary-color shadow-lg shadow-gray-400 hover:opacity-75"
-          href="/knowhow/procedures/add"
+          href="/procedures/add"
         >
           Subir un procedimiento
         </Link>

@@ -32,9 +32,9 @@ export const AccountPage = () => {
         <h2 className="primary-color-text text-xl w-[85%] text-start font-bold">Mi cuenta</h2>
       </div>
       <div className="w-[50%] flex justify-center items-center flex-wrap gap-16 mt-32">
-        <LinkComponent link="/knowhow/welcome" nameLink="Mis áreas"/>
-        <LinkComponent link="/knowhow/employees" nameLink="Colaboradores"/>
-        <LinkComponent link="/knowhow/procedures" nameLink="Procedimientos"/>
+        <LinkComponent link="/welcome" nameLink="Mis áreas"/>
+        <LinkComponent link="/employees" nameLink="Colaboradores"/>
+        <LinkComponent link="/procedures" nameLink="Procedimientos"/>
         <LinkComponent link="#" nameLink="Formularios"/>
         <LinkComponent link="#" nameLink="Información de la cuenta"/>
         <LinkComponent link="#" nameLink="Actividad"/>

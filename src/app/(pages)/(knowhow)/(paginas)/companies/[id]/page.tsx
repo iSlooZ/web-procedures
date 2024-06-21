@@ -57,7 +57,7 @@ export default function DetailCompanyPage({ params }: { params: Params }) {
                   key={section?.id_section ?? index}
                   className="w-72 h-36 rounded-xl flex justify-end items-start relative"
                 >
-                  <Link href={`/knowhow/sections/${section?.id_section}`}>
+                  <Link href={`/sections/${section?.id_section}`}>
                     <Image width={288} height={144}
                       className="rounded-xl object-cover"
                       src={`https://backend-procedures-production.up.railway.app/uploads/${section?.logo_section}`}
@@ -73,7 +73,7 @@ export default function DetailCompanyPage({ params }: { params: Params }) {
               <p>No sections available.</p>
             )}
           <div className="w-72 h-36 border border-primary-color rounded-xl flex justify-end items-start">
-          <Link href={`/knowhow/sections/addSection?id=${company?.id_company}`}>
+          <Link href={`/sections/addSection?id=${company?.id_company}`}>
             <Image width={40} height={40} className="rounded-full m-2 " src="/more_section.svg" alt="" />
           </Link>
           </div>

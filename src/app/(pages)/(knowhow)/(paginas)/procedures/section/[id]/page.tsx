@@ -60,7 +60,7 @@ export default function ProcedureBySectionId({ params }: { params: Params }) {
       <div className="w-[50%] flex flex-wrap justify-center items-center gap-16">
 
         {procedures.map(procedure => (
-          <Link href={`/knowhow/procedures/${procedure.id_procedure}`} key={procedure.id_procedure} className="border border-primary-color rounded-xl p-6 w-[350px] h-[125px] flex flex-col">
+          <Link href={`/procedures/${procedure.id_procedure}`} key={procedure.id_procedure} className="border border-primary-color rounded-xl p-6 w-[350px] h-[125px] flex flex-col">
             <h2 className={`${poppins.className} font-bold`}>{procedure.procedure_name}</h2>
             <h4 className={`${poppins.className} font-light overflow-hidden whitespace-nowrap overflow-ellipsis`}>{procedure.procedure_description}</h4>
             <h3 className={`${poppins.className} font-bold w-full text-right`}>{procedure.id_procedure}</h3>
