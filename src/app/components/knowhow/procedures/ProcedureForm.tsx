@@ -106,7 +106,7 @@ export const ProcedureForm = () => {
         };
 
         const procedureForSectionsResponse = await fetch(
-          'https://backend-procedures-production.up.railway.app/procedure-for-sections/add',
+          'https://backend-procedures-production.up.railway.app/knowhow/procedure-for-sections/add',
           {
             method: 'POST',
             headers: {
