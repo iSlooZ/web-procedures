@@ -1,71 +1,94 @@
 'use client'
-import { Poppins } from "next/font/google";
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-
-const poppins = Poppins({
-  weight: ['200', '300','400','500','600'],
-  subsets: ['latin'],
-})
-
-interface Procedure {
-  id_procedure: number;
-  procedure_name: string;
-  procedure_description: string;
-  procedure_pdf: string;
-  procedure_sample_pdf: string;
-  procedure_uploaded_by: string;
-}
 
 interface Params {
   id: number;
 }
 
-export default function ProcedureBySectionId({ params }: { params: Params }) {
-  const [procedures, setProcedures] = useState<Procedure[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+interface Employee {
+  id_employee: number;
+  name_employee: string;
+  email_employee: string;
+  phone_employee: string;
+  id_position: number;
+}
+
+interface Section {
+  id_section: number;
+  name_section: string;
+  logo_section: string;
+  color_section: string;
+  id_company: number;
+}
+
+interface Position{
+  id_position: number;
+  position: string;
+}
+
+interface ApiResponse {
+  employees: Employee[];
+  section: Section;
+  position: Position;
+}
+
+export default function EmployeesBySectionId({ params }: { params: Params }) {
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [section, setSection] = useState<Section | null>(null);
+  const [position, setPosition] = useState<Position | null>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
 
   useEffect(() => {
-    const fetchProcedures = async () => {
+    const fetchEmployeesAndSection = async () => {
       try {
-        const response = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/procedures/by-section-id/${params.id}`);
+        const response = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/section-with-employees/${params.id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
-        const data = await response.json();
-        setProcedures(data); // Guarda los procedimientos obtenidos en el estado
-        setIsLoading(false); // Marca la carga como completada
+        const data: ApiResponse = await response.json();
+        setEmployees(data.employees);
+        setSection(data.section);
+        setPosition(data.position);
       } catch (error) {
         console.error('Error fetching data:', error);
-        setIsLoading(false); // Marca la carga como completada en caso de error
       }
     };
 
-    fetchProcedures();
+    fetchEmployeesAndSection();
   }, [params.id]);
 
-  if (isLoading) {
-    return (
-      <div className='w-full flex justify-center items-center'>
-        <Image src="/loading.gif" alt="Loading..." width={50} height={50} unoptimized />
-      </div>
-    );
-  }
+  const handleEmployeeClick = (employee: Employee) => {
+    setSelectedEmployee(employee === selectedEmployee ? null : employee);
+  };
 
-  console.log(procedures)
+  console.log(employees)
+
   return (
     <section className="w-full flex flex-col justify-center items-center">
-      <h1 className={`w-[50%] text-left primary-color-text text-xl font-bold ${poppins.className} my-8`}>Mis procedimientos</h1>
-      <div className="w-[50%] flex flex-wrap justify-center items-center gap-16">
-
-        {procedures.map(procedure => (
-          <Link href={`/procedures/${procedure.id_procedure}`} key={procedure.id_procedure} className="border border-primary-color rounded-xl p-6 w-[350px] h-[125px] flex flex-col">
-            <h2 className={`${poppins.className} font-bold`}>{procedure.procedure_name}</h2>
-            <h4 className={`${poppins.className} font-light overflow-hidden whitespace-nowrap overflow-ellipsis`}>{procedure.procedure_description}</h4>
-            <h3 className={`${poppins.className} font-bold w-full text-right`}>{procedure.id_procedure}</h3>
-          </Link >
-        ))}
+      {section && (
+        <div className="w-[40%]">
+          <span>Mi cuenta / Colaboradores / {section.name_section}</span>
+        </div>
+      )}
+      <div>
+        {employees.length > 0 ? (
+          <ul>
+            {employees.map(employee => (
+              <li className="min-w-[500px] w-[800px] flex flex-col justify-center items-center gap-2 my-8" key={employee.id_employee} onClick={() => handleEmployeeClick(employee)}>
+                <h3 className="primary-color text-white rounded-xl px-4 py-2 w-full">{employee.name_employee}</h3>
+                {selectedEmployee === employee && (
+                  <div className="w-full flex flex-col gap-2 justify-center items-center">
+                    <p className="border px-4 py-2 rounded-xl border-primary-color w-full">{employee.email_employee}</p>
+                    <p className="border px-4 py-2 rounded-xl border-primary-color w-full">{employee.phone_employee}</p>
+                    <p className="border px-4 py-2 rounded-xl border-primary-color w-full">{position?.position}</p>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Aún no hay colaboradores</p>
+        )}
       </div>
     </section>
   );

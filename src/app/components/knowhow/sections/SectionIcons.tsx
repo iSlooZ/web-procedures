@@ -77,7 +77,7 @@ export const LogoSelector: React.FC = () => {
     };
 
     const handleGoToHome = () => {
-      router.push('/knowhow/welcome')
+      router.push('/welcome')
   };
 
   const logosBlue = Array.from({ length: 231 }, (_, i) => `https://knowhow-files-uploads.s3.amazonaws.com/icons-blue/icon-${i + 1}.png`);

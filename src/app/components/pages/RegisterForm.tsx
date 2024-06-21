@@ -24,7 +24,7 @@ export const RegisterForm = () => {
             </div>
             <div className='w-fit bg-white shadow-gray-400 shadow-lg rounded-full flex gap-4 justify-center items-center'>
                 <button 
-                    className={`text-xl font-medium px-10 py-1 rounded-full primary-color-text ${mostrarFormUsuario ? 'primary-color secondary-color-text' : ''}`}
+                    className={`text-xl font-medium px-10 py-1 rounded-full text-white primary-color`}
                     onClick={handleBotonUsuarioClick}>Empresa</button>
             </div>
         {mostrarFormUsuario ? <FormCompany
