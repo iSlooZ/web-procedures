@@ -12,7 +12,7 @@ export const EmployeesMain = () => {
   const [sections, setSections] = useState<Owner["sections"] | null>(null);
   const [cachedImages, setCachedImages] = useState<{ [key: string]: string }>({});
   const [selectedSection, setSelectedSection] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga de datos
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +21,6 @@ export const EmployeesMain = () => {
         setOwner(ownerData);
         if (ownerData && ownerData.sections) {
           setSections(ownerData.sections);
-          setCompanyName(ownerData.company.company_name)
         }
         setIsLoading(false); // Marcar como finalizada la carga de datos
       } catch (error) {
