@@ -43,7 +43,7 @@ export const ProcedureForm = () => {
         setSections(sectionsData);
       } else {
         // Si no hay secciones, redirige automáticamente a la página de agregar secciones
-        window.location.href = 'https://backend-procedures-production.up.railway.app/sections/add';
+        window.location.href = 'https://web-procedures-production.up.railway.app/sections/add';
       }
       setLoading(false);
     }

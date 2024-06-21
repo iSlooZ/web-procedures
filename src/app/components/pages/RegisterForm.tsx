@@ -22,7 +22,7 @@ export const RegisterForm = () => {
             <div className='w-full flex justify-center items-center'>
                 <Image className='my-8' src="/Logo_knowhow.svg" alt="" width={150} height={150}/>
             </div>
-            <div className='w-fit bg-white shadow-gray-400 shadow-lg rounded-full flex gap-4 justify-center items-center'>
+            <div className='w-fit shadow-lg rounded-full flex gap-4 justify-center items-center'>
                 <button 
                     className={`text-xl font-medium px-10 py-1 rounded-full text-white primary-color`}
                     onClick={handleBotonUsuarioClick}>Empresa</button>
