@@ -26,9 +26,6 @@ export const RegisterForm = () => {
                 <button 
                     className={`text-xl font-medium px-10 py-1 rounded-full primary-color-text ${mostrarFormUsuario ? 'primary-color secondary-color-text' : ''}`}
                     onClick={handleBotonUsuarioClick}>Empresa</button>
-                <button
-                    className={`text-xl font-medium px-10 py-1 rounded-full primary-color-text ${!mostrarFormUsuario ? 'primary-color secondary-color-text' : ''}`}
-                    onClick={handleBotonEmpresaClick}>Holding</button>
             </div>
         {mostrarFormUsuario ? <FormCompany
             nameOwner="Nombre completo"
