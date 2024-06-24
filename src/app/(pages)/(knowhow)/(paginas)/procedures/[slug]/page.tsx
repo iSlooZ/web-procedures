@@ -68,14 +68,22 @@ export default function ProcedureDetailPage({ params }: { params: Params }) {
 
               <h3 className={`text-xl w-full text-right font-light ${poppins.className}`}>Subido por: {procedure.procedure_uploaded_by}</h3>
               <div className='w-full flex gap-4 justify-center items-center'>
-                <a
-                  target='_blank'
-                  className={`px-4 py-2 rounded-xl text-lg font-medium primary-color text-white ${poppins.className}`}
-                  href={`https://knowhow-files-uploads.s3.amazonaws.com/pdfs/${procedure.procedure_sample_pdf}`}>Descargar PDF Ejemplo</a>
-                <a
-                  target='_blank'
-                  className={`px-4 py-2 rounded-xl text-lg font-medium primary-color text-white ${poppins.className}`}
-                  href={`https://knowhow-files-uploads.s3.amazonaws.com/pdfs/${procedure.procedure_pdf}`}>Descargar PDF Principal</a>
+                {procedure.procedure_sample_pdf && (
+                  <a
+                    target='_blank'
+                    className={`px-4 py-2 rounded-xl text-lg font-medium primary-color text-white ${poppins.className}`}
+                    href={`https://knowhow-files-uploads.s3.amazonaws.com/pdfs/${procedure.procedure_sample_pdf}`}>
+                    Descargar {procedure.procedure_sample_pdf}
+                  </a>
+                )}
+                {procedure.procedure_pdf && (
+                  <a
+                    target='_blank'
+                    className={`px-4 py-2 rounded-xl text-lg font-medium primary-color text-white ${poppins.className}`}
+                    href={`https://knowhow-files-uploads.s3.amazonaws.com/pdfs/${procedure.procedure_pdf}`}>
+                    Descargar {procedure.procedure_pdf}
+                  </a>
+                )}
               </div>
             </div>
           </>

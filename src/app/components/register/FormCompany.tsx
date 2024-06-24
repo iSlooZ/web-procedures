@@ -41,9 +41,10 @@ import Image from 'next/image';
       // Verificar si hay un archivo seleccionado
       if (file) {
         setLogoFile(file);
-        
+    
+        // Generar un nombre único para el archivo
         const uniqueFileName = generateUniqueName(file);
-        setLogoFileName(uniqueFileName);
+        setLogoFileName(uniqueFileName); // Establecer el nombre único del archivo
       }
     };
     
@@ -117,7 +118,7 @@ import Image from 'next/image';
         if (logoFile !== null) {
           // Usar el nombre encriptado en lugar del nombre original del archivo
           const uniqueFileName = generateUniqueName(logoFile);
-          formData.append('file', logoFile, uniqueFileName);
+          formData.append('file', logoFile, logoFileName);
         }
       
         // Enviar la solicitud POST a la URL de carga de archivos
@@ -133,6 +134,7 @@ import Image from 'next/image';
         // Obtener el nombre del archivo cargado desde la respuesta
         const fileNameData = await uploadResponse.json();
         const fileName = fileNameData.file_name;
+        console.log(fileName, 'nombre de la imagen')
         // Crear la empresa con el ID del usuario almacenado y el nombre del archivo cargado
         const companyResponse = await fetch('https://backend-procedures-production.up.railway.app/knowhow/company/add', {
           method: 'POST',
@@ -142,7 +144,7 @@ import Image from 'next/image';
           body: JSON.stringify({
             company_name: data.nameCompany,
             id_owner: ownerId,
-            logo_company: `https://backend-procedures-production.up.railway.app/uploads/${fileName}` // Utiliza el nombre del archivo cargado desde la respuesta
+            logo_company: `https://knowhow-files-uploads.s3.amazonaws.com/images/${logoFileName}` // Utiliza el nombre del archivo cargado desde la respuesta
           })
         });
     
@@ -174,7 +176,6 @@ import Image from 'next/image';
       }
     };
 
-    
 
     return (
       <section className="w-full flex justify-center items-center">
