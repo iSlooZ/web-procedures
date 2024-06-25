@@ -12,11 +12,11 @@ interface FormData {
   id_procedure: string;
   procedure_name: string;
   procedure_description: string;
-  procedure_sample_pdf: string;
-  procedure_pdf: string;
+  procedure_sample_pdf?: File | null;  // Cambio para permitir null
+  procedure_pdf?: File | null;         // Cambio para permitir null
   id_business_line: number;
   id_company: number;
-  id_section: number;
+  id_section: number[];
   procedure_uploaded_by: string;
 }
 
@@ -32,59 +32,63 @@ export const ProcedureForm = () => {
   const [uploadedBy, setUploadedBy] = useState<string>('');
 
   useEffect(() => {
-  const fetchCompanyData = async () => {
-    const ownerData: Owner | null = await getOwnerData();
-    if (ownerData && ownerData.company) {
-      setCompanyId(ownerData.company.id_company);
-      setUploadedBy(ownerData.entity.name_owner); // Establecer el nombre del propietario
-      const sectionsResponse = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/sections/by-company-id/${ownerData.company.id_company}`);
-      if (sectionsResponse.ok) {
-        const sectionsData = await sectionsResponse.json();
-        setSections(sectionsData);
-      } else {
-        // Si no hay secciones, redirige automáticamente a la página de agregar secciones
-        window.location.href = 'https://web-procedures-production.up.railway.app/sections/add';
+    const fetchCompanyData = async () => {
+      const ownerData: Owner | null = await getOwnerData();
+      if (ownerData && ownerData.company) {
+        setCompanyId(ownerData.company.id_company);
+        setUploadedBy(ownerData.entity.name_owner); // Establecer el nombre del propietario
+        const sectionsResponse = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/sections/by-company-id/${ownerData.company.id_company}`);
+        if (sectionsResponse.ok) {
+          const sectionsData = await sectionsResponse.json();
+          setSections(sectionsData);
+        } else {
+          // Si no hay secciones, redirige automáticamente a la página de agregar secciones
+          window.location.href = 'https://web-procedures-production.up.railway.app/sections/add';
+        }
+        setLoading(false);
       }
-      setLoading(false);
-    }
-  };
+    };
 
-  fetchCompanyData();
-}, []);
+    fetchCompanyData();
+  }, []);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      if (!mainPdfRef.current?.files?.[0] || !samplePdfRef.current?.files?.[0]) {
-        setMessage('Por favor, seleccione ambos archivos PDF.');
-        return;
-      }
-
-      const mainPdfName = `${data.id_procedure}_main.pdf`;
-      const samplePdfName = `${data.id_procedure}_sample.pdf`;
-
       const formData = new FormData();
-      formData.append('main_pdf', mainPdfRef.current?.files?.[0] as File, mainPdfName);
-      formData.append('sample_pdf', samplePdfRef.current?.files?.[0] as File, samplePdfName);
-
-      const pdfResponse = await fetch('https://backend-procedures-production.up.railway.app/knowhow/aws/upload-pdf/', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!pdfResponse.ok) {
-        const pdfResponseData = await pdfResponse.json();
-        throw new Error(`Error al subir los PDFs: ${pdfResponseData.message}`);
+      
+      // Verificar si se seleccionó el archivo principal
+      const mainPdfFile = mainPdfRef.current?.files?.[0];
+      if (mainPdfFile) {
+        formData.append('main_pdf', mainPdfFile);
       }
-
+  
+      // Verificar si se seleccionó el archivo de muestra
+      const samplePdfFile = samplePdfRef.current?.files?.[0];
+      if (samplePdfFile) {
+        formData.append('sample_pdf', samplePdfFile);
+      }
+  
+      
+      if (mainPdfFile || samplePdfFile) {
+        const pdfResponse = await fetch('https://backend-procedures-production.up.railway.app/knowhow/aws/upload-pdf/', {
+          method: 'POST',
+          body: formData,
+        });
+    
+        if (!pdfResponse.ok) {
+          const pdfResponseData = await pdfResponse.json();
+          throw new Error(`Error al subir los PDFs: ${pdfResponseData.message || pdfResponse.statusText}`);
+        }
+      }
+  
       const procedureData = {
         ...data,
-        id_company: companyId,
-        procedure_pdf: mainPdfName,
-        procedure_sample_pdf: samplePdfName,
-        procedure_uploaded_by: uploadedBy, // Establecer el nombre del propietario
+        id_company: companyId!,
+        procedure_pdf: mainPdfFile ? `${data.id_procedure}_main.pdf` : null,
+        procedure_sample_pdf: samplePdfFile ? `${data.id_procedure}_sample.pdf` : null,
+        procedure_uploaded_by: uploadedBy,
       };
-
-
+  
       const procedureResponse = await fetch('https://backend-procedures-production.up.railway.app/knowhow/procedure/add', {
         method: 'POST',
         headers: {
@@ -92,19 +96,19 @@ export const ProcedureForm = () => {
         },
         body: JSON.stringify(procedureData),
       });
-
+  
       if (!procedureResponse.ok) {
         const procedureResponseData = await procedureResponse.json();
-        throw new Error(`Error al agregar el procedimiento: ${procedureResponseData.message}`);
+        throw new Error(`Error al agregar el procedimiento: ${procedureResponseData.message || procedureResponse.statusText}`);
       }
-
+  
       const procedureId = data.id_procedure;
       const addProcedureForSectionsPromises = selectedSections.map(async (sectionId) => {
         const procedureForSectionsData = {
           id_procedure: procedureId,
           id_section: sectionId,
         };
-
+  
         const procedureForSectionsResponse = await fetch(
           'https://backend-procedures-production.up.railway.app/knowhow/procedure-for-sections/add',
           {
@@ -115,23 +119,24 @@ export const ProcedureForm = () => {
             body: JSON.stringify(procedureForSectionsData),
           }
         );
-
+  
         if (!procedureForSectionsResponse.ok) {
           const procedureForSectionsResponseData = await procedureForSectionsResponse.json();
           throw new Error(
-            `Error al agregar el procedimiento a la sección: ${procedureForSectionsResponseData.message}`
+            `Error al agregar el procedimiento a la sección: ${procedureForSectionsResponseData.message || procedureForSectionsResponse.statusText}`
           );
         }
       });
-
+  
       await Promise.all(addProcedureForSectionsPromises);
-
+  
       setMessage('Procedimiento creado y secciones asociadas correctamente');
     } catch (error) {
       console.error(error);
       setMessage('Error al procesar la solicitud');
     }
   };
+  
 
   return (
     <div className='w-full flex flex-col justify-center items-center mt-4'>
@@ -202,4 +207,3 @@ export const ProcedureForm = () => {
     </div>
   );
 };
-

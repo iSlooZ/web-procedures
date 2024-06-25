@@ -31,7 +31,7 @@ export const AddPdfProcedure = () => {
     event.preventDefault();
   
     if (!mainPdf || !samplePdf) {
-      setMessage('Por favor, seleccione ambos archivos PDF.');
+      setMessage('Por favor, seleccione ambos archivos PDFs.');
       return;
     }
 
