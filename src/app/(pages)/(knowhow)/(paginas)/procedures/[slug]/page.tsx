@@ -17,13 +17,14 @@ interface Params {
   slug: string;
 }
 
-
-
 export default function ProcedureDetailPage({ params }: { params: Params }) {
   const [procedure, setProcedure] = useState<ProcedureData | null>(null);
   const [sections, setSections] = useState<SectionData[]>([]);
   const [companyName, setCompanyName] = useState<string | null>(null);
+  const [openEye, setOpenEye] = useState(true);
+  const [readEmployees, setReadEmployees] = useState<{ name_employee: string, read_date: string, read_time: string }[]>([]);
 
+  const [read, setRead] = useState(true);
   useEffect(() => {
     const fetchProcedure = async () => {
       try {
@@ -48,6 +49,38 @@ export default function ProcedureDetailPage({ params }: { params: Params }) {
     fetchProcedure();
   }, [params.slug]);
 
+  useEffect(() => {
+    const fetchProcedureRead = async () => {
+      if (procedure && !openEye) {
+        try {
+          const response = await fetch(`https://backend-procedures-production.up.railway.app/knowhow/procedure_read_by_employee/${procedure.id_procedure}`);
+          if (response.ok) {
+            const data = await response.json();
+            const employees = data.map((item: any) => ({
+              name_employee: item.name_employee,
+              read_date: item.read_date,
+              read_time: item.read_time
+            }));
+            setReadEmployees(employees);
+          } else {
+            setRead(false);
+            throw new Error('Error al obtener los empleados que han leído el procedimiento');
+          }
+        } catch (error) {
+          console.error('Error fetching read employees:', error);
+        }
+      }
+    };
+  
+    if (!openEye) {
+      fetchProcedureRead();
+    }
+  }, [procedure, openEye]);
+
+  const handleEye = () => {
+    setOpenEye(!openEye);
+  };
+
   if (!procedure || sections.length === 0 || !companyName) {
     return <div className='w-full flex justify-center items-center'><Image width={150} height={150} src="/loading.gif" alt="loading" unoptimized/></div>;
   }
@@ -60,12 +93,11 @@ export default function ProcedureDetailPage({ params }: { params: Params }) {
             <h2 className='text-xl py-2 font-bold text-left w-full'>{procedure.id_procedure}</h2>
             <h1 className={`text-3xl py-2 font-bold mb-4 ${poppins.className}`}>{procedure.procedure_name}</h1>
             {sections.length > 0 && (
-                <h3 className={`text-2xl font-normal mb-8 ${poppins.className}`}>Dirigido a: {sections.map(section => section.name_section).join(', ')}</h3>
+              <h3 className={`text-2xl font-normal mb-8 ${poppins.className}`}>Dirigido a: {sections.map(section => section.name_section).join(', ')}</h3>
             )}
             <h3 className={`text-xl font-light tracking-wide ${poppins.className}`}>{procedure.procedure_description}</h3>
             <h3 className={`text-2xl font-normal w-full text-right ${poppins.className}`}>Empresa: {companyName}</h3>
             <div className='w-full flex flex-col gap-4 justify-center items-center'>
-
               <h3 className={`text-xl w-full text-right font-light ${poppins.className}`}>Subido por: {procedure.procedure_uploaded_by}</h3>
               <div className='w-full flex gap-4 justify-center items-center'>
                 {procedure.procedure_sample_pdf && (
@@ -88,6 +120,27 @@ export default function ProcedureDetailPage({ params }: { params: Params }) {
             </div>
           </>
         )}
+        <div>
+          <button onClick={handleEye}>
+            {openEye ? (
+              <Image src="/eye_open.svg" alt="" width={50} height={50} className='h-[50px]'/>
+            ) : (
+              <div className='w-full flex flex-col justify-center items-center'>
+                <Image src="/eye_close.svg" alt="" width={50} height={50} className='h-[50px]'/>
+                <ul>
+                  {read ? <span></span>: <h3>No ha sido leído aún.</h3>}
+                  {readEmployees.map((employee, index) => (
+                    <li key={index} className={`w-full flex justify-center items-center gap-2 font-light ${poppins.className}`}>
+                      <p>{employee.name_employee}</p>
+                      <p>{employee.read_date}</p>
+                      <p>{employee.read_time}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </button>
+        </div>
       </div>
     </section>
   );

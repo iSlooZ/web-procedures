@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 type PositionFormData = {
   position: string;
-  id_company: number | null; // Add id_company field to the form data
+  id_company: number | null;
 };
 
 export const AddPositionForm = () => {
@@ -47,7 +47,7 @@ export const AddPositionForm = () => {
   };
 
   const handleAccept = () => {
-    window.location.href = 'https://web-procedures-production.up.railway.app/employees';
+    window.location.href = '/employees';
   };
 
   return (
