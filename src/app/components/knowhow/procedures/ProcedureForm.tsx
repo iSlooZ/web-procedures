@@ -21,7 +21,7 @@ interface FormData {
 }
 
 export const ProcedureForm = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormData>();
   const [message, setMessage] = useState<string>('');
   const mainPdfRef = useRef<HTMLInputElement>(null);
   const samplePdfRef = useRef<HTMLInputElement>(null);
@@ -43,7 +43,7 @@ export const ProcedureForm = () => {
           setSections(sectionsData);
         } else {
           // Si no hay secciones, redirige automáticamente a la página de agregar secciones
-          window.location.href = 'https://web-procedures-production.up.railway.app/sections/add';
+          window.location.href = '/sections/add';
         }
         setLoading(false);
       }
@@ -68,9 +68,16 @@ export const ProcedureForm = () => {
         formData.append('sample_pdf', samplePdfFile);
       }
   
-      
+      // Determinar la URL de subida de acuerdo a la cantidad de archivos seleccionados
+      let uploadUrl = '';
+      if (mainPdfFile && samplePdfFile) {
+        uploadUrl = 'https://backend-procedures-production.up.railway.app/knowhow/aws/upload-two-pdf/';
+      } else if (mainPdfFile) {
+        uploadUrl = 'https://backend-procedures-production.up.railway.app/knowhow/aws/upload-one-pdf/';
+      }
+  
       if (mainPdfFile || samplePdfFile) {
-        const pdfResponse = await fetch('https://backend-procedures-production.up.railway.app/knowhow/aws/upload-pdf/', {
+        const pdfResponse = await fetch(uploadUrl, {
           method: 'POST',
           body: formData,
         });
@@ -136,8 +143,14 @@ export const ProcedureForm = () => {
       setMessage('Error al procesar la solicitud');
     }
   };
-  
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // Evita que se envíe el formulario al presionar Enter
+      setValue('procedure_description', e.currentTarget.value + '\n'); // Agrega un salto de línea al texto actual
+    }
+  };
+  
   return (
     <div className='w-full flex flex-col justify-center items-center mt-4'>
       <h2 className='text-2xl'>Crear nuevo procedimiento</h2>
@@ -146,28 +159,31 @@ export const ProcedureForm = () => {
         onSubmit={handleSubmit(onSubmit)}>
         <fieldset className='w-full flex justify-center items-center flex-col gap-4'>
           <input
-            className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg'
+            className='border border-black w-[100%] px-4 py-2 rounded-xl text-lg'
             placeholder='Id del Procedimiento'
             type="text"
             id="id_procedure"
+            onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
             {...register('id_procedure', { required: true })}
           />
           {errors.id_procedure && <p>Este campo es obligatorio</p>}
 
           <input
-            className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg'
+            className='border border-black w-[100%] px-4 py-2 rounded-xl text-lg'
             type="text"
             id="procedure_name"
             placeholder='Nombre del procedimiento'
+            onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
             {...register('procedure_name', { required: true })}
           />
           {errors.procedure_name && <p>Este campo es obligatorio</p>}
 
           <textarea
-            className='border border-black w-[500px] px-4 py-2 rounded-xl text-lg'
+            className='border border-black w-[100%] h-[50vh] px-4 py-2 rounded-xl text-lg'
             id="procedure_description"
             placeholder='Descripción del procedimiento'
             {...register('procedure_description', { required: true })}
+            onKeyPress={handleKeyPress}
           />
           {errors.procedure_description && <p>Este campo es obligatorio</p>}
 
@@ -197,8 +213,14 @@ export const ProcedureForm = () => {
           </fieldset>
 
           <fieldset className='w-[500px] flex justify-center items-center gap-3'>
-            <input className='w-1/2' type="file" id="procedure_sample_pdf" accept=".pdf" ref={samplePdfRef} />
-            <input className='w-1/2' type="file" id="procedure_pdf" accept=".pdf" ref={mainPdfRef} />
+            {samplePdfRef.current?.files?.length === 1 ? (
+              <input className='w-1/2' type="file" id="procedure_pdf" accept=".pdf" ref={mainPdfRef} />
+            ) : (
+              <>
+                <input className='w-1/2' type="file" id="procedure_sample_pdf" accept=".pdf" ref={samplePdfRef} />
+                <input className='w-1/2' type="file" id="procedure_pdf" accept=".pdf" ref={mainPdfRef} />
+              </>
+            )}
           </fieldset>
         </fieldset>
         <button className='px-20 py-2 rounded-xl text-white font-bold bg-stone-400 shadow-lg shadow-gray-400 hover:bg-stone-200 mt-8' type="submit">Crear Procedimiento</button>
